@@ -4,9 +4,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Auth0Provider } from '@auth0/auth0-react';
-import LoginButton from './login';
-import LogoutButton from './logout';
-import Profile from './profile';
+import LoginButton from './components/login';
+import LogoutButton from './components/logout';
+import Profile from './components/profile';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
