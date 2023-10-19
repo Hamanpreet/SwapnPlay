@@ -1,0 +1,82 @@
+-- Drop commands (in reverse order)
+DROP TABLE IF EXISTS CHAT;
+DROP TABLE IF EXISTS REVIEW;
+DROP TABLE IF EXISTS MATCH;
+DROP TABLE IF EXISTS IMAGE;
+DROP TABLE IF EXISTS TOY;
+DROP TABLE IF EXISTS USERS;
+
+-- Create the USER table
+CREATE TABLE USERS (
+    Id SERIAL PRIMARY KEY,
+    First_Name VARCHAR(255),
+    Last_Name VARCHAR(255),
+    Email VARCHAR(255),
+    PhoneNumber VARCHAR(15),
+    City VARCHAR(255),
+    Sub_Id INT
+);
+
+-- Create the TOY table
+CREATE TABLE TOY (
+    Id SERIAL PRIMARY KEY,
+    User_Id INT,
+    Title VARCHAR(255),
+    Description TEXT,
+    Age_group VARCHAR(50),
+    Value NUMERIC(10, 2),
+    Pickup_location VARCHAR(255),
+    Condition VARCHAR(50)
+);
+
+-- Create the MATCH table
+CREATE TABLE MATCH (
+    Id SERIAL PRIMARY KEY,
+    Toy1_Id INT,
+    Toy2_Id INT,
+    User1_Id INT,
+    User2_Id INT,
+    Is_Swaped BOOLEAN
+);
+
+-- Create the IMAGE table
+CREATE TABLE IMAGE (
+    Id SERIAL PRIMARY KEY,
+    Toy_Id INT,
+    Url TEXT
+);
+
+-- Create the CHAT table
+CREATE TABLE CHAT (
+    Id SERIAL PRIMARY KEY,
+    Match_Id INT,
+    Message TEXT NULL
+);
+
+-- Create the REVIEW table
+CREATE TABLE REVIEW (
+    User_Id INT,
+    Match_Id INT,
+    Ratings INT,
+    Swap_Status VARCHAR(50)
+);
+
+-- Add foreign keys to represent the relationships
+ALTER TABLE TOY
+ADD FOREIGN KEY (User_Id) REFERENCES USERS(Id);
+
+ALTER TABLE MATCH
+ADD FOREIGN KEY (Toy1_Id) REFERENCES TOY(Id),
+ADD FOREIGN KEY (Toy2_Id) REFERENCES TOY(Id),
+ADD FOREIGN KEY (User1_Id) REFERENCES USERS(Id),
+ADD FOREIGN KEY (User2_Id) REFERENCES USERS(Id);
+
+ALTER TABLE IMAGE
+ADD FOREIGN KEY (Toy_Id) REFERENCES TOY(Id);
+
+ALTER TABLE CHAT
+ADD FOREIGN KEY (Match_Id) REFERENCES MATCH(Id);
+
+ALTER TABLE REVIEW
+ADD FOREIGN KEY (User_Id) REFERENCES USERS(Id),
+ADD FOREIGN KEY (Match_Id) REFERENCES MATCH(Id);
