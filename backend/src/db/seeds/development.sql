@@ -1,15 +1,15 @@
 -- Seed data for the USER table
-INSERT INTO USERS (First_Name, Last_Name, Email, Password, PhoneNumber, City, Sub_Id) VALUES
-    ('Alice', 'Smith', 'alice@gmail.com', 'Final@123', '123-456-7890', 'Toronto', 1),
-    ('Bob', 'Johnson', 'bob@gmail.com', 'Final@123','987-654-3210', 'Ottawa', 2),
-    ('Charlie', 'Brown', 'charlie@gmail.com', 'Final@123','555-123-4567', 'Hamilton', 3),
-    ('David', 'Wilson', 'david@gmail.com', 'Final@123', '111-222-3333', 'Stoney Creek', 4),
-    ('Eve', 'Miller', 'eve@gmail.com', 'Final@123', '444-555-6666', 'Toronto', 5),
-    ('Frank', 'Davis', 'frank@gmail.com', 'Final@123', '777-888-9999', 'Missisauga', 6),
-    ('Grace', 'Anderson', 'grace@gmail.com', 'Final@123', '888-999-0000', 'London', 7),
-    ('Harry', 'Martinez', 'harry@gmail.com', 'Final@123', '111-222-3333', 'Ottawa', 8),
-    ('Isabel', 'Harris', 'isabel@gmail.com', 'Final@123', '222-333-4444', 'Ajax', 9),
-    ('Jack', 'Lee', 'jack@gmail.com', 'Final@123', '333-444-5555', 'Ottawa', 10);
+INSERT INTO USERS (First_Name, Last_Name, Email, PhoneNumber, City, Sub_Id) VALUES
+    ('Alice', 'Smith', 'alice@gmail.com', '123-456-7890', 'Toronto', 1),
+    ('Bob', 'Johnson', 'bob@gmail.com','987-654-3210', 'Ottawa', 2),
+    ('Charlie', 'Brown', 'charlie@gmail.com','555-123-4567', 'Hamilton', 3),
+    ('David', 'Wilson', 'david@gmail.com', '111-222-3333', 'Stoney Creek', 4),
+    ('Eve', 'Miller', 'eve@gmail.com', '444-555-6666', 'Toronto', 5),
+    ('Frank', 'Davis', 'frank@gmail.com', '777-888-9999', 'Missisauga', 6),
+    ('Grace', 'Anderson', 'grace@gmail.com', '888-999-0000', 'London', 7),
+    ('Harry', 'Martinez', 'harry@gmail.com', '111-222-3333', 'Ottawa', 8),
+    ('Isabel', 'Harris', 'isabel@gmail.com', '222-333-4444', 'Ajax', 9),
+    ('Jack', 'Lee', 'jack@gmail.com', '333-444-5555', 'Ottawa', 10);
 
 -- Seed data for the TOY table
 INSERT INTO TOY (User_Id, Title, Description, Age_Group, Value, Pickup_Location, Condition) VALUES
