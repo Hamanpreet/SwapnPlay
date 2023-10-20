@@ -1,9 +1,9 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import About from './components/About';
-import Profile from './components/profile';
-import LogoutButton from './components/logout';
-import LoginButton from './components/login';
+import Profile from './components/Profile';
+import LogoutButton from './components/Logout';
+import LoginButton from './components/Login';
 import Toy from './components/Toy';
 import NotFound from './components/NotFound';
 import NewToy from './components/NewToy';
@@ -17,6 +17,7 @@ const theme = createTheme({
     },
   },
 });
+
 
 function App() {
   return (

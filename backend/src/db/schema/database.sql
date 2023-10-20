@@ -11,7 +11,8 @@ CREATE TABLE USERS (
     Id SERIAL PRIMARY KEY,
     First_Name VARCHAR(255),
     Last_Name VARCHAR(255),
-    Email VARCHAR(255),
+    Email VARCHAR(255) NOT NULL,
+    Password VARCHAR(255) NOT NULL,
     PhoneNumber VARCHAR(15),
     City VARCHAR(255),
     Sub_Id INT
