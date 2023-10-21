@@ -1,82 +1,73 @@
 -- Drop commands (in reverse order)
-DROP TABLE IF EXISTS CHAT;
-DROP TABLE IF EXISTS REVIEW;
-DROP TABLE IF EXISTS MATCH;
-DROP TABLE IF EXISTS IMAGE;
-DROP TABLE IF EXISTS TOY;
-DROP TABLE IF EXISTS USERS;
+DROP TABLE IF EXISTS message;
+DROP TABLE IF EXISTS review;
+DROP TABLE IF EXISTS match;
+DROP TABLE IF EXISTS image;
+DROP TABLE IF EXISTS toy;
+DROP TABLE IF EXISTS users;
 
--- Create the USER table
-CREATE TABLE USERS (
-    Id SERIAL PRIMARY KEY,
-    First_Name VARCHAR(255),
-    Last_Name VARCHAR(255),
-    Email VARCHAR(255) NOT NULL,
-    PhoneNumber VARCHAR(15),
-    City VARCHAR(255),
-    Sub_Id INT
+-- Create the USERS table
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    phone_number VARCHAR(15),
+    city VARCHAR(255) NOT NULL,
+    sub_id VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP NOT NULL
 );
 
 -- Create the TOY table
-CREATE TABLE TOY (
-    Id SERIAL PRIMARY KEY,
-    User_Id INT,
-    Title VARCHAR(255),
-    Description TEXT,
-    Age_group VARCHAR(50),
-    Value NUMERIC(10, 2),
-    Pickup_location VARCHAR(255),
-    Condition VARCHAR(50)
+CREATE TABLE toy (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    age_group VARCHAR(255),
+    value NUMERIC(10, 2) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    longitude VARCHAR(255) NOT NULL,
+    latitude VARCHAR(255) NOT NULL,
+    condition VARCHAR(255),
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    created_at TIMESTAMP NOT NULL
 );
 
 -- Create the MATCH table
-CREATE TABLE MATCH (
-    Id SERIAL PRIMARY KEY,
-    Toy1_Id INT,
-    Toy2_Id INT,
-    User1_Id INT,
-    User2_Id INT,
-    Is_Swaped BOOLEAN
-);
+CREATE TABLE match (
+    id SERIAL PRIMARY KEY,
+    status VARCHAR(255) NOT NULL,
+    toy_id INTEGER REFERENCES toy(id) ON DELETE CASCADE,
+    toy_in_exchange_id INTEGER REFERENCES toy(id) ON DELETE CASCADE,
+    user1_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    user2_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    created_at TIMESTAMP NOT NULL
+  );
 
 -- Create the IMAGE table
-CREATE TABLE IMAGE (
-    Id SERIAL PRIMARY KEY,
-    Toy_Id INT,
-    Url TEXT
+CREATE TABLE image (
+    id SERIAL PRIMARY KEY,
+    url VARCHAR(255) NOT NULL,
+    toy_id INTEGER REFERENCES toy(id) ON DELETE CASCADE,
+    created_at TIMESTAMP NOT NULL
 );
 
--- Create the CHAT table
-CREATE TABLE CHAT (
-    Id SERIAL PRIMARY KEY,
-    Match_Id INT,
-    Message TEXT NULL
+-- Create the MESSAGE table
+CREATE TABLE message (
+    id SERIAL PRIMARY KEY,
+    text VARCHAR(255) NOT NULL,
+    match_id INTEGER REFERENCES match(id) ON DELETE CASCADE,
+    sender_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    receiver_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    created_at TIMESTAMP NOT NULL
 );
 
 -- Create the REVIEW table
-CREATE TABLE REVIEW (
-    User_Id INT,
-    Match_Id INT,
-    Ratings INT,
-    Swap_Status VARCHAR(50)
-);
-
--- Add foreign keys to represent the relationships
-ALTER TABLE TOY
-ADD FOREIGN KEY (User_Id) REFERENCES USERS(Id);
-
-ALTER TABLE MATCH
-ADD FOREIGN KEY (Toy1_Id) REFERENCES TOY(Id),
-ADD FOREIGN KEY (Toy2_Id) REFERENCES TOY(Id),
-ADD FOREIGN KEY (User1_Id) REFERENCES USERS(Id),
-ADD FOREIGN KEY (User2_Id) REFERENCES USERS(Id);
-
-ALTER TABLE IMAGE
-ADD FOREIGN KEY (Toy_Id) REFERENCES TOY(Id);
-
-ALTER TABLE CHAT
-ADD FOREIGN KEY (Match_Id) REFERENCES MATCH(Id);
-
-ALTER TABLE REVIEW
-ADD FOREIGN KEY (User_Id) REFERENCES USERS(Id),
-ADD FOREIGN KEY (Match_Id) REFERENCES MATCH(Id);
+CREATE TABLE review (
+    id SERIAL PRIMARY KEY,
+    ratings INT NOT NULL,
+    review VARCHAR(255) NOT NULL,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    match_id INTEGER REFERENCES match(id) ON DELETE CASCADE,
+    created_at TIMESTAMP NOT NULL
+)
