@@ -2,6 +2,7 @@ import React from "react";
 
 import { useState } from "react";
 import axios from "axios";
+import "../styles/NewToy.css"
 
 const NewToy = () => {
   const [toyInfo, setToyInfo] = useState({
@@ -47,21 +48,23 @@ const NewToy = () => {
   return (
     <div>
       <h1>Create a New Toy</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Name:
+      <form onSubmit={handleSubmit} className="form-container">
+      <div className="form-label-container">
+        <label className="label">Name:</label>
           <input
             type="text"
             name="name"
             value={toyInfo.name}
             onChange={handleChange}
-          />
-        </label>
+            className="input"
+          />        
         <br />
+      </div>
 
-        <label>
+        <label className="label">
           Age Group:
-          <select name="ageGroup" value={toyInfo.ageGroup} onChange={handleChange}>
+          <select name="ageGroup" className="select"
+          value={toyInfo.ageGroup} onChange={handleChange}>
             <option value="0-3 years">0-3 years</option>
             <option value="3-6 years">3-6 years</option>
             <option value="5-8 years">5-8 years</option>
@@ -70,31 +73,34 @@ const NewToy = () => {
         </label>
         <br />
 
-        <label>
+        <label className="label">
           Value:
           <input
             type="number"
             name="value"
             value={toyInfo.value}
             onChange={handleChange}
+            className="input"
           />
         </label>
         <br />
 
-        <label>
+        <label className="label">
           Address:
           <input
             type="text"
             name="address"
             value={toyInfo.address}
             onChange={handleChange}
+            className="input"
           />
         </label>
         <br />
 
-        <label>
+        <label className="label">
           Condition:
-          <select name="condition" value={toyInfo.condition} onChange={handleChange}>
+          <select name="condition" value={toyInfo.condition} onChange={handleChange}
+          className="select">
             <option value="New">New</option>
             <option value="Used">Used</option>
             <option value="Like New">Like New</option>
@@ -102,18 +108,19 @@ const NewToy = () => {
         </label>
         <br />
 
-        <label>
+        <label className="label">
           Pickup Location:
           <input
             type="text"
             name="pickupLocation"
             value={toyInfo.pickupLocation}
             onChange={handleChange}
+            className="input"
           />
         </label>
         <br />
 
-        <button type="submit">Submit</button>
+        <button type="submit" className="button">Submit</button>
       </form>
     </div>
   );
