@@ -24,6 +24,8 @@ const pool = new Pool({
   port: process.env.PGPORT,
 });
 
+const userApiRoutes = require('./routes/users-api');
+const createToy = require('./routes/toys/create-toy');
 
 app.post('/update-sub-id', (req, res) => {
   // Get the `sub` claim from the request body
