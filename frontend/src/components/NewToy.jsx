@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+// import newtoy.css css page 
+//const cors = require("cors");
+
 import {
   TextField,
   Select,
@@ -43,7 +46,7 @@ const NewToy = () => {
     e.preventDefault();
     // Send a POST request to create a new toy entry on the server using Axios
     axios
-      .post("http://localhost:8080/toys/create-toy", toyInfo)
+      .post("http://localhost:8080/toys/newToy", toyInfo)
       .then((response) => {
         console.log("Form data submitted successfully:", response.data);
         setMessage("Request submitted successfully!");
@@ -181,7 +184,7 @@ const NewToy = () => {
                 color="primary"
                 fullWidth
               >
-                Submit
+                Add New Toy
               </Button>
             </Grid>
             <Grid item xs={12}>
