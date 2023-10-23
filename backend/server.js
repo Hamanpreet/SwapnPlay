@@ -1,11 +1,19 @@
-require("dotenv").config();
 const express = require("express");
-const app = express();
 const PORT = process.env.PORT || 8080;
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./doc/swagger'); // Import your generated Swagger spec
 const helmet = require('helmet');
 const morgan = require("morgan");
 const cors = require('cors');
+//const config = require('config');
 const debug = require('debug')('app:startup');
+const app = express();
+
+//configuration
+// console.log(`PGUSER: ${config.get('PGUSER')}`)
+// console.log(`Environment: ${process.env.NODE_ENV}`)
+
+// Separated Routes for each Resource
 const toys = require('./routes/toys')
 const reviews = require('./routes/reviews')
 const matches = require('./routes/matches')
@@ -15,6 +23,11 @@ const matches = require('./routes/matches')
 app.use(express.json()); //req.body
 app.use(helmet());
 app.use(cors());
+
+// Serve Swagger UI at a specific route
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+// Mount all resource routes
 app.use('/api/toys',toys);
 app.use('/api/reviews',reviews);
 app.use('/api/matches',matches);
