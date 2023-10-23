@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/TopNavigationBar.css";
+import "../styles/TopNavigationBar.scss";
 import LoginButton from "./Login";
 import LogoutButton from "./Logout";
 import axios from "axios";

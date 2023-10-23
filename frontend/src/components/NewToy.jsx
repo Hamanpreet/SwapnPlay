@@ -2,7 +2,8 @@ import React from "react";
 
 import { useState } from "react";
 import axios from "axios";
-import "../styles/NewToy.css";
+import "../styles/NewToy.scss";
+import TopNavigationBar from "./TopNavigationBar";
 
 const NewToy = () => {
   const [toyInfo, setToyInfo] = useState({
