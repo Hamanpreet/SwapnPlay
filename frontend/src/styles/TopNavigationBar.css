@@ -1,0 +1,63 @@
+.top-nav-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 8px;
+  align-items: center;
+  -webkit-box-shadow: 0 4px 6px -6px #222;
+  -moz-box-shadow: 0 4px 6px -6px #222;
+  box-shadow: 0 4px 6px -6px #222;
+  height: 72px;
+
+}
+
+.top-nav-bar__logo {
+  text-decoration: overline;
+  font-weight: 500;
+  font-size: 24px;
+  color: #111;
+  text-underline-position: auto;
+  margin-left: 24px;
+}
+
+.filter-container {
+  display: flex;
+  align-items: center;
+  margin-right: 24px;
+}
+
+.filter-dropdown {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 16px;
+  cursor: pointer;
+}
+
+.age-group-submenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 8px;
+  z-index: 1;
+}
+
+.age-group-submenu ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.age-group-submenu ul li {
+  cursor: pointer;
+}
+
+.filter-dropdown:focus + .age-group-submenu,
+.age-group-submenu:hover,
+.filter-dropdown:hover + .age-group-submenu {
+  display: block;
+}
