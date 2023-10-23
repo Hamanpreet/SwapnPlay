@@ -5,7 +5,7 @@ const options = {
     openapi: '3.0.0', // Specify the OpenAPI version
     info: {
       title: 'Your API Documentation',
-      version: '1.0.0',
+      version: '1.0.0', 
     },
   },
   // Path to the API docs
