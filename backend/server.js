@@ -1,7 +1,7 @@
 const express = require("express");
 const PORT = process.env.PORT || 8080;
 const swaggerUi = require('swagger-ui-express');
-const swaggerSpec = require('./swagger'); // Import your generated Swagger spec
+const swaggerSpec = require('./doc/swagger'); // Import your generated Swagger spec
 const helmet = require('helmet');
 const morgan = require("morgan");
 const cors = require('cors');
