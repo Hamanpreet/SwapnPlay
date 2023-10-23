@@ -1,0 +1,7 @@
+{
+  "PGHOST":"localhost",
+  "PGDATABASE":"final",
+  "PGUSER":"labber_prod",
+  "PGPASSWORD":"labber_prod",
+  "PGPORT":"5432"
+}
