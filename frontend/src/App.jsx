@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import About from './components/About';
 import Profile from './components/Profile';
@@ -30,17 +30,17 @@ function App() {
 
   return (
     <div className="App">
+      <TopNavigationBar />
       <ThemeProvider theme={theme}>
         <Router>
           <Routes>
-            <Route path="/" element={<Toy />} />
+            <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/toys/:id" element={<Toy />} />
             <Route path="/toys/new" element={ <NewToy /> } />
             <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
-      <TopNavigationBar updateFilterData={updateFilterData} />
       <Profile />
      </ThemeProvider>
     </div>
