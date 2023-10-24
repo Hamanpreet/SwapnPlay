@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const database = require("../../db/queries/toys");
+const { getToys } = require("../../db/queries/toys");
 /**
  * @swagger
  * /api/toys:
@@ -17,9 +17,13 @@ const database = require("../../db/queries/toys");
  *               type: array
  *               items:
  */
-router.get('/',(req, res)=>{
-  database.getToys()
-  .then((toys) => {
+
+
+// Set up a route to show all toys
+router.get('/', (req, res) => {
+  getToys()
+    .then((toys) => {
+    console.log("Toys data fetched from database.")
     res.send(toys);
   })
   .catch((err)=>{
