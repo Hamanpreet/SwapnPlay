@@ -2,12 +2,12 @@ import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import About from './components/About';
 import Profile from './components/Profile';
-import LogoutButton from './components/Logout';
-import LoginButton from './components/Login';
 import Toy from './components/Toy';
 import NotFound from './components/NotFound';
 import NewToy from './components/NewToy';
 import Home from './components/Home';
+import { useState } from "react";
+import TopNavigationBar from './components/TopNavigationBar'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme({
@@ -20,20 +20,27 @@ const theme = createTheme({
 
 
 function App() {
+
+  const [filterData, setFilterData] = useState(null);
+
+    // To update the filterData state
+    const updateFilterData = (data) => {
+      setFilterData(data);
+    };
+
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
         <Router>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Toy />} />
             <Route path="/about" element={<About />} />
             <Route path="/toys/:id" element={<Toy />} />
             <Route path="/toys/newToy" element={ <NewToy /> } />
             <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
-      <LoginButton />
-      <LogoutButton />
+      <TopNavigationBar updateFilterData={updateFilterData} />
       <Profile />
      </ThemeProvider>
     </div>
