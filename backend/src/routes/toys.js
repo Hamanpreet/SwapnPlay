@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const database = require("../db/queries/toys");
+const database = require("../../db/queries/toys");
 /**
  * @swagger
  * /api/toys:
