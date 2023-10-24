@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 // import newtoy.css css page 
-//const cors = require("cors");
 
 import {
   TextField,
@@ -46,7 +45,7 @@ const NewToy = () => {
     e.preventDefault();
     // Send a POST request to create a new toy entry on the server using Axios
     axios
-      .post("http://localhost:8080/toys/newToy", toyInfo)
+      .post("http://localhost:8080/api/toys/new", toyInfo)
       .then((response) => {
         console.log("Form data submitted successfully:", response.data);
         setMessage("Request submitted successfully!");
