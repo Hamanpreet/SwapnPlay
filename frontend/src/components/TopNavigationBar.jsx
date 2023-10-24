@@ -4,10 +4,12 @@ import LoginButton from "./Login";
 import LogoutButton from "./Logout";
 import axios from "axios";
 import Home from "./Home";
+import { Link } from "react-router-dom";
 
 const TopNavigationBar = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedFilter, setSelectedFilter] = useState("All");
+  const [selectedFilter, setSelectedFilter] = useState("");
+  const [searchResults, setSearchResults] = useState("");
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -16,10 +18,13 @@ const TopNavigationBar = () => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     axios
-      .get("toys", {
+      .get("http://localhost:8080/api/toys",{
         params: { searchQuery },
       })
       .then((response) => {
+        // Update the search results with the response data
+        setSearchResults(response.data);
+        console.log(response.data);
         console.log("search was successful", response.data);
       })
       .catch((error) => {
@@ -62,8 +67,10 @@ const TopNavigationBar = () => {
   };
 
   return (
+
     <div className="top-nav-bar">
-      <p className="top-nav-bar__logo">SwapnPlay</p>
+        <Link to="/" className="top-nav-bar__logo">SwapnPlay</Link>
+      
       <form onSubmit={handleSearchSubmit} className="search-form">
         <input
           type="text"

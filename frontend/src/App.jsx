@@ -1,53 +1,49 @@
-import './App.scss';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import About from './components/About';
-import Profile from './components/Profile';
-import Toy from './components/Toy';
-import NotFound from './components/NotFound';
-import NewToy from './components/NewToy';
-import Home from './components/Home';
+import "./App.scss";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import About from "./components/About";
+import Profile from "./components/Profile";
+import Toy from "./components/Toy";
+import NotFound from "./components/NotFound";
+import NewToy from "./components/NewToy";
+import Home from "./components/Home";
 import { useState } from "react";
-import TopNavigationBar from './components/TopNavigationBar'
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import TopNavigationBar from "./components/TopNavigationBar";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#007bff',
+      main: "#007bff",
     },
   },
 });
 
-
 function App() {
-
   const [filterData, setFilterData] = useState(null);
 
-    // To update the filterData state
-    const updateFilterData = (data) => {
-      setFilterData(data);
-    };
+  // To update the filterData state
+  const updateFilterData = (data) => {
+    setFilterData(data);
+  };
 
   return (
     <div className="App">
-      <TopNavigationBar />
-      <ThemeProvider theme={theme}>
-        <Router>
+      <Router>
+        <TopNavigationBar />
+        <ThemeProvider theme={theme}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/toys/:id" element={<Toy />} />
-            <Route path="/toys/new" element={ <NewToy /> } />
+            <Route path="/toys/new" element={<NewToy />} />
             <Route path="*" element={<NotFound />} />
-        </Routes>
+          </Routes>
+
+          <Profile />
+        </ThemeProvider>
       </Router>
-      <Profile />
-     </ThemeProvider>
     </div>
   );
 }
 
 export default App;
-
-
-
