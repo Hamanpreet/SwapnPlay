@@ -1,19 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-// import newtoy.css css page 
-
-import {
-  TextField,
-  Select,
-  MenuItem,
-  Button,
-  Grid,
-  FormControl,
-  InputLabel,
-  Paper, 
-} from "@mui/material";
-import "../styles/NewToy.css";
-
+import "../styles/NewToy.scss";
+import TopNavigationBar from "./TopNavigationBar";
 
 // Define a functional React component for creating a new toy entry.
 const NewToy = () => {
