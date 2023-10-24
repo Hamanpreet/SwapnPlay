@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { insertNewToy } = require("../../src/db/queries/newToy");
+const { insertNewToy } = require("../../db/queries/newToy");
 //const bodyParser = require('body-parser');
 
 // Use JSON and URL-encoded middleware to parse the request body
@@ -11,6 +11,7 @@ const { insertNewToy } = require("../../src/db/queries/newToy");
 router.post('/', (req, res) => {
 
   console.log("Routing is running")
+  console.log("resquest", req.body)
   const body = req.body;
   insertNewToy(body)
     .then((toys) => {

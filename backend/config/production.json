@@ -3,5 +3,6 @@
   "PGDATABASE":"final",
   "PGUSER":"labber_prod",
   "PGPASSWORD":"labber_prod",
-  "PGPORT":"5432"
+  "PGPORT":"5432",
+  "APPPORT":"8080"
 }
