@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const database = require("../../db/queries/toys");
+const { getToys, insertNewToy } = require("../../db/queries/toys");
+//const { insertNewToy } = require("../../db/queries/newToy");
 /**
  * @swagger
  * /api/toys:
@@ -20,7 +21,6 @@ const database = require("../../db/queries/toys");
 router.get('/',(req, res)=>{
   database.getToys()
   .then((toys) => {
-    console.log(toys);
     res.send(toys);
   })
   .catch((err)=>{

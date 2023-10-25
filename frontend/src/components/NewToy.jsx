@@ -1,131 +1,220 @@
-import React from "react";
-
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import "../styles/NewToy.scss";
 import TopNavigationBar from "./TopNavigationBar";
+import {
+  TextField,
+  Select,
+  MenuItem,
+  Button,
+  Grid,
+  FormControl,
+  InputLabel,
+  Paper,
+  Box,
+  Container,
+} from "@mui/material";
 
+// Define a functional React component for creating a new toy entry.
 const NewToy = () => {
+  // State management: Initialize state variables to hold new toys form data and messages
   const [toyInfo, setToyInfo] = useState({
-    name: "",
+    title: "",
+    description: "",
     ageGroup: "0-3 years",
     value: "$0",
     address: "",
+    longitude: "",
+    latitude: "",
     condition: "New",
-    pickupLocation: "",
   });
 
+  const [message, setMessage] = useState("");
+  // TODO: Event handler for input field for form
   const handleChange = (e) => {
     const { name, value } = e.target;
+    // Update the corresponding state property with the new value
     setToyInfo({
       ...toyInfo,
       [name]: value,
     });
   };
 
+  // Event handler for form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Send the form data to the backend API using Axios
+    // Send a POST request to create a new toy entry on the server using Axios
     axios
-      .post("toys/create-toy", toyInfo) // Replace with your API endpoint
+      .post("http://localhost:8080/api/toys/new", toyInfo)
       .then((response) => {
         console.log("Form data submitted successfully:", response.data);
-        // Reset the form fields
+        setMessage("Request submitted successfully!");
+        // Clear the form after successful submission
         setToyInfo({
-          name: "",
+          title: "",
+          description: "",
           ageGroup: "0-3 years",
           value: "$0",
           address: "",
+          longitude: "",
+          latitude: "",
           condition: "New",
-          pickupLocation: "",
         });
       })
       .catch((error) => {
         console.error("Error submitting form data:", error);
+        setMessage("Error submitting the request.");
       });
   };
 
   return (
-    <div>
-      <h1>Create a New Toy</h1>
-      <form onSubmit={handleSubmit} className="form-container">
-        <div className="form-label-container">
-          <label className="label">Name:</label>
-          <input
-            type="text"
-            name="name"
-            value={toyInfo.name}
-            onChange={handleChange}
-            className="input"
-          />
-        </div>
+    <Container maxWidth="md">
+      <div>
+        <h1>Create a New Toy</h1>
+        <Box>
+          <Paper elevation={3} style={{ padding: 16 }}>
+            <form onSubmit={handleSubmit} className="form-container">
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={12}>
+                  <TextField
+                    variant="outlined"
+                    label="Title"
+                    type="text"
+                    name="title"
+                    value={toyInfo.title}
+                    onChange={handleChange}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                  <TextField
+                    variant="outlined"
+                    label="Description"
+                    type="text"
+                    name="description"
+                    value={toyInfo.description}
+                    onChange={handleChange}
+                    fullWidth
+                    required
+                  />
+                </Grid>
 
-        <div className="form-label-container">
-          <label className="label">Age Group:</label>
-          <select
-            name="ageGroup"
-            className="select"
-            value={toyInfo.ageGroup}
-            onChange={handleChange}>
-            <option value="0-3 years">0-3 years</option>
-            <option value="3-6 years">3-6 years</option>
-            <option value="5-8 years">5-8 years</option>
-            <option value="7-10 years">7-10 years</option>
-          </select>
-        </div>
-
-        <div className="form-label-container">
-          <label className="label">Value:</label>
-          <input
-            type="number"
-            name="value"
-            value={toyInfo.value}
-            onChange={handleChange}
-            className="input"
-          />
-        </div>
-
-        <div className="form-label-container">
-          <label className="label">Address:</label>
-          <input
-            type="text"
-            name="address"
-            value={toyInfo.address}
-            onChange={handleChange}
-            className="input"
-          />
-        </div>
-
-        <div className="form-label-container">
-          <label className="label">Condition:</label>
-          <select
-            name="condition"
-            value={toyInfo.condition}
-            onChange={handleChange}
-            className="select">
-            <option value="New">New</option>
-            <option value="Used">Used</option>
-            <option value="Like New">Like New</option>
-          </select>
-        </div>
-
-        <div className="form-label-container">
-          <label className="label">Pickup Location: </label>
-          <input
-            type="text"
-            name="pickupLocation"
-            value={toyInfo.pickupLocation}
-            onChange={handleChange}
-            className="input"
-          />
-        </div>
-        <div className="button-container">
-        <button type="submit" className="button">
-          Submit
-        </button>
-        </div>
-      </form>
-    </div>
+                <Grid item xs={12} sm={6}>
+                  <FormControl variant="outlined" fullWidth>
+                    <InputLabel>Age Group</InputLabel>
+                    <Select
+                      name="ageGroup"
+                      value={toyInfo.ageGroup}
+                      onChange={handleChange}
+                      label="Age Group"
+                    >
+                      <MenuItem value="0-3 years">0-3 years</MenuItem>
+                      <MenuItem value="3-6 years">3-6 years</MenuItem>
+                      <MenuItem value="5-8 years">5-8 years</MenuItem>
+                      <MenuItem value="7-10 years">7-10 years</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    variant="outlined"
+                    label="Value"
+                    type="number"
+                    name="value"
+                    value={toyInfo.value}
+                    onChange={handleChange}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                  <TextField
+                    variant="outlined"
+                    label="Address"
+                    type="text"
+                    name="address"
+                    value={toyInfo.address}
+                    onChange={handleChange}
+                    fullWidth
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    variant="outlined"
+                    label="Longitude"
+                    type="text"
+                    name="longitude"
+                    value={toyInfo.longitude}
+                    onChange={handleChange}
+                    fullWidth
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    variant="outlined"
+                    label="Latitude"
+                    type="text"
+                    name="latitude"
+                    value={toyInfo.latitude}
+                    onChange={handleChange}
+                    fullWidth
+                    required
+                  />
+                </Grid>
+                <Grid
+                  container
+                  spacing={2}
+                  justifyContent="center"
+                  alignItems="center"
+                  elevation={3}
+                  style={{ padding: 16 }}
+                >
+                  <Grid item xs={12} sm={6}>
+                    <FormControl variant="outlined" fullWidth>
+                      <InputLabel>Condition</InputLabel>
+                      <Select
+                        name="condition"
+                        value={toyInfo.condition}
+                        onChange={handleChange}
+                        label="Condition"
+                        required
+                      >
+                        <MenuItem value="New">New</MenuItem>
+                        <MenuItem value="Used">Used</MenuItem>
+                        <MenuItem value="Like New">Like New</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </Grid>
+                <Grid
+                  container
+                  spacing={2}
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Grid item xs={12} sm={6}>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      elevation={3}
+                      style={{ padding: 16 }}
+                      fullWidth
+                    >
+                      Add New Toy
+                    </Button>
+                  </Grid>
+                </Grid>
+                <Grid item xs={12}>
+                  {message && <p>{message}</p>}
+                </Grid>
+              </Grid>
+            </form>
+          </Paper>
+        </Box>
+      </div>
+    </Container>
   );
 };
 
