@@ -8,7 +8,6 @@ const morgan = require("morgan");
 const cors = require('cors');
 const debug = require('debug')('app:startup');
 
-const newToy = require('./src/routes/newToy')
 const toys = require('./src/routes/toys')
 const reviews = require('./src/routes/reviews')
 const matches = require('./src/routes/matches')
@@ -18,7 +17,6 @@ const matches = require('./src/routes/matches')
 app.use(express.json()); //req.body
 app.use(helmet());
 app.use(cors());
-app.use('/api/toys/new', newToy);
 app.use('/api/toys', toys);
 app.use('/api/reviews', reviews);
 app.use('/api/matches', matches);
