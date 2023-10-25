@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const { getToys } = require("../../db/queries/toys");
+const { getToys, insertNewToy } = require("../../db/queries/toys");
+//const { insertNewToy } = require("../../db/queries/newToy");
 /**
  * @swagger
  * /api/toys:
@@ -23,12 +24,25 @@ const { getToys } = require("../../db/queries/toys");
 router.get('/', (req, res) => {
   getToys()
     .then((toys) => {
-    console.log("Toys data fetched from database.")
-    res.send(toys);
-  })
-  .catch((err)=>{
-    console.log(`An error occurred: ${err}`)
-  });
+      console.log("Toys data fetched from database.")
+      res.send(toys);
+    })
+    .catch((err) => {
+      console.log(`An error occurred: ${err}`)
+    });
+});
+
+// Set up a route to create a new toy
+router.post('/new', (req, res) => {
+  const body = req.body;
+  insertNewToy(body)
+    .then((toys) => {
+      console.log("Toy data added in the database.")
+      res.send(toys);
+    })
+    .catch((err) => {
+      console.log(`An error occurred: ${err}`)
+    });
 });
 
 module.exports = router;
