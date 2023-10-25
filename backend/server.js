@@ -11,6 +11,9 @@ const debug = require('debug')('app:startup');
 const toys = require('./src/routes/toys')
 const reviews = require('./src/routes/reviews')
 const matches = require('./src/routes/matches')
+const users = require('./src/routes/users')
+
+app.use(express.urlencoded({ extended: true }));
 
 //Middlewares
 // To log details about incoming HTTP requests
@@ -20,6 +23,7 @@ app.use(cors());
 app.use('/api/toys', toys);
 app.use('/api/reviews', reviews);
 app.use('/api/matches', matches);
+app.use('/api/users', users);
 
 if (app.get('env') === 'development') {
   app.use(morgan('tiny'));

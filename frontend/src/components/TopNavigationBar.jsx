@@ -18,13 +18,10 @@ const TopNavigationBar = () => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     axios
-      .get("http://localhost:8080/api/toys",{
-        params: { searchQuery },
-      })
+      .post("http://localhost:8080/api/toys/searchQuery",{searchQuery})
       .then((response) => {
         // Update the search results with the response data
         setSearchResults(response.data);
-        console.log(response.data);
         console.log("search was successful", response.data);
       })
       .catch((error) => {

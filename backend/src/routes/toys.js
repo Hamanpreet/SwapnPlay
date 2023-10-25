@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getToys, insertNewToy } = require("../../db/queries/toys");
+const { getToys, insertNewToy, getToysByName } = require("../../db/queries/toys");
 //const { insertNewToy } = require("../../db/queries/newToy");
 /**
  * @swagger
@@ -18,27 +18,44 @@ const { getToys, insertNewToy } = require("../../db/queries/toys");
  *               type: array
  *               items:
  */
-router.get('/',(req, res)=>{
-  database.getToys()
-  .then((toys) => {
-    res.send(toys);
-  })
-  .catch((err)=>{
-    console.log(`An error occurred: ${err}`)
-  });
+
+
+// Set up a route to show all toys
+router.get('/', (req, res) => {
+  getToys()
+    .then((toys) => {
+      console.log("Toys data fetched from database.")
+      res.send(toys);
+    })
+    .catch((err) => {
+      console.log(`An error occurred: ${err}`)
+    });
 });
 
-router.get('searchQuery', (req, res) => {
-  const { name } = req.query.searchQuery;
+// Set up a route to create a new toy
+router.post('/new', (req, res) => {
+  const body = req.body;
+  insertNewToy(body)
+    .then((toys) => {
+      console.log("Toy data added in the database.")
+      res.send(toys);
+    })
+    .catch((err) => {
+      console.log(`An error occurred: ${err}`)
+    });
+});
 
-  if (!name) {
+router.post('/searchQuery', (req, res) => {
+  const { searchQuery } = req.body;
+  console.log(req.body)
+  if (!searchQuery) {
     return res.status(400).json({ error: "Name is required" });
   }
- console.log(name);
-  database.getToysByName(name)
+ console.log(searchQuery);
+  getToysByName(searchQuery)
     .then((toys) => {
       res.send(toys);
-      console.log(toys);
+      console.log(req.body);
     })
     .catch((err) => {
       console.log(`An error occurred: ${err}`);

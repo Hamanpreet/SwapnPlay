@@ -39,9 +39,9 @@ function App() {
             <Route path="/toys/new" element={ <NewToy /> } />
             <Route path="*" element={<NotFound />} />
         </Routes>
+        </ThemeProvider>
       </Router>
-      <Profile />
-     </ThemeProvider>
+  
     </div>
   );
 }
