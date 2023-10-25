@@ -5,6 +5,7 @@ import Profile from './components/Profile';
 import Toy from './components/Toy';
 import NotFound from './components/NotFound';
 import NewToy from './components/NewToy';
+import ToyList from "./components/ToyList";
 import Home from './components/Home';
 import { useState } from "react";
 import TopNavigationBar from './components/TopNavigationBar'
@@ -37,12 +38,13 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/toys/:id" element={<Toy />} />
-            <Route path="/toys/newToy" element={ <NewToy /> } />
+            <Route path="/toys/new" element={<NewToy />} />
+            <Route path="/toys" element={<ToyList />} />
             <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Router>
-      <Profile />
-     </ThemeProvider>
+          </Routes>
+        </Router>
+        <Profile />
+      </ThemeProvider>
     </div>
   );
 }
