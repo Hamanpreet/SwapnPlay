@@ -2,6 +2,18 @@ import React, { useState } from "react";
 import axios from "axios";
 import "../styles/NewToy.scss";
 import TopNavigationBar from "./TopNavigationBar";
+import {
+  TextField,
+  Select,
+  MenuItem,
+  Button,
+  Grid,
+  FormControl,
+  InputLabel,
+  Paper,
+  Box,
+  Container,
+} from "@mui/material";
 
 // Define a functional React component for creating a new toy entry.
 const NewToy = () => {
@@ -56,131 +68,153 @@ const NewToy = () => {
   };
 
   return (
-    <div>
-      <h1>Create a New Toy</h1>
-      <Paper elevation={3} style={{ padding: 16 }}>
-        <form onSubmit={handleSubmit} className="form-container">
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                label="Title"
-                type="text"
-                name="title"
-                value={toyInfo.title}
-                onChange={handleChange}
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                label="Description"
-                type="text"
-                name="description"
-                value={toyInfo.description}
-                onChange={handleChange}
-                fullWidth
-                required
-              />
-            </Grid>
+    <Container maxWidth="md">
+      <div>
+        <h1>Create a New Toy</h1>
+        <Box>
+          <Paper elevation={3} style={{ padding: 16 }}>
+            <form onSubmit={handleSubmit} className="form-container">
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={12}>
+                  <TextField
+                    variant="outlined"
+                    label="Title"
+                    type="text"
+                    name="title"
+                    value={toyInfo.title}
+                    onChange={handleChange}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                  <TextField
+                    variant="outlined"
+                    label="Description"
+                    type="text"
+                    name="description"
+                    value={toyInfo.description}
+                    onChange={handleChange}
+                    fullWidth
+                    required
+                  />
+                </Grid>
 
-            <Grid item xs={12} sm={6}>
-              <FormControl variant="outlined" fullWidth>
-                <InputLabel>Age Group</InputLabel>
-                <Select
-                  name="ageGroup"
-                  value={toyInfo.ageGroup}
-                  onChange={handleChange}
-                  label="Age Group"
+                <Grid item xs={12} sm={6}>
+                  <FormControl variant="outlined" fullWidth>
+                    <InputLabel>Age Group</InputLabel>
+                    <Select
+                      name="ageGroup"
+                      value={toyInfo.ageGroup}
+                      onChange={handleChange}
+                      label="Age Group"
+                    >
+                      <MenuItem value="0-3 years">0-3 years</MenuItem>
+                      <MenuItem value="3-6 years">3-6 years</MenuItem>
+                      <MenuItem value="5-8 years">5-8 years</MenuItem>
+                      <MenuItem value="7-10 years">7-10 years</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    variant="outlined"
+                    label="Value"
+                    type="number"
+                    name="value"
+                    value={toyInfo.value}
+                    onChange={handleChange}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                  <TextField
+                    variant="outlined"
+                    label="Address"
+                    type="text"
+                    name="address"
+                    value={toyInfo.address}
+                    onChange={handleChange}
+                    fullWidth
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    variant="outlined"
+                    label="Longitude"
+                    type="text"
+                    name="longitude"
+                    value={toyInfo.longitude}
+                    onChange={handleChange}
+                    fullWidth
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    variant="outlined"
+                    label="Latitude"
+                    type="text"
+                    name="latitude"
+                    value={toyInfo.latitude}
+                    onChange={handleChange}
+                    fullWidth
+                    required
+                  />
+                </Grid>
+                <Grid
+                  container
+                  spacing={2}
+                  justifyContent="center"
+                  alignItems="center"
+                  elevation={3}
+                  style={{ padding: 16 }}
                 >
-                  <MenuItem value="0-3 years">0-3 years</MenuItem>
-                  <MenuItem value="3-6 years">3-6 years</MenuItem>
-                  <MenuItem value="5-8 years">5-8 years</MenuItem>
-                  <MenuItem value="7-10 years">7-10 years</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                label="Value"
-                type="number"
-                name="value"
-                value={toyInfo.value}
-                onChange={handleChange}
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                label="Address"
-                type="text"
-                name="address"
-                value={toyInfo.address}
-                onChange={handleChange}
-                fullWidth
-                required
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                label="Longitude"
-                type="text"
-                name="longitude"
-                value={toyInfo.longitude}
-                onChange={handleChange}
-                fullWidth
-                required
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                label="Latitude"
-                type="text"
-                name="latitude"
-                value={toyInfo.latitude}
-                onChange={handleChange}
-                fullWidth
-                required
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControl variant="outlined" fullWidth>
-                <InputLabel>Condition</InputLabel>
-                <Select
-                  name="condition"
-                  value={toyInfo.condition}
-                  onChange={handleChange}
-                  label="Condition"
-                  required
+                  <Grid item xs={12} sm={6}>
+                    <FormControl variant="outlined" fullWidth>
+                      <InputLabel>Condition</InputLabel>
+                      <Select
+                        name="condition"
+                        value={toyInfo.condition}
+                        onChange={handleChange}
+                        label="Condition"
+                        required
+                      >
+                        <MenuItem value="New">New</MenuItem>
+                        <MenuItem value="Used">Used</MenuItem>
+                        <MenuItem value="Like New">Like New</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </Grid>
+                <Grid
+                  container
+                  spacing={2}
+                  justifyContent="center"
+                  alignItems="center"
                 >
-                  <MenuItem value="New">New</MenuItem>
-                  <MenuItem value="Used">Used</MenuItem>
-                  <MenuItem value="Like New">Like New</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                fullWidth
-              >
-                Add New Toy
-              </Button>
-            </Grid>
-            <Grid item xs={12}>
-              {message && <p>{message}</p>}
-            </Grid>
-          </Grid>
-        </form>
-      </Paper>
-    </div>
+                  <Grid item xs={12} sm={6}>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      elevation={3}
+                      style={{ padding: 16 }}
+                      fullWidth
+                    >
+                      Add New Toy
+                    </Button>
+                  </Grid>
+                </Grid>
+                <Grid item xs={12}>
+                  {message && <p>{message}</p>}
+                </Grid>
+              </Grid>
+            </form>
+          </Paper>
+        </Box>
+      </div>
+    </Container>
   );
 };
 
