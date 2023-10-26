@@ -6,6 +6,7 @@ import Toy from './components/Toy';
 import NotFound from './components/NotFound';
 import NewToy from './components/NewToy';
 import ToyList from "./components/ToyList";
+import UserProfile from './components/UserProfile';
 import Home from './components/Home';
 import { useState } from "react";
 import TopNavigationBar from './components/TopNavigationBar'
@@ -35,6 +36,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <Router>
           <Routes>
+            <Route path='/userprofile' element={<UserProfile/>} />
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/toys/:id" element={<Toy />} />
