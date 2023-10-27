@@ -1,4 +1,5 @@
 import React from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { Avatar, Button, Card, CardContent, Grid, List, ListItem, ListItemText, Typography } from '@mui/material';
 
 const UserProfile = () => {
@@ -13,7 +14,7 @@ const UserProfile = () => {
       { id: 2, name: 'Toy 2' },
       { id: 3, name: 'Toy 3' },
       { id: 4, name: 'Toy 4' },
-      
+            
     ],
   };
 
@@ -87,6 +88,7 @@ const UserProfile = () => {
                     size="small"
                     onClick={() => handleDeleteToy(toy.id)}
                     style={{ marginRight: '10px' }}
+                    startIcon={<DeleteIcon />}
                   >
                     Delete Toy
                   </Button>
