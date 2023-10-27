@@ -13,6 +13,9 @@ const swaggerSpec = require('./doc/swagger'); // Import your generated Swagger s
 const toys = require('./src/routes/toys')
 const reviews = require('./src/routes/reviews')
 const matches = require('./src/routes/matches')
+const users = require('./src/routes/users')
+
+app.use(express.urlencoded({ extended: true }));
 
 
 //Middlewares
@@ -28,6 +31,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api/toys', toys);
 app.use('/api/reviews', reviews);
 app.use('/api/matches', matches);
+app.use('/api/users', users);
 
 if (app.get('env') === 'development') {
   app.use(morgan('tiny'));

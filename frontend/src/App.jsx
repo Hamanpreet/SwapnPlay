@@ -9,49 +9,43 @@ import ToyList from "./components/ToyList";
 import UserProfile from './components/UserProfile';
 import Home from './components/Home';
 import { useState } from "react";
-import TopNavigationBar from './components/TopNavigationBar'
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import TopNavigationBar from "./components/TopNavigationBar";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#007bff',
+      main: "#007bff",
     },
   },
 });
 
-
 function App() {
-
   const [filterData, setFilterData] = useState(null);
 
-    // To update the filterData state
-    const updateFilterData = (data) => {
-      setFilterData(data);
-    };
+  // To update the filterData state
+  const updateFilterData = (data) => {
+    setFilterData(data);
+  };
 
   return (
     <div className="App">
-      <TopNavigationBar />
-      <ThemeProvider theme={theme}>
-        <Router>
+      <Router>
+        <TopNavigationBar />
+        <ThemeProvider theme={theme}>
           <Routes>
             <Route path='/userprofile' element={<UserProfile/>} />
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/toys/:id" element={<Toy />} />
-            <Route path="/toys/new" element={<NewToy />} />
-            <Route path="/toys" element={<ToyList />} />
+            <Route path="/toys/new" element={ <NewToy /> } />
             <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Router>
-        <Profile />
-      </ThemeProvider>
+        </Routes>
+        </ThemeProvider>
+      </Router>
+  
     </div>
   );
 }
 
 export default App;
-
-
-

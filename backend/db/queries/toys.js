@@ -10,6 +10,15 @@ const getToys = () => {
     .catch((err) => console.error(err.message));
 };
 
+const getToysByName = (name) => {
+  return db
+    .query('SELECT * FROM toy WHERE title=$1;', [name])
+    .then((res) => {
+      return res.rows || null;
+    })
+    .catch((err) => console.error(err.message));
+}
+
 // Insert new toy into the database
 const insertNewToy = (data) => {
   console.log("Entering DB");
@@ -34,5 +43,6 @@ const insertNewToy = (data) => {
 };
 
 module.exports = {
-  getToys, insertNewToy
+  getToys, insertNewToy,
+  getToysByName
 };
