@@ -1,14 +1,15 @@
 const express = require('express');
 const router = express.Router();
 
-const { requestMatch } = require("../../db/queries/matches");
+const { createtNewMatch } = require("../../db/queries/matches");
 
 // Set up a route to create a new match request
-router.post('/', (req, res) => {
+router.post('/new', (req, res) => {
   const body = req.body;
-  requestMatch(body)
+  console.log("Printing from router: Match Data", body);
+  createtNewMatch(body)
     .then((matches) => {
-      console.log("Match request created successfully")
+      console.log("New match created")
       res.send(matches);
     })
     .catch((err) => {
