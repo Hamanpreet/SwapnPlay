@@ -10,6 +10,7 @@ import Home from './components/Home';
 import { useState } from "react";
 import TopNavigationBar from "./components/TopNavigationBar";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Chat from './components/Chat';
 
 const theme = createTheme({
   palette: {
@@ -38,6 +39,7 @@ function App() {
             <Route path="/toys/:id" element={<Toy />} />
             <Route path="/toys/new" element={ <NewToy /> } />
             <Route path="*" element={<NotFound />} />
+            <Route path="/chat" element={ <Chat /> } />
         </Routes>
         </ThemeProvider>
       </Router>

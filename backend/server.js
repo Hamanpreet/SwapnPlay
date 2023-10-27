@@ -12,6 +12,7 @@ const toys = require('./src/routes/toys')
 const reviews = require('./src/routes/reviews')
 const matches = require('./src/routes/matches')
 const users = require('./src/routes/users')
+const messages = require('./src/routes/messages')
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -24,6 +25,7 @@ app.use('/api/toys', toys);
 app.use('/api/reviews', reviews);
 app.use('/api/matches', matches);
 app.use('/api/users', users);
+app.use('/api/messages', messages);
 
 if (app.get('env') === 'development') {
   app.use(morgan('tiny'));

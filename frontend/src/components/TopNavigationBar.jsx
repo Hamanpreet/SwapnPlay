@@ -63,9 +63,12 @@ const TopNavigationBar = () => {
     axios
     .post("http://localhost:8080/api/toys/filter", { filterType, filterValue })
       .then((response) => {
-        console.log("Filter request was successful:", response.data);
+        if (response.data.length > 0) {
+          console.log("Filter request was successful:", response.data);
+        } else {
+          console.log("No results found for the selected filter.");
+        }
         setSearchResults(response.data);
-        
       })
       .catch((error) => {
         console.error("Error submitting filter request:", error);
