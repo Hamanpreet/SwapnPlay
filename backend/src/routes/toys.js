@@ -45,4 +45,16 @@ router.post('/new', (req, res) => {
     });
 });
 
+// Set up a route to fetch a toys by userid
+router.post('/userid', (req, res) => {
+  const body = req.body;
+  getToysByUserID(body)
+    .then((toys) => {
+      console.log("Toys fetched by user id.")
+      res.send(toys);
+    })
+    .catch((err) => {
+      console.log(`An error occurred: ${err}`)
+    });
+});
 module.exports = router;
