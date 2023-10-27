@@ -14,9 +14,9 @@ router.post('/', async (req,res)  => {
     city: " ",
     sub_id: sub
   }
-  console.log(req.body);
+  
   const checkUser = await getUserBySub(sub);
-  console.log(checkUser);
+  
   if (checkUser.length !== 0) {
     return res.send(checkUser);
   }

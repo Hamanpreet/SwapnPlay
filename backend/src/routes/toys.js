@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getToys, insertNewToy, getToysByName } = require("../../db/queries/toys");
+const { getToys, insertNewToy, getToysByName, getToysByAgeGroup, getToysByCondition } = require("../../db/queries/toys");
 //const { insertNewToy } = require("../../db/queries/newToy");
 /**
  * @swagger
@@ -47,20 +47,46 @@ router.post('/new', (req, res) => {
 
 router.post('/searchQuery', (req, res) => {
   const { searchQuery } = req.body;
-  console.log(req.body)
+
   if (!searchQuery) {
     return res.status(400).json({ error: "Name is required" });
   }
- console.log(searchQuery);
+  console.log(searchQuery);
   getToysByName(searchQuery)
     .then((toys) => {
       res.send(toys);
-      console.log(req.body);
     })
     .catch((err) => {
       console.log(`An error occurred: ${err}`);
     });
 });
 
+router.post('/filter', (req, res) => {
+  const { filterType, filterValue } = req.body;
+  console.log(req.body);
+  if (!filterType) {
+    return res.status(400).json({ error: "Filter type and value are required" });
+  }
+
+  if (filterType === "AgeGroup") {
+    getToysByAgeGroup(filterValue)
+      .then((toys) => {
+        res.send(toys);
+        console.log(req.body);
+      })
+      .catch((err) => {
+        console.log(`An error occurred: ${err}`);
+      });
+  } else if (filterType === "Condition") {
+    getToysByCondition(filterValue)
+      .then((toys) => {
+        res.send(toys);
+        console.log(req.body);
+      })
+      .catch((err) => {
+        console.log(`An error occurred: ${err}`);
+      });
+  }
+});
 
 module.exports = router;

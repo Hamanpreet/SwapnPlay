@@ -3,7 +3,8 @@ import axios from "axios";
 import { Grid, Card, CardContent, Typography, Button, Container, Box } from "@mui/material";
 
 const ToyListPage = (props) => {
-  const [toyList, setToyList] = useState([]);
+  
+  const [toyList, setToyList] = useState([props.toyList]);
 
   useEffect(() => {
     axios

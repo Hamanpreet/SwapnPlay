@@ -11,7 +11,7 @@ const LoginButton = () => {
     if (isAuthenticated) {
       axios.post('http://localhost:8080/api/users', user)
       .then((response) => {
-        console.log(response);
+        //console.log(response);
       })
     }
   },[isAuthenticated])
