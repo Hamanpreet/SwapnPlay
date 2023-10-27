@@ -1,3 +1,4 @@
+const { useResolvedPath } = require("react-router-dom");
 const db = require("../connection");
 
 // Return all messages
@@ -42,6 +43,17 @@ const insertNewMessage = (data) => {
     });
 };
 
+const getUser1ByMatch = () => {
+  //want to retreive user names once match is created
+  return db
+    .query(`SELECT first_name FROM users 
+    JOIN match ON users.id = match.user1_id
+    WHERE match.status = 'Accepted'`, [userid])
+    .then((res) => {
+      return res.rows || null;
+    })
+    .catch((err) => console.error(err.message));
+}
 // const getToysByAgeGroup = (ageGroup) => {
 //   return db
 //     .query('SELECT * FROM toy WHERE age_group=$1;', [ageGroup])
@@ -64,5 +76,6 @@ module.exports = {
   getMessages, 
   insertNewMessage,
   getMessagesByUserId,
+  getUser1ByMatch
 
 };
