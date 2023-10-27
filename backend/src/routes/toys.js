@@ -63,7 +63,7 @@ router.post('/searchQuery', (req, res) => {
 
 router.post('/filter', (req, res) => {
   const { filterType, filterValue } = req.body;
-  console.log(req.body);
+ 
   if (!filterType) {
     return res.status(400).json({ error: "Filter type and value are required" });
   }
@@ -72,7 +72,7 @@ router.post('/filter', (req, res) => {
     getToysByAgeGroup(filterValue)
       .then((toys) => {
         res.send(toys);
-        console.log(req.body);
+     
       })
       .catch((err) => {
         console.log(`An error occurred: ${err}`);
@@ -81,7 +81,7 @@ router.post('/filter', (req, res) => {
     getToysByCondition(filterValue)
       .then((toys) => {
         res.send(toys);
-        console.log(req.body);
+ 
       })
       .catch((err) => {
         console.log(`An error occurred: ${err}`);

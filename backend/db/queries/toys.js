@@ -46,7 +46,6 @@ const getToysByAgeGroup = (ageGroup) => {
   return db
     .query('SELECT * FROM toy WHERE age_group=$1;', [ageGroup])
      .then((res) => {
-      console.log(res);
       return res.rows || null;
      })
      .catch((err) => console.error(err.message));
