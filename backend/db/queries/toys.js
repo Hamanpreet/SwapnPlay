@@ -12,7 +12,7 @@ const getToys = () => {
 
 // Insert new toy into the database
 const insertNewToy = (data) => {
-  console.log("Entering DB");
+  // console.log("Entering DB");
 
   // Using parameterized queries to prevent SQL injection
   const query = `
@@ -20,7 +20,6 @@ const insertNewToy = (data) => {
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
     RETURNING *;
     `;
-  // Use db connection to execute insert toy query
   return db
     //.query(query, [title, description, age_group, value, address, longitude, latitude, condition, user_id, created_at])
     .query(query, [data.title, data.description, data.ageGroup, data.value, data.address, data.longitude, data.latitude, data.condition, 3, new Date()])
@@ -33,6 +32,15 @@ const insertNewToy = (data) => {
     });
 };
 
+const getToysByUserID = (userid) => {
+  return db
+    .query(`SELECT * FROM toy WHERE user_id = userid;`)
+    .then((result) => {
+      return result.rows || null;
+    })
+    .catch((err) => console.error(err.message));
+};
+
 module.exports = {
-  getToys, insertNewToy
+  getToys, insertNewToy, getToysByUserID
 };
