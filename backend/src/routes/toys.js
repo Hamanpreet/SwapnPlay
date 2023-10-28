@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getToys, insertNewToy, getToysByName } = require("../../db/queries/toys");
+const { getToys, insertNewToy, getToysByName, getToysBySubId } = require("../../db/queries/toys");
 
 /**
  * @swagger
@@ -97,6 +97,19 @@ router.post('/searchQuery', (req, res) => {
     .catch((err) => {
       console.log(`An error occurred: ${err}`);
     });
+});
+
+// Get toys data by subId
+router.get('/:subId', async (req, res) => {
+  try {
+    const toys = await getToysBySubId(req.params.subId);
+    if (!toys) {
+      return res.status(404).json({ error: 'No toys found for user' });
+    }
+    res.json(toys);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 

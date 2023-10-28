@@ -6,7 +6,7 @@ import axios from "axios";
 import Home from "./Home";
 import { Link } from "react-router-dom";
 
-const TopNavigationBar = () => {
+const TopNavigationBar = ({ onSubIdChange }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("");
   const [searchResults, setSearchResults] = useState("");
@@ -63,6 +63,9 @@ const TopNavigationBar = () => {
     }
   };
 
+ 
+
+
   return (
 
     <div className="top-nav-bar">
@@ -97,7 +100,7 @@ const TopNavigationBar = () => {
           )}
         </select>
       </div>
-      <LoginButton />
+      <LoginButton onSubIdChange={onSubIdChange}/>
       <LogoutButton />
     </div>
   );
