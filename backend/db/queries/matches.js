@@ -6,13 +6,16 @@ const createtNewMatch = (data) => {
   console.log("Entering DB to create new match");
 
   const query = `
-    INSERT INTO match (status, toy_id, toy_in_exchange_id, user1_id, user2_id, created_at)
+    INSERT INTO match (status, toy_id, toy_in_exchange_id, requester_id, owner_id, created_at)
     VALUES ($1, $2, $3, $4, $5, $6) 
     RETURNING *;
     `;
+  
   return db
-    .query(query, [data.status, data.toy_id, data.toy_in_exchange_id, data.user1_id, data.user2_id, new Date()])
+    .query(query, [data.status, data.toy_id, data.toy_in_exchange_id, data.requester_id, data.owner_id, new Date()])
     .then((result) => {
+      console.log("requester_id", data.requester_id);
+      console.log("owner_id", data.owner_id);
       return result.rows[0];
     })
     .catch((error) => {
