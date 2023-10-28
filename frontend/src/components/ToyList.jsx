@@ -42,7 +42,7 @@ const ToyListPage = () => {
         console.error("Error fetching toys data", error);
       });
   }, []);
-  
+
   const handleOpenModal = async (toy) => {
     setSelectedToy(toy);
     // await fetchUserToys(toy.userid); // Wait for the user's toys to be fetched
@@ -52,7 +52,36 @@ const ToyListPage = () => {
   const handleCloseModal = () => {
     setModalOpen(false);
   };
-  
+
+  const handleSubmit = () => {
+    if (selectedYourToy === null) {
+      alert("Please select a toy to swap.");
+      //  } else if (userToys.length === 0) {
+      //     alert("User toys are empty. Please wait for data to load.");
+    } else {
+      // logic
+      console.log("Other users toy:", selectedToy);
+      console.log("My toy:", selectedYourToy);
+
+      axios
+        .post("http://localhost:8080/api/matches/new", {
+          status: "Pending",
+          toy_id: selectedYourToy.id,
+          toy_in_exchange_id: selectedYourToy.id,
+          user1_id: selectedToy.user1_id,
+          user2_id: setloggedInUser,
+        })
+        .then((response) => {
+          setSelectedYourToy(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching user's toys", error);
+        });
+    }
+
+    handleCloseModal();
+  };
+
   return (
     <Container maxWidth="lg">
       <div>
@@ -220,6 +249,30 @@ const ToyListPage = () => {
             </Grid>
           </Box>
 
+          {/* Buttons Section */}
+          <Box
+            display="flex"
+            justifyContent="space-around" // center
+            marginTop="50px"
+          >
+            {/* Close button */}
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleCloseModal}
+            >
+              Close
+            </Button>
+
+            {/* Submit button */}
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleSubmit()}
+            >
+              Swap Your Toy
+            </Button>
+          </Box>
         </Box>
       </Modal>
     </Container>
