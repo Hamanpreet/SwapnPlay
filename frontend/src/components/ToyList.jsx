@@ -14,6 +14,11 @@ import {
 
 const ToyListPage = () => {
   const [toyList, setToyList] = useState([]);
+  const [selectedToy, setSelectedToy] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedYourToy, setSelectedYourToy] = useState([]);
+  const [loggedInUser, setloggedInUser] = useState([]);
+
 
   // Function to fetch user's toys
   // const fetchUserToys = (userid) => {
@@ -38,9 +43,6 @@ const ToyListPage = () => {
         console.error("Error fetching toys data", error);
       });
   }, []);
-
- 
-
   
   return (
     <Container maxWidth="lg">
