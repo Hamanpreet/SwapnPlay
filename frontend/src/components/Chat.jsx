@@ -11,7 +11,8 @@ const Chat = () => {
   const [currentUser, setCurrentUser] = useState("");
 
   useEffect(async() => {
-    const response = await axios.get(`http://localhost:8080/api/messages`);
+    const response = await axios.get(`http://localhost:8080/api/messages/${userId}`);
+    console.log("Contact names", response.data);
     setContacts(response.data);
   }, [])
 

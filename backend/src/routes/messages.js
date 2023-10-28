@@ -1,5 +1,5 @@
 const express = require('express');
-const { getMessages, getMessagesByUserId } = require('../../db/queries/messages');
+const { getMessages, getUserNamesByMatch } = require('../../db/queries/messages');
 const router = express.Router();
 
 router.get('/',(req, res)=>{
@@ -14,7 +14,10 @@ router.get('/',(req, res)=>{
 });
 
 router.get('/:userId',(req, res)=>{
-  getMessagesByUserId()
+  
+  const userId = req.params.userId;
+  console.log(userId)
+  getUserNamesByMatch(userId)
     .then((messages) => {
       console.log("Messages data fetched from database.")
       res.send(messages);

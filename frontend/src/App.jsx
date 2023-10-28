@@ -39,7 +39,7 @@ function App() {
             <Route path="/toys/:id" element={<Toy />} />
             <Route path="/toys/new" element={ <NewToy /> } />
             <Route path="*" element={<NotFound />} />
-            <Route path="/chat" element={ <Chat /> } />
+            <Route path="/chat/:userId" element={ <Chat /> } />
         </Routes>
         </ThemeProvider>
       </Router>

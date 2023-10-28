@@ -14,7 +14,7 @@ VALUES
     ('Toy 3', 'Description', 'Ages 9-12', 39.99, '789 Fun Road, Brampton', -79.7529, 43.6830, 'Like New', 3, NOW());
 
 -- Seed data for the MATCH table
-INSERT INTO match (status, toy_id, toy_in_exchange_id, user1_id, user2_id, created_at)
+INSERT INTO match (status, toy_id, toy_in_exchange_id, requester_id, owner_id, created_at)
 VALUES
     ('Pending', 1, 2, 1, 2, NOW()),
     ('Accepted', 2, 1, 2, 1, NOW()),
