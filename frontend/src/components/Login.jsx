@@ -1,19 +1,18 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Button from '@mui/material/Button';
 import axios from 'axios';
 
 const LoginButton = ({ onSubIdChange }) => {
-  const { loginWithRedirect, isAuthenticated, user } = useAuth0();
-  const [subId, setSubId] = useState(null); // State to store the sub ID
-
+  const { loginWithRedirect, isAuthenticated, user, isLoading, error } = useAuth0();
   useEffect(() => {
-    if (isAuthenticated) {
-      // Use the user's sub ID to identify the user
-      setSubId(user.sub);
-
+    if (error) {
+      console.error("Auth0 Error:", error);
+    }
+    
+    if (!isLoading && isAuthenticated) {
       // Send the user data to the backend
-      axios.post('http://localhost:8081/api/users', user)
+      axios.post('http://localhost:8080/api/users', user)
         .then((response) => {
           onSubIdChange(user.sub);
         })
@@ -21,12 +20,18 @@ const LoginButton = ({ onSubIdChange }) => {
           console.error("Error sending user data to the backend:", error);
         });
     }
-  }, [isAuthenticated, user]);
+  }, [isLoading, isAuthenticated, user, onSubIdChange, error]);
 
   return (
-    !isAuthenticated && (
-      <Button variant="contained" color="primary" onClick={() => loginWithRedirect()}>Log In</Button>
-    )
+    <div>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        !isAuthenticated ? (
+          <Button variant="contained" color="primary" onClick={() => loginWithRedirect()}>Log In</Button>
+        ) : null
+      )}
+    </div>
   );
 };
 

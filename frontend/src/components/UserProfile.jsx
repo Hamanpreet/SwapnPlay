@@ -8,12 +8,11 @@ const UserProfile = ({ subId }) => {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    const subId = 'ONT001';
     // Make an API call to fetch user details based on subId
-    axios.get(`http://localhost:8081/api/users/${subId}`)
+    axios.get(`http://localhost:8080/api/users/${subId}`)
       .then((response) => {
         if (response.data[0]) {
-          axios.get(`http://localhost:8081/api/toys/${subId}`)
+          axios.get(`http://localhost:8080/api/toys/${subId}`)
             .then((resp) => {
               setUserData({ user: response.data[0], toy: resp.data });
             });
