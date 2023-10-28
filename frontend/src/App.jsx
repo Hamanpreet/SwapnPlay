@@ -46,6 +46,7 @@ function App() {
             <Route path="/userprofile" element={<UserProfile subId={subId} />} />
             <Route path="/toys/:id" element={<Toy />} />
             <Route path="/toys/new" element={<NewToy />} />
+            <Route path="/toys" element={<ToyList subId={subId} />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </ThemeProvider>
