@@ -39,8 +39,8 @@ CREATE TABLE match (
     status VARCHAR(255) NOT NULL,
     toy_id INTEGER REFERENCES toy(id) ON DELETE CASCADE,
     toy_in_exchange_id INTEGER REFERENCES toy(id) ON DELETE CASCADE,
-    user1_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    user2_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    requester_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    owner_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMP NOT NULL
   );
 

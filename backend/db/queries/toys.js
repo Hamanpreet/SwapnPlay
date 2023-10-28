@@ -52,7 +52,28 @@ const insertNewToy = (data) => {
     });
 };
 
+const getToysByAgeGroup = (ageGroup) => {
+  return db
+    .query('SELECT * FROM toy WHERE age_group=$1;', [ageGroup])
+     .then((res) => {
+      return res.rows || null;
+     })
+     .catch((err) => console.error(err.message));
+}
+
+const getToysByCondition = (condition) => {
+  return db
+    .query('SELECT * FROM toy WHERE condition=$1;', [condition])
+     .then((res) => {
+      return res.rows || null;
+     })
+     .catch((err) => console.error(err.message));
+}
+
 module.exports = {
   getToys, insertNewToy,
-  getToysByName, getToysBySubId
+  getToysByName,
+  getToysByAgeGroup,
+  getToysByCondition,
+  getToysBySubId
 };
