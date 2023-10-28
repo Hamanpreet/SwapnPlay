@@ -60,7 +60,6 @@ const { getToys, insertNewToy, getToysByName, getToysBySubId, getToysByAgeGroup,
 router.get('/', (req, res) => {
   getToys()
     .then((toys) => {
-      console.log("Toys data fetched from database.")
       res.send(toys);
     })
     .catch((err) => {
