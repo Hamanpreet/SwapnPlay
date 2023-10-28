@@ -19,7 +19,6 @@ const ToyListPage = () => {
   const [selectedYourToy, setSelectedYourToy] = useState([]);
   const [loggedInUser, setloggedInUser] = useState([]);
 
-
   // Function to fetch user's toys
   // const fetchUserToys = (userid) => {
   //   axios
@@ -43,6 +42,16 @@ const ToyListPage = () => {
         console.error("Error fetching toys data", error);
       });
   }, []);
+  
+  const handleOpenModal = async (toy) => {
+    setSelectedToy(toy);
+    // await fetchUserToys(toy.userid); // Wait for the user's toys to be fetched
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
   
   return (
     <Container maxWidth="lg">
