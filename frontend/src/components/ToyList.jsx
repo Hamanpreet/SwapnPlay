@@ -12,25 +12,34 @@ import {
   Radio,
 } from "@mui/material";
 
-const ToyListPage = (props) => {
-  
-  const [toyList, setToyList] = useState([props.toyList]);
+const ToyListPage = (subId) => {
+  const [toyList, setToyList] = useState([]);
+  const [toyListLoggedInUser, setToyListLoggedInUser] = useState([]);
+  const [selectedToy, setSelectedToy] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedYourToy, setSelectedYourToy] = useState([]);
 
   useEffect(() => {
     axios
       .get("http://localhost:8080/api/toys/")
       .then((response) => {
         setToyList(response.data);
-        setloggedInUser(3);
       })
       .catch((error) => {
         console.error("Error fetching toys data", error);
       });
   }, []);
 
-  const handleOpenModal = async (toy) => {
+   const handleOpenModal = async (toy) => {
     setSelectedToy(toy);
-    // await fetchUserToys(toy.userid); // Wait for the user's toys to be fetched
+    axios
+      .get(`http://localhost:8080/api/toys/${subId.subId}`)
+      .then((response) => {
+        setToyListLoggedInUser(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching logged in user data", error);
+      });
     setModalOpen(true);
   };
 
@@ -41,20 +50,14 @@ const ToyListPage = (props) => {
   const handleSubmit = () => {
     if (selectedYourToy === null) {
       alert("Please select a toy to swap.");
-      //  } else if (userToys.length === 0) {
-      //     alert("User toys are empty. Please wait for data to load.");
     } else {
-      // logic
-      console.log("Other users toy:", selectedToy);
-      console.log("My toy:", selectedYourToy);
-
       axios
         .post("http://localhost:8080/api/matches/new", {
           status: "Pending",
-          toy_id: selectedYourToy.id,
+          toy_id: selectedToy.id,
           toy_in_exchange_id: selectedYourToy.id,
-          user1_id: selectedToy.user1_id,
-          user2_id: setloggedInUser,
+          owner_id: selectedToy.user_id,
+          requester_id: selectedYourToy.user_id,
         })
         .then((response) => {
           setSelectedYourToy(response.data);
@@ -71,6 +74,7 @@ const ToyListPage = (props) => {
     <Container maxWidth="lg">
       <div>
         <h1>Display List of All Toys</h1>
+
         <Grid container spacing={3}>
           {toyList.map((toy) => (
             <Grid item key={toy.id} xs={12} sm={6} md={4} lg={4}>
@@ -183,7 +187,7 @@ const ToyListPage = (props) => {
               Select your toy to swap
             </Typography>
             <Grid container spacing={3}>
-              {toyList.map((toy) => (
+              {toyListLoggedInUser.map((toy) => (
                 <Grid item key={toy.id} xs={12} sm={4} md={4} lg={4}>
                   <Card>
                     <div
