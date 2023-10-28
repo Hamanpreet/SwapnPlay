@@ -19,6 +19,16 @@ const getToysByName = (name) => {
     .catch((err) => console.error(err.message));
 }
 
+const getToysBySubId = (subId) =>{
+  console.log(subId);
+  return db
+  .query('SELECT * FROM toy t INNER JOIN users u ON t.user_id = u.id WHERE u.sub_id = $1', [subId])
+  .then((res)=>{
+    return res.rows || null;
+  })
+  .catch((err) => console.error(err.message));
+}
+
 // Insert new toy into the database
 const insertNewToy = (data) => {
   console.log("Entering DB");
@@ -64,5 +74,6 @@ module.exports = {
   getToys, insertNewToy,
   getToysByName,
   getToysByAgeGroup,
-  getToysByCondition
+  getToysByCondition,
+  getToysBySubId
 };
