@@ -10,6 +10,25 @@ const getToys = () => {
     .catch((err) => console.error(err.message));
 };
 
+const getToysByName = (name) => {
+  return db
+    .query('SELECT * FROM toy WHERE title=$1;', [name])
+    .then((res) => {
+      return res.rows || null;
+    })
+    .catch((err) => console.error(err.message));
+}
+
+const getToysBySubId = (subId) =>{
+  console.log(subId);
+  return db
+  .query('SELECT * FROM toy t INNER JOIN users u ON t.user_id = u.id WHERE u.sub_id = $1', [subId])
+  .then((res)=>{
+    return res.rows || null;
+  })
+  .catch((err) => console.error(err.message));
+}
+
 // Insert new toy into the database
 const insertNewToy = (data) => {
   // console.log("Entering DB");
@@ -32,15 +51,28 @@ const insertNewToy = (data) => {
     });
 };
 
-const getToysByUserID = (userid) => {
+const getToysByAgeGroup = (ageGroup) => {
   return db
-    .query(`SELECT * FROM toy WHERE user_id = userid;`)
-    .then((result) => {
-      return result.rows || null;
-    })
-    .catch((err) => console.error(err.message));
-};
+    .query('SELECT * FROM toy WHERE age_group=$1;', [ageGroup])
+     .then((res) => {
+      return res.rows || null;
+     })
+     .catch((err) => console.error(err.message));
+}
+
+const getToysByCondition = (condition) => {
+  return db
+    .query('SELECT * FROM toy WHERE condition=$1;', [condition])
+     .then((res) => {
+      return res.rows || null;
+     })
+     .catch((err) => console.error(err.message));
+}
 
 module.exports = {
-  getToys, insertNewToy, getToysByUserID
+  getToys, insertNewToy,
+  getToysByName,
+  getToysByAgeGroup,
+  getToysByCondition,
+  getToysBySubId
 };

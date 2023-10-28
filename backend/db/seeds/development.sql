@@ -11,10 +11,12 @@ INSERT INTO toy (title, description, age_group, value, address, longitude, latit
 VALUES
     ('Toy 1', 'Description', 'Ages 3-5', 19.99, '123 Toy Street, Toronto', -79.3832, 43.6532, 'New', 1, NOW()),
     ('Toy 2', 'Description', 'Ages 6-8', 29.99, '456 Play Avenue, Mississauga', -79.6129, 43.5890, 'Used', 2, NOW()),
-    ('Toy 3', 'Description', 'Ages 9-12', 39.99, '789 Fun Road, Brampton', -79.7529, 43.6830, 'Like New', 3, NOW());
+    ('Toy 3', 'Description', 'Ages 9-12', 39.99, '789 Fun Road, Brampton', -79.7529, 43.6830, 'Like New', 3, NOW()),
+    ('Toy 4', 'Description', 'Ages 6-8', 39.99, '789 Fun Road, Hamilton', -79.1234, 43.6789, 'New', 3, NOW()),
+    ('Toy 5', 'Description', 'Ages 3-5', 39.99, '789 Fun Road, Calidon', -79.6666, 43.9877, 'Used', 3, NOW());
 
 -- Seed data for the MATCH table
-INSERT INTO match (status, toy_id, toy_in_exchange_id, user1_id, user2_id, created_at)
+INSERT INTO match (status, toy_id, toy_in_exchange_id, requester_id, owner_id, created_at)
 VALUES
     ('Pending', 1, 2, 1, 2, NOW()),
     ('Accepted', 2, 1, 2, 1, NOW()),

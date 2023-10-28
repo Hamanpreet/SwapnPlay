@@ -12,24 +12,9 @@ import {
   Radio,
 } from "@mui/material";
 
-const ToyListPage = () => {
-  const [toyList, setToyList] = useState([]);
-  const [selectedToy, setSelectedToy] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedYourToy, setSelectedYourToy] = useState([]);
-  const [loggedInUser, setloggedInUser] = useState([]);
-
-  // Function to fetch user's toys
-  // const fetchUserToys = (userid) => {
-  //   axios
-  //     .get(`http://localhost:8080/api/toys/${userid}`)
-  //     .then((response) => {
-  //       setUserToys(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching user's toys", error);
-  //     });
-  // };
+const ToyListPage = (props) => {
+  
+  const [toyList, setToyList] = useState([props.toyList]);
 
   useEffect(() => {
     axios

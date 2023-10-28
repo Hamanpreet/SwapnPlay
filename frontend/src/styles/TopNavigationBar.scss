@@ -21,43 +21,19 @@
 }
 
 .filter-container {
-  display: flex;
-  align-items: center;
-  margin-right: 24px;
-}
-
-.filter-dropdown {
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  position: relative; 
   margin-right: 16px;
-  cursor: pointer;
 }
 
-.age-group-submenu {
+.filter-dropdown, .sub-filter-dropdown {
+  width: 150px;
+  min-width: 150px;
+  max-height: 100px;
+}
+
+.sub-filter-dropdown {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 5px);
   left: 0;
-  display: none;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 8px;
   z-index: 1;
-}
-
-.age-group-submenu ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.age-group-submenu ul li {
-  cursor: pointer;
-}
-
-.filter-dropdown:focus + .age-group-submenu,
-.age-group-submenu:hover,
-.filter-dropdown:hover + .age-group-submenu {
-  display: block;
 }
