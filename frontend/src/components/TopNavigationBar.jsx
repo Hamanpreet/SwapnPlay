@@ -9,7 +9,7 @@ import ToyListPage from "./ToyList";
 import Select from 'react-select';
 
 
-const TopNavigationBar = () => {
+const TopNavigationBar = ({ onSubIdChange }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("");
   const [selectedSubFilter, setSelectedSubFilter] = useState("");
@@ -88,6 +88,9 @@ const TopNavigationBar = () => {
       
   };
 
+ 
+
+
   return (
     <div className="top-nav-bar">
       <Link to="/" className="top-nav-bar__logo">
@@ -127,7 +130,7 @@ const TopNavigationBar = () => {
           />
         )}
       </div>
-      <LoginButton />
+      <LoginButton onSubIdChange={onSubIdChange}/>
       <LogoutButton />
       {/* {searchResults.length > 0 && <ToyListPage toyList={searchResults} />} */}
     </div>

@@ -1,4 +1,3 @@
-//require("dotenv").config();
 const config = require('config');
 const http = require('http');
 const express = require("express");
@@ -10,11 +9,17 @@ const helmet = require('helmet');
 const morgan = require("morgan");
 const cors = require('cors');
 const debug = require('debug')('app:startup');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./doc/swagger'); // Import your generated Swagger spec
 
+<<<<<<< HEAD
 const io = socketIo(server);
 
 
 
+=======
+//import application routes
+>>>>>>> main
 const toys = require('./src/routes/toys')
 const reviews = require('./src/routes/reviews')
 const matches = require('./src/routes/matches')
@@ -23,13 +28,22 @@ const messages = require('./src/routes/messages')
 
 app.use(express.urlencoded({ extended: true }));
 
+
 //Middlewares
 // To log details about incoming HTTP requests
 app.use(express.json()); //req.body
 app.use(helmet());
 app.use(cors());
+<<<<<<< HEAD
 
 
+=======
+// Serve Swagger UI at a specific route
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+
+// Mount all resource routes
+>>>>>>> main
 app.use('/api/toys', toys);
 app.use('/api/reviews', reviews);
 app.use('/api/matches', matches);
