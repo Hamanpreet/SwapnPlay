@@ -3,21 +3,23 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Avatar, Button, Card, CardContent, Grid, List, ListItem, ListItemText, Typography } from '@mui/material';
 import axios from 'axios';
 import '../styles/UserProfile.scss';
+import config from '../config/config'
 import EditToy from './EditToy'; // Import the EditToy component
 
 const UserProfile = ({ subId }) => {
   const [userData, setUserData] = useState(null);
   const [editToyId, setEditToyId] = useState(null);
 
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         // Fetch user details based on subId
-        const userResponse = await axios.get(`http://localhost:8080/api/users/${subId}`);
+        const userResponse = await axios.get(`${config.baseUrl}/api/users/${subId}`);
         if (userResponse.data[0]) {
           const ownerId = userResponse.data[0].id;
           // Fetch user's toys
-          const toysResponse = await axios.get(`http://localhost:8080/api/toys?ownerId=${ownerId}`);
+          const toysResponse = await axios.get(`${config.baseUrl}/api/toys?ownerId=${ownerId}`);
           setUserData({ user: userResponse.data[0], toys: toysResponse.data });
         }
       } catch (error) {
@@ -39,7 +41,7 @@ const UserProfile = ({ subId }) => {
   const handleSaveEditedToy = async (editedToy) => {
     try {
       // Send a PUT request to update the toy details on the server
-      await axios.put(`http://localhost:8080/api/toys/${editedToy.id}`, editedToy);
+      await axios.put(`${config.baseUrl}/api/toys/${editedToy.id}`, editedToy);
       // Update the user data with the edited toy
       const updatedToyList = userData.toys.map((toy) =>
         toy.id === editedToy.id ? editedToy : toy
@@ -58,7 +60,7 @@ const UserProfile = ({ subId }) => {
   const deleteToy = async (toyId) => {
     try {
       // Send a DELETE request to delete the toy by its ID
-      await axios.delete(`http://localhost:8080/api/toys/${toyId}`);
+      await axios.delete(`${config.baseUrl}/api/toys/${toyId}`);
   
       // Update the user data to remove the deleted toy
       setUserData((prevUserData) => ({

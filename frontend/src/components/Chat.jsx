@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import Contacts from "./Contacts";
 import { useParams } from "react-router-dom";
 import io from 'socket.io-client';
+import config from '../config/config'
+
 
 const socket = io('/');
 
@@ -17,9 +19,7 @@ const Chat = () => {
   const { userId } = useParams();
 
   useEffect(async () => {
-    const response = await axios.get(
-      `http://localhost:8080/api/messages/${userId}`
-    );
+    const response = await axios.get(`${config.baseUrl}/api/messages/${userId}`);
     console.log("Contact names", response.data);
     setContacts(response.data);
   }, [userId]);
@@ -38,7 +38,7 @@ const Chat = () => {
     }
     // Send the message to the server
     try {
-      const response = await axios.post('http://localhost:8080/api/messages', {
+      const response = await axios.post(`${config.baseUrl}/api/messages`, {
         userId: userId, // You might need to adjust this based on your server's API
         message: message,
       });

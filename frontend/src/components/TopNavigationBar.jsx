@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles/TopNavigationBar.scss";
+import config from '../config/config';
 import LoginButton from "./Login";
 import LogoutButton from "./Logout";
 import axios from "axios";
@@ -14,6 +15,7 @@ const TopNavigationBar = ({ onSubIdChange }) => {
   const [selectedFilter, setSelectedFilter] = useState("");
   const [selectedSubFilter, setSelectedSubFilter] = useState("");
   const [searchResults, setSearchResults] = useState("");
+
 
   // Options for the "Filter by" dropdown
   const filterOptions = [
@@ -43,7 +45,7 @@ const TopNavigationBar = ({ onSubIdChange }) => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:8080/api/toys/searchQuery", { searchQuery })
+      .post(`${config.baseUrl}/api/toys/searchQuery`, { searchQuery })
       .then((response) => {
         // Update the search results with the response data
         setSearchResults(response.data);
@@ -61,7 +63,7 @@ const TopNavigationBar = ({ onSubIdChange }) => {
   const sendFilterRequest = (filterType, filterValue) => {
    
     axios
-    .post("http://localhost:8080/api/toys/filter", { filterType, filterValue })
+    .post(`${config.baseUrl}/api/toys/filter`, { filterType, filterValue })
       .then((response) => {
         if (response.data.length > 0) {
           console.log("Filter request was successful:", response.data);
