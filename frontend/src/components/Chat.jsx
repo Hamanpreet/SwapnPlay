@@ -64,7 +64,8 @@ const Chat = () => {
             type="text"
             placeholder="Type your message..."
             value={message}
-            onChange={(e) => setMessage(e.target.value)} // Update the message state
+            // Update the message state
+            onChange={(e) => setMessage(e.target.value)} 
             className="message-box"
           />
           <button onClick={sendMessage} className="send-button">

@@ -12,7 +12,7 @@ import ToyList from "./components/ToyList";
 import UserProfile from './components/UserProfile';
 import Home from './components/Home';
 import TopNavigationBar from "./components/TopNavigationBar";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+
 import Chat from './components/Chat';
 
 const theme = createTheme({
