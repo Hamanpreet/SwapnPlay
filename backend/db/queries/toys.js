@@ -1,14 +1,26 @@
 const db = require("../connection");
 
 // Return all toys
-const getToys = () => {
-  return db
-    .query(`SELECT * FROM toy;`)
-    .then((result) => {
-      return result.rows || null;
-    })
-    .catch((err) => console.error(err.message));
+const getToys = async (queryParams) => {
+  try {
+    let query = 'SELECT * FROM toy';
+    const params = [];
+    
+    // Check if ownerId is provided and add a WHERE clause to the query
+    if (queryParams.queryString.ownerId) {
+      query += ' WHERE user_id = $1';
+      params.push(queryParams.queryString.ownerId);
+    }
+
+    const result = await db.query(query, params);
+    return result.rows || null;
+  } catch (err) {
+    console.error(err.message);
+    throw err;
+  }
 };
+
+
 
 const getToysByName = (name) => {
   return db
@@ -19,13 +31,14 @@ const getToysByName = (name) => {
     .catch((err) => console.error(err.message));
 }
 
-const getToysBySubId = (subId) => {
+
+const getToysById = (id) =>{
   return db
-    .query('SELECT t.* FROM toy t INNER JOIN users u ON t.user_id = u.id WHERE u.sub_id = $1', [subId])
-    .then((res) => {
-      return res.rows || null;
-    })
-    .catch((err) => console.error(err.message));
+  .query('SELECT * FROM toy WHERE id = $1', [id])
+  .then((res)=>{
+    return res.rows || null;
+  })
+  .catch((err) => console.error(err.message));
 }
 
 const insertNewToy = (data) => {
@@ -63,10 +76,50 @@ const getToysByCondition = (condition) => {
     .catch((err) => console.error(err.message));
 }
 
+const updateToy = (title, description, age_group, value, address, condition, id) => {
+  // Input validation (you can customize this based on your requirements)
+  if (!title || !description || !age_group || !value || !address || !condition || !id) {
+    throw new Error('All fields must be provided');
+  }
+
+  // Update the toy with the new data
+  const updateToyQuery = `
+    UPDATE toy
+    SET title = $1, description = $2, age_group = $3, value = $4, address = $5, condition = $6
+    WHERE id = $7
+    RETURNING *;
+  `;
+  
+  return db.query(updateToyQuery, [title, description, age_group, value, address, condition, id])
+    .then((res) => {
+      return res.rows[0] || null; // Assuming you expect one row to be updated
+    })
+    .catch((err) => {
+      console.error(err.message);
+      throw err; // Rethrow the error for higher-level error handling
+    });
+};
+
+
+// Define the findToyByIdAndRemove function
+const findToyByIdAndRemove = async (toyId) => {
+  try {
+    // Delete the toy by its ID and return the deleted toy
+    const query = 'DELETE FROM toy WHERE id = $1 RETURNING *';
+    const deletedToy = await db.query(query, [toyId]);
+
+    return deletedToy;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 module.exports = {
   getToys, insertNewToy,
   getToysByName,
   getToysByAgeGroup,
   getToysByCondition,
-  getToysBySubId
+  getToysById, updateToy,
+  findToyByIdAndRemove
 };
