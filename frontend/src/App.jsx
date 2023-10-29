@@ -13,6 +13,8 @@ import UserProfile from './components/UserProfile';
 import Home from './components/Home';
 import TopNavigationBar from "./components/TopNavigationBar";
 
+import Chat from './components/Chat';
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -48,7 +50,8 @@ function App() {
             <Route path="/toys/new" element={<NewToy />} />
             <Route path="/toys" element={<ToyList subId={subId} />} />
             <Route path="*" element={<NotFound />} />
-          </Routes>
+            <Route path="/chat/:userId" element={ <Chat /> } />
+        </Routes>
         </ThemeProvider>
       </Router>
     </div>
