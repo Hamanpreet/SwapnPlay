@@ -3,24 +3,29 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Avatar, Button, Card, CardContent, Grid, List, ListItem, ListItemText, Typography } from '@mui/material';
 import axios from 'axios';
 import '../styles/UserProfile.scss';
+import EditToy from './EditToy'; // Import the EditToy component
 
 const UserProfile = ({ subId }) => {
   const [userData, setUserData] = useState(null);
+  const [editToyId, setEditToyId] = useState(null);
 
   useEffect(() => {
-    // Make an API call to fetch user details based on subId
-    axios.get(`http://localhost:8080/api/users/${subId}`)
-      .then((response) => {
-        if (response.data[0]) {
-          axios.get(`http://localhost:8080/api/toys/${subId}`)
-            .then((resp) => {
-              setUserData({ user: response.data[0], toy: resp.data });
-            });
+    const fetchUserData = async () => {
+      try {
+        // Fetch user details based on subId
+        const userResponse = await axios.get(`http://localhost:8080/api/users/${subId}`);
+        if (userResponse.data[0]) {
+          const ownerId = userResponse.data[0].id;
+          // Fetch user's toys
+          const toysResponse = await axios.get(`http://localhost:8080/api/toys?ownerId=${ownerId}`);
+          setUserData({ user: userResponse.data[0], toys: toysResponse.data });
         }
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching user data:", error);
-      });
+      }
+    };
+
+    fetchUserData();
   }, [subId]);
 
   const handleEditProfile = () => {
@@ -28,19 +33,54 @@ const UserProfile = ({ subId }) => {
   };
 
   const handleEditToy = (toyId) => {
-    // Implement the edit toy functionality for the given toyId
+    setEditToyId(toyId);
   };
 
-  const handleDeleteToy = (toyId) => {
-    // Implement the delete toy functionality for the given toyId
+  const handleSaveEditedToy = async (editedToy) => {
+    try {
+      // Send a PUT request to update the toy details on the server
+      await axios.put(`http://localhost:8080/api/toys/${editedToy.id}`, editedToy);
+      // Update the user data with the edited toy
+      const updatedToyList = userData.toys.map((toy) =>
+        toy.id === editedToy.id ? editedToy : toy
+      );
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        toys: updatedToyList,
+      }));
+      // Close the edit dialog
+      setEditToyId(null);
+    } catch (error) {
+      console.error("Error updating toy:", error);
+    }
   };
+
+  const deleteToy = async (toyId) => {
+    try {
+      // Send a DELETE request to delete the toy by its ID
+      await axios.delete(`http://localhost:8080/api/toys/${toyId}`);
+  
+      // Update the user data to remove the deleted toy
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        toys: prevUserData.toys.filter((toy) => toy.id !== toyId),
+      }));
+    } catch (error) {
+      console.error("Error deleting toy:", error);
+    }
+  };  
+
+  const handleDeleteToy = (toyId) => {
+    // Confirm the deletion with the user if needed
+    const confirmed = window.confirm("Are you sure you want to delete this toy?");
+    if (confirmed) {
+      deleteToy(toyId);
+    }
+  };
+  
 
   const handleViewToyDetails = (toyId) => {
     // Implement the view toy details functionality for the given toyId
-  };
-
-  const handleLogout = () => {
-    // Implement the logout functionality
   };
 
   return (
@@ -84,12 +124,12 @@ const UserProfile = ({ subId }) => {
                 <ListItemText primary="Address" />
                 <ListItemText primary="Condition" />
                 <ListItemText primary="Created At" />
-                <ListItemText primary="Edit"/>
-                <ListItemText primary="Delete"/>
-                <ListItemText primary="View Details"/>
+                <ListItemText primary="Edit" />
+                <ListItemText primary="Delete" />
+                <ListItemText primary="View Details" />
               </ListItem>
               {/* Table Rows */}
-              {userData?.toy.map((toy) => (
+              {userData?.toys.map((toy) => (
                 <ListItem key={toy.id}>
                   <ListItemText primary={toy.title} />
                   <ListItemText primary={toy.description} />
@@ -125,6 +165,15 @@ const UserProfile = ({ subId }) => {
                 </ListItem>
               ))}
             </List>
+            {/* Render the EditToy component when editToyId is not null */}
+            {editToyId !== null && (
+              <EditToy
+                open={true}
+                onClose={() => setEditToyId(null)}
+                onSave={handleSaveEditedToy}
+                initialToy={userData.toys.find((toy) => toy.id === editToyId)}
+              />
+            )}
           </CardContent>
         </Card>
       </div>

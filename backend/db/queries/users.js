@@ -22,7 +22,6 @@ const insertNewUser = (data) => {
     `;
   // Use db connection to execute insert user query
   return db
-   
     .query(query, [data.first_name, data.last_name, data.email, data.phone_number, data.city, data.sub_id, new Date()])
     .then((result) => {
       return result.rows[0];

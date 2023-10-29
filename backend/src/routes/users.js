@@ -28,7 +28,6 @@ router.post('/', async (req,res)  => {
 // Get user data by subId
 router.get('/:subId', async (req, res) => {
   try {
-    console.log(req.params.subId);
     const user = await getUserBySub(req.params.subId);
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
