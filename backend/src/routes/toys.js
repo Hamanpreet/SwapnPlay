@@ -10,6 +10,39 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
+//Get AI generated toy description
+router.post('/generate-toy-description', async (req, res) => {
+  console.log("Entering enhanced description in server");
+  try {
+    const body = req.body;
+    let prompt = `Please rewrite the description for the following toy to sell it online:\n${body.prompt}`
+
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: prompt,
+      max_tokens: 128,
+      temperature: 0,
+      top_p: 1.0,
+      frequency_penalty: 0.0,
+      presence_penalty: 0.0,
+      stop: "{\n}",
+    });
+
+    let description = response.data.choices[0].text.replace(/(\r\n|\n|\r)/gm, "");
+    return res.status(200).json({
+      success: true,
+      data: description,
+    });
+  } catch (error) {
+    console.log("Error: ", error);
+    return res.status(400).json({
+      success: false,
+      error: error.response
+        ? error.response.data
+        : "There was an issue on the server",
+    });
+  }
+});
 
 /**
  * @swagger
