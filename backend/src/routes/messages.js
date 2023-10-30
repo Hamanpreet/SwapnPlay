@@ -1,10 +1,11 @@
 const express = require('express');
-const { getMessages, getUserNamesByMatch } = require('../../db/queries/messages');
+const { getMessages, getUserNamesByMatch, saveMessageToDatabase, getReceiverByMatch } = require('../../db/queries/messages');
 const router = express.Router();
 
 
-router.get('/',(req, res)=>{
-  getMessages()
+router.get('/:matchId',(req, res)=>{
+  const matchId = req.params.matchId;
+  getMessages(matchId)
     .then((messages) => {
       console.log("Messages data fetched from database.")
       res.send(messages);
@@ -14,13 +15,13 @@ router.get('/',(req, res)=>{
     });
 });
 
-router.get('/:userId',(req, res)=>{
-  
-  const userId = req.params.userId;
-  console.log(userId)
-  getUserNamesByMatch(userId)
+router.get('/:matchId/usernames',(req, res)=>{
+ 
+  const matchId = req.params.matchId;
+  console.log("matchID is", matchId);
+  getUserNamesByMatch(matchId)
     .then((messages) => {
-      console.log("Users data fetched from database.")
+      console.log("User names data fetched from database.")
       res.send(messages);
     })
     .catch((err) => {
@@ -28,13 +29,39 @@ router.get('/:userId',(req, res)=>{
     });
 })
 
-router.post('/', (req, res) => {
-  const { userId, message } = req.body;
-  console.log(message);
-  const { io } = require('../../server');
-  io.emit('chat message', message);
+router.get('/:matchId/receiver', (req, res) => {
+  const matchId = req.params.matchId;
+  const senderId = req.query.senderId;
+  // Add a query to retrieve receiver names based on matchId
+  getReceiverByMatch(matchId, senderId)
+    .then((receiver) => {
+      console.log("Receiver id data fetched from the database.");
+      console.log(receiver);
+      res.send(receiver);
+    })
+    .catch((err) => {
+      console.log(`An error occurred: ${err}`);
+    });
+});
 
+router.post('/', (req, res) => {
+  const data = req.body;
+  console.log(data);
+
+  saveMessageToDatabase(data)
+    .then((message) => {
+      console.log("Message data saved to database.")
+      const { io } = require('../../server');
+      io.emit('chat message', message);
+      res.send(message);
+    
+    })
+    .catch((err) => {
+      console.log(`An error occurred: ${err}`)
+    });
+ 
   res.status(200).send('Message sent successfully');
+  
 })
 
 module.exports = router;

@@ -2,23 +2,16 @@ const { useResolvedPath } = require("react-router-dom");
 const db = require("../connection");
 
 // Return all messages
-const getMessages = (senderId) => {
+const getMessages = (matchId) => {
+
   return db
-    .query(`SELECT
-    message.*,
-    sender.first_name AS sender_first_name,
-    sender.last_name AS sender_last_name,
-    requester.first_name AS requester_first_name,
-    requester.last_name AS requester_last_name
-  FROM
-    message
-  JOIN
-    users AS sender ON message.sender_id = sender.id
-  JOIN
-    users AS requester ON message.requester_id = requester.id
-  WHERE
-    sender_id = $1;
-  `, [senderId])
+    .query(`SELECT message.*
+    FROM message
+    JOIN match ON message.match_id = match.id
+    WHERE match_id = $1
+    ORDER BY created_at;
+    
+  `, [matchId])
     .then((result) => {
       return result.rows || null;
     })
@@ -35,12 +28,12 @@ const getMessagesByUserId = (userid) => {
 }
 
 // Insert new message into the database
-const insertNewMessage = (data) => {
+const saveMessageToDatabase = (data) => {
   console.log("Entering DB");
 
   // Using parameterized queries to prevent SQL injection
   const query = `
-    INSERT INTO message(text, match_id, sender_id, requester_id, created_at) 
+    INSERT INTO message(text, match_id, sender_id, receiver_id, created_at) 
     VALUES ($1, $2, $3, $4, $5) 
     RETURNING *;
     `;
@@ -57,7 +50,7 @@ const insertNewMessage = (data) => {
     });
 };
 
-const getUserNamesByMatch = (userId) => {
+const getUserNamesByMatch = (matchId) => {
   return db
     .query(
       `
@@ -66,44 +59,33 @@ const getUserNamesByMatch = (userId) => {
       FROM match
       JOIN users AS requester ON match.requester_id = requester.id
       JOIN users AS owner ON match.owner_id = owner.id
-      WHERE match.id = (
-  SELECT id
-  FROM match
-  WHERE (requester_id = $1 OR owner_id = $1) AND (status='Accepted')
-  ORDER BY created_at DESC
-  LIMIT 1
-);
-      `,
-      [userId]
-    )
+      WHERE match.id = $1`, [matchId])
     .then((res) => {
       return res.rows[0] || null;
     })
     .catch((err) => console.error(err.message));
 };
 
-// const getToysByAgeGroup = (ageGroup) => {
-//   return db
-//     .query('SELECT * FROM toy WHERE age_group=$1;', [ageGroup])
-//     .then((res) => {
-//       return res.rows || null;
-//     })
-//     .catch((err) => console.error(err.message));
-// }
+const getReceiverByMatch = (matchId, senderId) => {
+  return db
+    .query(
+      `
+      SELECT receiver_id
+      FROM message
+      WHERE match_id = $1 
+      AND sender_id = $2`, [matchId, senderId]) 
+     .then((res) => {
+      return res.rows[0] || null;
+    })  
+    .catch((err) => console.error(err.message));
+}
 
-// const getToysByCondition = (condition) => {
-//   return db
-//     .query('SELECT * FROM toy WHERE condition=$1;', [condition])
-//     .then((res) => {
-//       return res.rows || null;
-//     })
-//     .catch((err) => console.error(err.message));
-// }
 
 module.exports = {
   getMessages,
-  insertNewMessage,
+  saveMessageToDatabase,
   getMessagesByUserId,
-  getUserNamesByMatch
+  getUserNamesByMatch,
+  getReceiverByMatch
 
 };

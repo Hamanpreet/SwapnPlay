@@ -58,3 +58,25 @@
 .Chat .message-input .send-button:hover {
   background-color: #0056b3;
 }
+
+/* Style for sent messages */
+.sent {
+  background-color: #0074E4; /* Background color for sent messages */
+  color: white; /* Text color for sent messages */
+  border-radius: 0.5em; /* Rounded corners for sent messages */
+  margin-left: auto; /* Right-align sent messages */
+  max-width: 70%; /* Adjust the maximum width as needed */
+  padding: 8px; /* Spacing and padding for sent messages */
+  margin-bottom: 10px; /* Spacing between messages */
+}
+
+/* Style for received messages */
+.received {
+  background-color: #EAEAEA; /* Background color for received messages */
+  color: black; /* Text color for received messages */
+  border-radius: 0.5em; /* Rounded corners for received messages */
+  margin-right: auto; /* Left-align received messages */
+  max-width: 50%; /* Adjust the maximum width as needed */
+  padding: 8px; /* Spacing and padding for received messages */
+  margin-bottom: 10px; /* Spacing between messages */
+}
