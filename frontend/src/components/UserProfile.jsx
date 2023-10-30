@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Avatar, Button, Card, CardContent, Grid, List, ListItem, ListItemText, Typography } from '@mui/material';
+import { Avatar, Button, Card, CardContent, TextField, List, ListItem, ListItemText, Typography } from '@mui/material';
 import axios from 'axios';
 import '../styles/UserProfile.scss';
 import config from '../config/config'
@@ -9,8 +9,8 @@ import EditToy from './EditToy'; // Import the EditToy component
 const UserProfile = ({ subId }) => {
   const [userData, setUserData] = useState(null);
   const [editToyId, setEditToyId] = useState(null);
-
-
+  const [editedUserData, setEditedUserData] = useState(null); // Add state for edited user data
+ 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -31,8 +31,38 @@ const UserProfile = ({ subId }) => {
   }, [subId]);
 
   const handleEditProfile = () => {
-    // Implement the edit profile functionality
+    // Toggle the edit mode by setting editedUserData to userData
+    setEditedUserData(userData.user);
   };
+
+
+  // Add event handlers to update the editedUserData state
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedUserData({
+      ...editedUserData,
+      [name]: value,
+    });
+  };
+
+  const handleSaveProfile = async () => {
+    console.log(editedUserData)
+    try {
+      // Send a PUT request to update the user's information on the server
+      await axios.put(`${config.baseUrl}/api/users/${subId}`, editedUserData);
+      // Update the userData state with the edited user data
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        user: editedUserData,
+      }));
+      // Close the edit mode
+      setEditedUserData(null);
+    } catch (error) {
+      console.error("Error updating user profile:", error);
+    }
+  };
+
+  
 
   const handleEditToy = (toyId) => {
     setEditToyId(toyId);
@@ -101,10 +131,63 @@ const UserProfile = ({ subId }) => {
               <Typography variant="body2" color="textSecondary">
                 Email: {userData.user.email}
               </Typography>
+              <Typography variant="body2" color="textSecondary">
+                City: {userData.user.city}
+              </Typography>
+              {editedUserData && (
+                <>
+                  {/* Display an edit form when in edit mode */}
+                  <TextField
+                    label="First Name"
+                    name="first_name"
+                    value={editedUserData.first_name}
+                    onChange={handleInputChange}
+                    fullWidth
+                    sx={{ marginTop: '10px' }}
+                  />
+                  <TextField
+                    label="Last Name"
+                    name="last_name"
+                    value={editedUserData.last_name}
+                    onChange={handleInputChange}
+                    fullWidth
+                    sx={{ marginTop: '10px' }}
+                  />
+                  <TextField
+                    label="Phone Number"
+                    name="phone_number"
+                    value={editedUserData.phone_number}
+                    onChange={handleInputChange}
+                    fullWidth
+                    sx={{ marginTop: '10px' }}
+                  />
+                  <TextField
+                    label="Email"
+                    name="email"
+                    value={editedUserData.email}
+                    onChange={handleInputChange}
+                    fullWidth
+                    sx={{ marginTop: '10px' }}
+                  />
+                  <TextField
+                    label="City"
+                    name="city"
+                    value={editedUserData.city}
+                    onChange={handleInputChange}
+                    fullWidth
+                    sx={{ marginTop: '10px' }}
+                  />
+                  <Button variant="outlined" onClick={handleSaveProfile} sx={{ marginTop: '10px' }}>
+                    Save Profile
+                  </Button>
+                </>
+              )}
             </CardContent>
-            <Button variant="outlined" onClick={handleEditProfile} sx={{ marginBottom: '10px' }}>
-              Edit Profile
-            </Button>
+            {!editedUserData && (
+              <Button variant="outlined" onClick={handleEditProfile} sx={{ marginBottom: '10px' }}>
+                Edit Profile
+              </Button>
+            )}
           </Card>
         </div>
       ) : (
