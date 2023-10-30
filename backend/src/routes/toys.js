@@ -1,6 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const { getToys, insertNewToy, getToysByName, getToysBySubId, getToysByAgeGroup, getToysByCondition } = require("../../db/queries/toys");
+const config = require('config');
+const { Configuration, OpenAIApi } = require("openai");
+const apiKey = config.get('OPEN_AI_KEY');
+
+const configuration = new Configuration({
+  apiKey
+});
+const openai = new OpenAIApi(configuration);
+
 
 /**
  * @swagger
@@ -67,6 +76,7 @@ router.get('/', (req, res) => {
     });
 });
 
+
 // Set up a route to create a new toy
 router.post('/new', (req, res) => {
   const body = req.body;
@@ -111,7 +121,7 @@ router.get('/:subId', async (req, res) => {
 
 router.post('/filter', (req, res) => {
   const { filterType, filterValue } = req.body;
- 
+
   if (!filterType) {
     return res.status(400).json({ error: "Filter type and value are required" });
   }
@@ -120,7 +130,7 @@ router.post('/filter', (req, res) => {
     getToysByAgeGroup(filterValue)
       .then((toys) => {
         res.send(toys);
-     
+
       })
       .catch((err) => {
         console.log(`An error occurred: ${err}`);
@@ -129,7 +139,7 @@ router.post('/filter', (req, res) => {
     getToysByCondition(filterValue)
       .then((toys) => {
         res.send(toys);
- 
+
       })
       .catch((err) => {
         console.log(`An error occurred: ${err}`);
