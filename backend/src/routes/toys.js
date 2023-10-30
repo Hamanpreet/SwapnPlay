@@ -12,7 +12,6 @@ const openai = new OpenAIApi(configuration);
 
 //Get AI generated toy description
 router.post('/generate-toy-description', async (req, res) => {
-  console.log("Entering enhanced description in server");
   try {
     const body = req.body;
     let prompt = `Please rewrite the description for the following toy to sell it online:\n${body.prompt}`
