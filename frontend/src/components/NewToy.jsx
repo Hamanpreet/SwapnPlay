@@ -13,7 +13,7 @@ import {
   Paper,
   Box,
   Container,
-} from "@mui/material";
+  } from "@mui/material";
 
 // Define a functional React component for creating a new toy entry.
 const NewToy = () => {
@@ -40,10 +40,25 @@ const NewToy = () => {
     });
   };
 
-  // Event handler for form submission
+  const enhanceDescription = async () => {
+    axios
+      .post("http://localhost:8080/api/toys/generate-toy-description", {
+        prompt: toyInfo.description,
+      })
+      .then((response) => {
+        console.log("Generated Toy Description:", response.data.data);
+        setToyInfo({
+          ...toyInfo,
+          description: response.data.data,
+        });
+      })
+      .catch((error) => {
+        console.error("Error:", error.response.data.error);
+      });
+  };
+  
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Send a POST request to create a new toy entry on the server using Axios
     axios
       .post("http://localhost:8080/api/toys/new", toyInfo)
       .then((response) => {
@@ -92,13 +107,25 @@ const NewToy = () => {
                     label="Description"
                     type="text"
                     name="description"
+                    placeholder="Please enter brief description of your toy..."
                     value={toyInfo.description}
                     onChange={handleChange}
                     fullWidth
+                    multiline
+                    rows={7}
                     required
                   />
                 </Grid>
-
+                {/* Button to enhance description */}
+                <Grid item xs={12} sm={12}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={enhanceDescription}
+                  >
+                    Enhance Description
+                  </Button>
+                </Grid>
                 <Grid item xs={12} sm={6}>
                   <FormControl variant="outlined" fullWidth>
                     <InputLabel>Age Group</InputLabel>
