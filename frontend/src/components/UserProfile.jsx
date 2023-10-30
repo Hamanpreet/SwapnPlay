@@ -5,12 +5,16 @@ import axios from 'axios';
 import '../styles/UserProfile.scss';
 import config from '../config/config'
 import EditToy from './EditToy'; // Import the EditToy component
+import ToyDetails from './ToyDetails';
 
 const UserProfile = ({ subId }) => {
   const [userData, setUserData] = useState(null);
   const [editToyId, setEditToyId] = useState(null);
   const [editedUserData, setEditedUserData] = useState(null); // Add state for edited user data
- 
+  const [viewToyId, setViewToyId] = useState(null); // Add state to store the ID of the toy to be viewed
+  const [openToyDetails, setOpenToyDetails] = useState(false); // State to control the visibility of the toy details dialog
+
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -112,7 +116,9 @@ const UserProfile = ({ subId }) => {
   
 
   const handleViewToyDetails = (toyId) => {
-    // Implement the view toy details functionality for the given toyId
+    // Set the ID of the toy to be viewed and open the dialog
+    setViewToyId(toyId);
+    setOpenToyDetails(true);
   };
 
   return (
@@ -193,6 +199,14 @@ const UserProfile = ({ subId }) => {
       ) : (
         <p>Loading user data...</p>
       )}
+
+      {/* Render the ToyDetails component when viewToyId is not null */}
+      <ToyDetails
+        open={openToyDetails}
+        onClose={() => setOpenToyDetails(false)}
+        toy={userData?.toys.find((toy) => toy.id === viewToyId)}
+      />
+
       <div style={{ width: '90%' }}>
         <Card sx={{ marginTop: '20px', border: '2px solid #ccc' }}>
           <CardContent>
