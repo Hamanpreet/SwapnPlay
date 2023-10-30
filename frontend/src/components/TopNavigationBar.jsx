@@ -10,7 +10,7 @@ import ToyListPage from "./ToyList";
 import Select from 'react-select';
 
 
-const TopNavigationBar = ({ onSubIdChange }) => {
+const TopNavigationBar = ({ onSubIdChange, subId, nickname }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("");
   const [selectedSubFilter, setSelectedSubFilter] = useState("");
@@ -98,6 +98,13 @@ const TopNavigationBar = ({ onSubIdChange }) => {
       <Link to="/" className="top-nav-bar__logo">
         SwapnPlay
       </Link>
+
+      {/* Display welcome message if the user is logged in */}
+      {subId && (
+        <div className="welcome-message">
+          Welcome, {nickname} {/* Replace "User" with the actual user's name */}
+        </div>
+      )}
 
       <form onSubmit={handleSearchSubmit} className="search-form">
         <input

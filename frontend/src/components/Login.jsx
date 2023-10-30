@@ -16,7 +16,7 @@ const LoginButton = ({ onSubIdChange }) => {
       // Send the user data to the backend
       axios.post(`${config.baseUrl}/api/users`, user)
         .then((response) => {
-          onSubIdChange(user.sub);
+          onSubIdChange(user);
         })
         .catch((error) => {
           console.error("Error sending user data to the backend:", error);
