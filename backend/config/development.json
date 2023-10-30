@@ -4,5 +4,6 @@
   "PGUSER":"labber",
   "PGPASSWORD":"labber",
   "PGPORT":"5432",
-  "APPPORT":"8080"
+  "APPPORT":"8080",
+  "OPEN_AI_KEY":"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"
 }
