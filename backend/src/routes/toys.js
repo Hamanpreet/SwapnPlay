@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getToys, insertNewToy, getToysByName, getToysBySubId, getToysByAgeGroup, getToysByCondition } = require("../../db/queries/toys");
+const { getToys, insertNewToy, getToysByName, getToysById, getToysBySubId, getToysByAgeGroup, getToysByCondition, updateToy, findToyByIdAndRemove } = require("../../db/queries/toys");
 const config = require('config');
 const { Configuration, OpenAIApi } = require("openai");
 const apiKey = config.get('OPEN_AI_KEY');
@@ -42,6 +42,7 @@ router.post('/generate-toy-description', async (req, res) => {
     });
   }
 });
+
 
 /**
  * @swagger
@@ -98,14 +99,77 @@ router.post('/generate-toy-description', async (req, res) => {
  *         type: string
  */
 
-router.get('/', (req, res) => {
-  getToys()
-    .then((toys) => {
-      res.send(toys);
-    })
-    .catch((err) => {
-      console.log(`An error occurred: ${err}`)
-    });
+router.get('/', async (req, res) => {
+  try {
+    // Check if 'ownerId' query parameter exists in the request
+    const queryString = req.query;
+
+    if (queryString) {
+      // Retrieve toys that match the query string
+      const toys = await getToys({ queryString });
+      res.json(toys);
+    } else {
+      // If queryString is not provided, return all toys
+      const toys = await getToys();
+      res.json(toys);
+    }
+  } catch (err) {
+    console.error(`An error occurred: ${err}`);
+    res.status(500).json({ error: 'An error occurred' });
+  }
+});
+
+
+// Update a toy by its ID
+router.put('/:id', async (req, res) => {
+  const { id } = req.params; // Get the toy ID from the URL parameter
+  const { title, description, age_group, value, address, condition } = req.body; // Get updated toy data from the request body
+
+  try {
+    // Check if the toy with the provided ID exists
+    const checkToyResult = await getToysById(id);
+
+    if (!checkToyResult || checkToyResult.length === 0) {
+      return res.status(404).json({ error: 'Toy not found' });
+    }
+
+    // Update the toy
+    const updatedToy = await updateToy(title, description, age_group, value, address, condition, id);
+
+
+    if (!updatedToy) {
+      return res.status(500).json({ error: 'Failed to update toy' });
+    }
+
+    res.json(updatedToy); // Respond with the updated toy data
+  } catch (err) {
+    console.error('Error updating toy:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+// Define a route for deleting a toy by its ID
+router.delete('/:id', async (req, res) => {
+  try {
+    const toyId = req.params.id;
+
+    // Check if the toy with the given ID exists in your data store
+    const toy = await getToysById(toyId);
+
+    if (!toy) {
+      return res.status(404).json({ error: 'Toy not found' });
+    }
+
+    // Delete the toy
+    await findToyByIdAndRemove(toyId);
+
+    // Return a success message
+    res.json({ message: 'Toy deleted successfully' });
+  } catch (error) {
+    console.error("Error deleting toy:", error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 
@@ -128,7 +192,6 @@ router.post('/searchQuery', (req, res) => {
   if (!searchQuery) {
     return res.status(400).json({ error: "Name is required" });
   }
-  console.log(searchQuery);
   getToysByName(searchQuery)
     .then((toys) => {
       res.send(toys);
@@ -138,18 +201,19 @@ router.post('/searchQuery', (req, res) => {
     });
 });
 
-// Get toys data by subId
-router.get('/:subId', async (req, res) => {
-  try {
-    const toys = await getToysBySubId(req.params.subId);
-    if (!toys) {
-      return res.status(404).json({ error: 'No toys found for user' });
-    }
-    res.json(toys);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+
+// // Get toys data by subId
+// router.get('/:subId', async (req, res) => {
+//   try {
+//     const toys = await getToysBySubId(req.params.subId);
+//     if (!toys) {
+//       return res.status(404).json({ error: 'No toys found for user' });
+//     }
+//     res.json(toys);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 router.post('/filter', (req, res) => {
   const { filterType, filterValue } = req.body;

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles/TopNavigationBar.scss";
+import config from '../config/config';
 import LoginButton from "./Login";
 import LogoutButton from "./Logout";
 import axios from "axios";
@@ -9,11 +10,12 @@ import ToyListPage from "./ToyList";
 import Select from 'react-select';
 
 
-const TopNavigationBar = ({ onSubIdChange }) => {
+const TopNavigationBar = ({ onSubIdChange, subId, nickname }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("");
   const [selectedSubFilter, setSelectedSubFilter] = useState("");
   const [searchResults, setSearchResults] = useState("");
+
 
   // Options for the "Filter by" dropdown
   const filterOptions = [
@@ -43,7 +45,7 @@ const TopNavigationBar = ({ onSubIdChange }) => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:8080/api/toys/searchQuery", { searchQuery })
+      .post(`${config.baseUrl}/api/toys/searchQuery`, { searchQuery })
       .then((response) => {
         // Update the search results with the response data
         setSearchResults(response.data);
@@ -61,11 +63,14 @@ const TopNavigationBar = ({ onSubIdChange }) => {
   const sendFilterRequest = (filterType, filterValue) => {
    
     axios
-    .post("http://localhost:8080/api/toys/filter", { filterType, filterValue })
+    .post(`${config.baseUrl}/api/toys/filter`, { filterType, filterValue })
       .then((response) => {
-        console.log("Filter request was successful:", response.data);
+        if (response.data.length > 0) {
+          console.log("Filter request was successful:", response.data);
+        } else {
+          console.log("No results found for the selected filter.");
+        }
         setSearchResults(response.data);
-        
       })
       .catch((error) => {
         console.error("Error submitting filter request:", error);
@@ -93,6 +98,13 @@ const TopNavigationBar = ({ onSubIdChange }) => {
       <Link to="/" className="top-nav-bar__logo">
         SwapnPlay
       </Link>
+
+      {/* Display welcome message if the user is logged in */}
+      {subId && (
+        <div className="welcome-message">
+          Welcome, {nickname} {/* Replace "User" with the actual user's name */}
+        </div>
+      )}
 
       <form onSubmit={handleSearchSubmit} className="search-form">
         <input

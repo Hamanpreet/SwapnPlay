@@ -11,6 +11,8 @@ import {
   Box,
   Radio,
 } from "@mui/material";
+import config from '../config/config';
+
 
 const ToyListPage = (subId) => {
   const [toyList, setToyList] = useState([]);
@@ -21,7 +23,7 @@ const ToyListPage = (subId) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/toys/")
+      .get(`${config.baseUrl}/api/toys`)
       .then((response) => {
         setToyList(response.data);
       })
@@ -33,7 +35,7 @@ const ToyListPage = (subId) => {
    const handleOpenModal = async (toy) => {
     setSelectedToy(toy);
     axios
-      .get(`http://localhost:8080/api/toys/${subId.subId}`)
+      .get(`${config.baseUrl}/api/toys/${subId.subId}`)
       .then((response) => {
         setToyListLoggedInUser(response.data);
       })
@@ -52,7 +54,7 @@ const ToyListPage = (subId) => {
       alert("Please select a toy to swap.");
     } else {
       axios
-        .post("http://localhost:8080/api/matches/new", {
+        .post("http://1/api/matches/new", {
           status: "Pending",
           toy_id: selectedToy.id,
           toy_in_exchange_id: selectedYourToy.id,

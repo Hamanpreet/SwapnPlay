@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/NewToy.scss";
+import config from "../config/config";
 import TopNavigationBar from "./TopNavigationBar";
 import {
   TextField,
@@ -43,7 +44,7 @@ const NewToy = (subId) => {
 
   const enhanceDescription = async () => {
     axios
-      .post("http://localhost:8080/api/toys/generate-toy-description", {
+      .post(`${config.baseUrl}/api/toys/generate-toy-description`, {
         prompt: toyInfo.description,
       })
       .then((response) => {
@@ -67,7 +68,7 @@ const NewToy = (subId) => {
         // Check if loggedInUser is defined and has an 'id' property
         if (response.data && response.data.length > 0) {
           axios
-            .post("http://localhost:8080/api/toys/new", {
+            .post(`${config.baseUrl}    /api/toys/new`, {
               ...toyInfo,
               user_id: response.data[0].id, // Use response.data instead of loggedInUser
             })
