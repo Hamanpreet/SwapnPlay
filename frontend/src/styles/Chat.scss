@@ -1,3 +1,18 @@
+/* Chat.scss */
+.chat-header {
+  background-color: #007bff; /* Choose your desired background color */
+  color: white; /* Choose your desired text color */
+  padding: 30px; /* Adjust the padding to your liking */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-header h2 {
+  margin: 0;
+  font-size: 1.5rem; /* Adjust the font size as needed */
+}
+
 .Chat {
   display: flex;
   flex-direction: column;

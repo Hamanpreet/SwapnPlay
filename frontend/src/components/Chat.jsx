@@ -15,11 +15,10 @@ const Chat = (props) => {
   const [chat, setChat] = useState([]);
   const [receiverId, setReceiverId] = useState("");
   const [senderId, setSenderId] = useState("");
+  const [receiverName, setReceiverName] = useState("");
 
   const { matchId } = useParams();
   const { subId } = props;
- 
-
 
   useEffect(() => {
     socket.on("chat message", (newMessage) => {
@@ -29,7 +28,6 @@ const Chat = (props) => {
   }, []);
 
   useEffect(() => {
-  
     if (subId) {
       // Make an API request to get the user's information based on subId
       axios
@@ -41,33 +39,29 @@ const Chat = (props) => {
         .catch((error) => {
           console.error("Error fetching user information:", error);
         });
-
-      // // Listen for incoming messages
-      // socket.on("chat message", (newMessage) => {
-      //   setChat((prevChat) => [...prevChat, newMessage]);
-      // });
     }
   }, [subId]);
 
   useEffect(() => {
     if (currentUser.id) {
-      // Fetch the senderId based on the currentUser
-      //console.log("currentUser", currentUser);
+      // Set the senderId based on the currentUser
       setSenderId(currentUser.id);
     }
   }, [currentUser]);
-
 
   useEffect(() => {
     if (senderId) {
       (async () => {
         try {
-          const response = await axios.get(`http://localhost:8080/api/messages/${matchId}/receiver`, {
-            senderId,
-          });
-          console.log("reciver",response.data);
+          const response = await axios.get(
+            `http://localhost:8080/api/messages/${matchId}/receiver`,
+            {
+              senderId,
+            }
+          );
+          console.log("reciver", response.data);
           if (response.data[0]) {
-            setReceiverId(response.data[0]);
+            setReceiverId(response.data[0].id);
           }
         } catch (error) {
           console.error("Error fetching receiver information:", error);
@@ -76,36 +70,35 @@ const Chat = (props) => {
     }
   }, [matchId, senderId]);
 
- 
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await axios.get(`http://localhost:8080/api/messages/${matchId}/usernames`);
-        console.log("Contact names", response.data);
-        setContacts(response.data);
-      } catch (error) {
-        console.error("Error fetching contact names:", error);
-      }
-    })();
-  }, [matchId]);
-
-  
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `http://localhost:8080/api/messages/${matchId}/usernames`
+  //       );
+  //       console.log("Contact names", response.data);
+  //       setContacts(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching contact names:", error);
+  //     }
+  //   })();
+  // }, [matchId]);
 
   const sendMessage = async () => {
-    //socket.emit("chat message", message);
     console.log("senderid:", senderId);
     console.log("receiverid:", receiverId);
     const data = {
-      text:message,
-      match_id:2,
+      text: message,
+      match_id: 2,
       sender_id: senderId,
       receiver_id: 2,
-
     };
-    // Send the message to the server
+    // Save the message to the backend
     try {
-      const response = await axios.post("http://localhost:8080/api/messages", data);
+      const response = await axios.post(
+        "http://localhost:8080/api/messages",
+        data
+      );
       setMessage("");
     } catch (error) {
       console.error("Error sending message:", error);
@@ -121,25 +114,47 @@ const Chat = (props) => {
       </div>
     ));
   };
-  
-  // Use the useEffect hook to fetch messages and update the state
+
+  // UseEffect hook to fetch messages and update the state
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/messages/${matchId}`);
+        const response = await axios.get(
+          `http://localhost:8080/api/messages/${matchId}`
+        );
         const messagesData = response.data;
         console.log(messagesData);
-        setChat(messagesData); // Update the state with the fetched messages
+        // Update the state with the fetched messages
+        setChat(messagesData);
       } catch (error) {
         console.error("Error fetching messages:", error);
       }
     };
-  
     fetchMessages();
   }, [matchId]);
 
+// Fetch the receiver's name based on receiverId
+useEffect(() => {
+  if (receiverId) {
+    (async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/${matchId}/receiverName`, { receiverId });
+          console.log("Receiver name", response.data);
+        // Set the receiver's name based on the response
+        setReceiverName(response.data[0]);
+      } catch (error) {
+        console.error("Error fetching receiver's name:", error);
+      }
+    })();
+  }
+}, [receiverId]);
+
   return (
     <div className="Chat">
+      <div className="chat-header">
+        <h2>{receiverName}</h2>
+      </div>
       <div className="chat-container">
         <div className="message-list">
           {
