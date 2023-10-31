@@ -35,7 +35,6 @@ function App() {
   const handleSubIdChange = (newSubId) => {
     setSubId(newSubId);
   };
-  console.log(subId);
   return (
     <div className="App">
       <Router>
@@ -48,10 +47,6 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
-            <Route
-              path="/userprofile"
-              element={<UserProfile subId={subId} />}
-            />
             <Route
               path="/userprofile"
               element={<UserProfile subId={subId?.sub} />}

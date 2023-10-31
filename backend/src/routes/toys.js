@@ -202,18 +202,18 @@ router.post('/searchQuery', (req, res) => {
 });
 
 
-// // Get toys data by subId
-// router.get('/:subId', async (req, res) => {
-//   try {
-//     const toys = await getToysBySubId(req.params.subId);
-//     if (!toys) {
-//       return res.status(404).json({ error: 'No toys found for user' });
-//     }
-//     res.json(toys);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// });
+// Get toys data by subId
+router.get('/:subId', async (req, res) => {
+  try {
+    const toys = await getToysBySubId(req.params.subId);
+    if (!toys) {
+      return res.status(404).json({ error: 'No toys found for user' });
+    }
+    res.json(toys);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 router.post('/filter', (req, res) => {
   const { filterType, filterValue } = req.body;
