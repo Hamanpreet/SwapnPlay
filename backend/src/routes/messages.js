@@ -1,5 +1,5 @@
 const express = require('express');
-const { getMessages, getUserNamesByMatch, saveMessageToDatabase, getReceiverByMatch } = require('../../db/queries/messages');
+const { getMessages, saveMessageToDatabase, getReceiverByMatch, getReceiverNameById } = require('../../db/queries/messages');
 const router = express.Router();
 
 
@@ -44,6 +44,21 @@ router.get('/:matchId/receiver', (req, res) => {
     });
 });
 
+router.get('/:matchId/receiverName', (req, res) => {
+
+  const receiverId = req.query.receiverId;
+  // Add a query to retrieve receiver names based on matchId
+  getReceiverNameById(receiverId)
+    .then((receiver) => {
+      console.log("Receiver name fetched from the database.");
+      console.log(receiver);
+      res.send(receiver);
+    })
+    .catch((err) => {
+      console.log(`An error occurred: ${err}`);
+    });
+});
+
 router.post('/', (req, res) => {
   const data = req.body;
   console.log(data);
@@ -61,7 +76,6 @@ router.post('/', (req, res) => {
     });
  
   res.status(200).send('Message sent successfully');
-  
 })
 
 module.exports = router;

@@ -50,16 +50,14 @@ const saveMessageToDatabase = (data) => {
     });
 };
 
-const getUserNamesByMatch = (matchId) => {
+const getReceiverNameById = (receiverId) => {
   return db
     .query(
       `
-      SELECT requester.first_name AS requester_first_name,
-      owner.first_name AS owner_first_name
-      FROM match
-      JOIN users AS requester ON match.requester_id = requester.id
-      JOIN users AS owner ON match.owner_id = owner.id
-      WHERE match.id = $1`, [matchId])
+      SELECT users.first_name AS receiver_first_name
+      FROM users
+      JOIN message ON receiver_id = users.id
+      WHERE receiver_id = 1;`, [receiverId])
     .then((res) => {
       return res.rows[0] || null;
     })
@@ -85,7 +83,7 @@ module.exports = {
   getMessages,
   saveMessageToDatabase,
   getMessagesByUserId,
-  getUserNamesByMatch,
+  getReceiverNameById,
   getReceiverByMatch
 
 };
