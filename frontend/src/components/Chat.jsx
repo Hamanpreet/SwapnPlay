@@ -19,7 +19,7 @@ const Chat = (props) => {
   const [senderId, setSenderId] = useState("");
   const [receiverName, setReceiverName] = useState("");
 
-  const { userId } = useParams();
+  const { matchId } = useParams();
 
   useEffect(async () => {
     const response = await axios.get(`${config.baseUrl}/api/messages/${userId}`);
@@ -103,7 +103,7 @@ const Chat = (props) => {
     // Save the message to the backend
     try {
       const response = await axios.post(`${config.baseUrl}/api/messages`, {
-        userId: userId, // You might need to adjust this based on your server's API
+        userId: userId,
         message: message,
       });
       setMessage('');
