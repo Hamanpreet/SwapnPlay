@@ -35,7 +35,7 @@ const ToyListPage = (subId) => {
    const handleOpenModal = async (toy) => {
     setSelectedToy(toy);
     axios
-      .get(`${config.baseUrl}/api/toys/${subId.subId}`)
+      .get(`${config.baseUrl}/api/toys/${subId.sub}`)
       .then((response) => {
         setToyListLoggedInUser(response.data);
       })

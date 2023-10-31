@@ -35,7 +35,9 @@ function App() {
   const handleSubIdChange = (newSubId) => {
     setSubId(newSubId);
   };
-console.log(subId);
+
+  console.log(subId?.sub);
+  
   return (
     <div className="App">
       <Router>
@@ -49,7 +51,7 @@ console.log(subId);
             <Route path="/toys/new" element={<NewToy />} />
             <Route path="/toys" element={<ToyList subId={subId?.sub} />} />
             <Route path="*" element={<NotFound />} />
-            <Route path="/chat/:userId" element={ <Chat /> } />
+            <Route path="/chat/:matchId" element={<Chat subId={subId?.sub} />} />
         </Routes>
         </ThemeProvider>
       </Router>
