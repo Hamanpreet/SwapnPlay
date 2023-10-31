@@ -55,11 +55,12 @@ function App() {
             <Route path="/toys" element={<ToyList subId={subId?.sub} />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/chat/:userId" element={<Chat />} />
-          </Routes>
+            <Route path="/chat/:matchId" element={<Chat subId={subId?.sub} />} />
+            </Routes>
         </ThemeProvider>
-      </Router>
+       </Router>
     </div>
   );
 }
 
-export default App;
+export default App;;
