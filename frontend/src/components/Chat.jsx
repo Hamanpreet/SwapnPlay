@@ -9,7 +9,6 @@ import io from "socket.io-client";
 const socket = io("/");
 
 const Chat = (props) => {
-  const [contacts, setContacts] = useState([]);
   const [currentUser, setCurrentUser] = useState("");
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
@@ -22,7 +21,7 @@ const Chat = (props) => {
 
   useEffect(() => {
     socket.on("chat message", (newMessage) => {
-      // Use the spread operator to create a new array with the new message
+      // Spread operator to create a new array with the new message
       setChat((prevChat) => [...prevChat, newMessage]);
     });
   }, []);
@@ -63,6 +62,7 @@ const Chat = (props) => {
           console.log("reciver", response.data);
           if (Array.isArray(response.data) && response.data.length > 0) {
             setReceiverId(response.data[0].id);
+            setReceiverName(response.data[0].receiver_first_name);
           } else {
             console.error("Receiver information not found in the response.");
           }
@@ -73,19 +73,6 @@ const Chat = (props) => {
     }
   }, [matchId, senderId]);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `http://localhost:8080/api/messages/${matchId}/usernames`
-  //       );
-  //       console.log("Contact names", response.data);
-  //       setContacts(response.data);
-  //     } catch (error) {
-  //       console.error("Error fetching contact names:", error);
-  //     }
-  //   })();
-  // }, [matchId]);
 
   const sendMessage = async () => {
     console.log("senderid:", senderId);
@@ -126,7 +113,7 @@ const Chat = (props) => {
           `http://localhost:8080/api/messages/${matchId}`
         );
         const messagesData = response.data;
-        console.log(messagesData);
+        // console.log(messagesData);
         // Update the state with the fetched messages
         setChat(messagesData);
       } catch (error) {
@@ -136,27 +123,29 @@ const Chat = (props) => {
     fetchMessages();
   }, [matchId]);
 
-// Fetch the receiver's name based on receiverId
-useEffect(() => {
-  if (receiverId) {
-    (async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8080/api/${matchId}/receiverName`, { receiverId });
+  // Fetch the receiver's name based on receiverId
+  useEffect(() => {
+    if (receiverId) {
+      (async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:8080/api/${matchId}/receiverName`,
+            { receiverId }
+          );
           console.log("Receiver name", response.data);
-        // Set the receiver's name based on the response
-        setReceiverName(response.data[0]);
-      } catch (error) {
-        console.error("Error fetching receiver's name:", error);
-      }
-    })();
-  }
-}, [receiverId]);
+          // Set the receiver's name based on the response
+          setReceiverName(response.data[0]);
+        } catch (error) {
+          console.error("Error fetching receiver's name:", error);
+        }
+      })();
+    }
+  }, [receiverId]);
 
   return (
     <div className="Chat">
       <div className="chat-header">
-        <h2>{receiverName}</h2>
+        <h2>Hamanpreet</h2>
       </div>
       <div className="chat-container">
         <div className="message-list">

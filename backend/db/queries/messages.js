@@ -50,28 +50,22 @@ const saveMessageToDatabase = (data) => {
     });
 };
 
-const getReceiverNameById = (receiverId) => {
-  return db
-    .query(
-      `
-      SELECT users.first_name AS receiver_first_name
-      FROM users
-      JOIN message ON receiver_id = users.id
-      WHERE receiver_id = 1;`, [receiverId])
-    .then((res) => {
-      return res.rows[0] || null;
-    })
-    .catch((err) => console.error(err.message));
-};
 
 const getReceiverByMatch = (matchId, senderId) => {
   return db
     .query(
       `
-      SELECT receiver_id
-      FROM message
-      WHERE match_id = $1 
-      AND sender_id = $2`, [matchId, senderId]) 
+    SELECT
+    receiver_id,
+    u.first_name AS receiver_first_name,
+    u.last_name AS receiver_last_name
+    FROM
+    message m
+    JOIN
+    users u ON m.receiver_id = u.id
+    WHERE
+    m.match_id = $1
+    AND m.sender_id = $2;`, [matchId, senderId]) 
      .then((res) => {
       return res.rows[0] || null;
     })  
@@ -83,7 +77,6 @@ module.exports = {
   getMessages,
   saveMessageToDatabase,
   getMessagesByUserId,
-  getReceiverNameById,
   getReceiverByMatch
 
 };
