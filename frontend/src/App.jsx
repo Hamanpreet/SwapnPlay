@@ -1,18 +1,18 @@
 import { useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import './App.scss';
+import "./App.scss";
 
-import About from './components/About';
-import Profile from './components/Profile';
-import Toy from './components/Toy';
-import NotFound from './components/NotFound';
-import NewToy from './components/NewToy';
+import About from "./components/About";
+import Profile from "./components/Profile";
+import Toy from "./components/Toy";
+import NotFound from "./components/NotFound";
+import NewToy from "./components/NewToy";
 import ToyList from "./components/ToyList";
-import UserProfile from './components/UserProfile';
-import Home from './components/Home';
+import UserProfile from "./components/UserProfile";
+import Home from "./components/Home";
 import TopNavigationBar from "./components/TopNavigationBar";
-import Chat from './components/Chat';
+import Chat from "./components/Chat";
 
 const theme = createTheme({
   palette: {
@@ -35,28 +35,32 @@ function App() {
   const handleSubIdChange = (newSubId) => {
     setSubId(newSubId);
   };
-
-  console.log(subId?.sub);
-  
   return (
     <div className="App">
       <Router>
-        <TopNavigationBar onSubIdChange={handleSubIdChange} subId={subId?.sub} nickname = {subId?.nickname}/>
+        <TopNavigationBar
+          onSubIdChange={handleSubIdChange}
+          subId={subId?.sub}
+          nickname={subId?.nickname}
+        />
         <ThemeProvider theme={theme}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
-            <Route path="/userprofile" element={<UserProfile subId={subId?.sub} />} />
+            <Route
+              path="/userprofile"
+              element={<UserProfile subId={subId?.sub} />} />
             <Route path="/toys/:id" element={<Toy />} />
-            <Route path="/toys/new" element={<NewToy />} />
+            <Route path="/toys/new" element={<NewToy subId={subId?.sub} />} />
             <Route path="/toys" element={<ToyList subId={subId?.sub} />} />
             <Route path="*" element={<NotFound />} />
+            <Route path="/chat/:userId" element={<Chat />} />
             <Route path="/chat/:matchId" element={<Chat subId={subId?.sub} />} />
-        </Routes>
+            </Routes>
         </ThemeProvider>
-      </Router>
+       </Router>
     </div>
   );
 }
 
-export default App;
+export default App;;

@@ -11,8 +11,7 @@ import {
   Box,
   Radio,
 } from "@mui/material";
-import config from '../config/config';
-
+import config from "../config/config";
 
 const ToyListPage = (subId) => {
   const [toyList, setToyList] = useState([]);
@@ -32,7 +31,7 @@ const ToyListPage = (subId) => {
       });
   }, []);
 
-   const handleOpenModal = async (toy) => {
+  const handleOpenModal = async (toy) => {
     setSelectedToy(toy);
     axios
       .get(`${config.baseUrl}/api/toys/${subId.sub}`)
@@ -54,7 +53,7 @@ const ToyListPage = (subId) => {
       alert("Please select a toy to swap.");
     } else {
       axios
-        .post("http://1/api/matches/new", {
+        .post(`${config.baseUrl}/api/matches/new`, {
           status: "Pending",
           toy_id: selectedToy.id,
           toy_in_exchange_id: selectedYourToy.id,
