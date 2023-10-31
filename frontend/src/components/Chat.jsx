@@ -4,7 +4,9 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Contacts from "./Contacts";
 import { useParams } from "react-router-dom";
-import io from "socket.io-client";
+import io from 'socket.io-client';
+import config from '../config/config'
+
 
 const socket = io("/");
 
@@ -17,8 +19,13 @@ const Chat = (props) => {
   const [senderId, setSenderId] = useState("");
   const [receiverName, setReceiverName] = useState("");
 
-  const { matchId } = useParams();
-  const { subId } = props;
+  const { userId } = useParams();
+
+  useEffect(async () => {
+    const response = await axios.get(`${config.baseUrl}/api/messages/${userId}`);
+    console.log("Contact names", response.data);
+    setContacts(response.data);
+  }, [userId]);
 
   useEffect(() => {
     socket.on("chat message", (newMessage) => {
@@ -95,11 +102,11 @@ const Chat = (props) => {
     };
     // Save the message to the backend
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/messages",
-        data
-      );
-      setMessage("");
+      const response = await axios.post(`${config.baseUrl}/api/messages`, {
+        userId: userId, // You might need to adjust this based on your server's API
+        message: message,
+      });
+      setMessage('');
     } catch (error) {
       console.error("Error sending message:", error);
     }

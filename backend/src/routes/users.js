@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getUserBySub, insertNewUser } = require("../../db/queries/users");
+const { getUserBySub, insertNewUser, updateUserDetails } = require("../../db/queries/users");
 
 router.post('/', async (req,res)  => {
   const { name, email, sub } = req.body;
@@ -28,7 +28,6 @@ router.post('/', async (req,res)  => {
 // Get user data by subId
 router.get('/:subId', async (req, res) => {
   try {
-    console.log(req.params.subId);
     const user = await getUserBySub(req.params.subId);
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
@@ -36,6 +35,27 @@ router.get('/:subId', async (req, res) => {
     res.json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+});
+
+// Route to handle PUT requests for /api/users/:subId
+router.put('/:subId', async (req, res) => {
+  const { subId } = req.params;
+  const updatedUserData = req.body;
+
+  try {
+    // Update the user data in the database
+    await updateUserDetails(updatedUserData.first_name,
+      updatedUserData.last_name,
+      updatedUserData.email,
+      updatedUserData.phone_number,
+      updatedUserData.city,
+      subId);
+    
+    res.json({ message: 'User data updated successfully' });
+  } catch (error) {
+    console.error('Error updating user data:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 

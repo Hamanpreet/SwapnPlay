@@ -1,46 +1,124 @@
 import React, { useEffect, useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Avatar, Button, Card, CardContent, Grid, List, ListItem, ListItemText, Typography } from '@mui/material';
+import { Avatar, Button, Card, CardContent, TextField, List, ListItem, ListItemText, Typography } from '@mui/material';
 import axios from 'axios';
 import '../styles/UserProfile.scss';
+import config from '../config/config'
+import EditToy from './EditToy'; // Import the EditToy component
+import ToyDetails from './ToyDetails';
 
 const UserProfile = ({ subId }) => {
   const [userData, setUserData] = useState(null);
+  const [editToyId, setEditToyId] = useState(null);
+  const [editedUserData, setEditedUserData] = useState(null); // Add state for edited user data
+  const [viewToyId, setViewToyId] = useState(null); // Add state to store the ID of the toy to be viewed
+  const [openToyDetails, setOpenToyDetails] = useState(false); // State to control the visibility of the toy details dialog
+
 
   useEffect(() => {
-    // Make an API call to fetch user details based on subId
-    axios.get(`http://localhost:8080/api/users/${subId}`)
-      .then((response) => {
-        if (response.data[0]) {
-          axios.get(`http://localhost:8080/api/toys/${subId}`)
-            .then((resp) => {
-              setUserData({ user: response.data[0], toy: resp.data });
-            });
+    const fetchUserData = async () => {
+      try {
+        // Fetch user details based on subId
+        const userResponse = await axios.get(`${config.baseUrl}/api/users/${subId}`);
+        if (userResponse.data[0]) {
+          const ownerId = userResponse.data[0].id;
+          // Fetch user's toys
+          const toysResponse = await axios.get(`${config.baseUrl}/api/toys?ownerId=${ownerId}`);
+          setUserData({ user: userResponse.data[0], toys: toysResponse.data });
         }
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching user data:", error);
-      });
+      }
+    };
+
+    fetchUserData();
   }, [subId]);
 
   const handleEditProfile = () => {
-    // Implement the edit profile functionality
+    // Toggle the edit mode by setting editedUserData to userData
+    setEditedUserData(userData.user);
   };
+
+
+  // Add event handlers to update the editedUserData state
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedUserData({
+      ...editedUserData,
+      [name]: value,
+    });
+  };
+
+  const handleSaveProfile = async () => {
+    console.log(editedUserData)
+    try {
+      // Send a PUT request to update the user's information on the server
+      await axios.put(`${config.baseUrl}/api/users/${subId}`, editedUserData);
+      // Update the userData state with the edited user data
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        user: editedUserData,
+      }));
+      // Close the edit mode
+      setEditedUserData(null);
+    } catch (error) {
+      console.error("Error updating user profile:", error);
+    }
+  };
+
+  
 
   const handleEditToy = (toyId) => {
-    // Implement the edit toy functionality for the given toyId
+    setEditToyId(toyId);
   };
+
+  const handleSaveEditedToy = async (editedToy) => {
+    try {
+      // Send a PUT request to update the toy details on the server
+      await axios.put(`${config.baseUrl}/api/toys/${editedToy.id}`, editedToy);
+      // Update the user data with the edited toy
+      const updatedToyList = userData.toys.map((toy) =>
+        toy.id === editedToy.id ? editedToy : toy
+      );
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        toys: updatedToyList,
+      }));
+      // Close the edit dialog
+      setEditToyId(null);
+    } catch (error) {
+      console.error("Error updating toy:", error);
+    }
+  };
+
+  const deleteToy = async (toyId) => {
+    try {
+      // Send a DELETE request to delete the toy by its ID
+      await axios.delete(`${config.baseUrl}/api/toys/${toyId}`);
+  
+      // Update the user data to remove the deleted toy
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        toys: prevUserData.toys.filter((toy) => toy.id !== toyId),
+      }));
+    } catch (error) {
+      console.error("Error deleting toy:", error);
+    }
+  };  
 
   const handleDeleteToy = (toyId) => {
-    // Implement the delete toy functionality for the given toyId
+    // Confirm the deletion with the user if needed
+    const confirmed = window.confirm("Are you sure you want to delete this toy?");
+    if (confirmed) {
+      deleteToy(toyId);
+    }
   };
+  
 
   const handleViewToyDetails = (toyId) => {
-    // Implement the view toy details functionality for the given toyId
-  };
-
-  const handleLogout = () => {
-    // Implement the logout functionality
+    // Set the ID of the toy to be viewed and open the dialog
+    setViewToyId(toyId);
+    setOpenToyDetails(true);
   };
 
   return (
@@ -59,15 +137,76 @@ const UserProfile = ({ subId }) => {
               <Typography variant="body2" color="textSecondary">
                 Email: {userData.user.email}
               </Typography>
+              <Typography variant="body2" color="textSecondary">
+                City: {userData.user.city}
+              </Typography>
+              {editedUserData && (
+                <>
+                  {/* Display an edit form when in edit mode */}
+                  <TextField
+                    label="First Name"
+                    name="first_name"
+                    value={editedUserData.first_name}
+                    onChange={handleInputChange}
+                    fullWidth
+                    sx={{ marginTop: '10px' }}
+                  />
+                  <TextField
+                    label="Last Name"
+                    name="last_name"
+                    value={editedUserData.last_name}
+                    onChange={handleInputChange}
+                    fullWidth
+                    sx={{ marginTop: '10px' }}
+                  />
+                  <TextField
+                    label="Phone Number"
+                    name="phone_number"
+                    value={editedUserData.phone_number}
+                    onChange={handleInputChange}
+                    fullWidth
+                    sx={{ marginTop: '10px' }}
+                  />
+                  <TextField
+                    label="Email"
+                    name="email"
+                    value={editedUserData.email}
+                    onChange={handleInputChange}
+                    fullWidth
+                    sx={{ marginTop: '10px' }}
+                  />
+                  <TextField
+                    label="City"
+                    name="city"
+                    value={editedUserData.city}
+                    onChange={handleInputChange}
+                    fullWidth
+                    sx={{ marginTop: '10px' }}
+                  />
+                  <Button variant="outlined" onClick={handleSaveProfile} sx={{ marginTop: '10px' }}>
+                    Save Profile
+                  </Button>
+                </>
+              )}
             </CardContent>
-            <Button variant="outlined" onClick={handleEditProfile} sx={{ marginBottom: '10px' }}>
-              Edit Profile
-            </Button>
+            {!editedUserData && (
+              <Button variant="outlined" onClick={handleEditProfile} sx={{ marginBottom: '10px' }}>
+                Edit Profile
+              </Button>
+            )}
           </Card>
         </div>
       ) : (
         <p>Loading user data...</p>
       )}
+
+      {/* Render the ToyDetails component when viewToyId is not null */}
+      <ToyDetails
+        open={openToyDetails}
+        onClose={() => setOpenToyDetails(false)}
+        toy={userData?.toys.find((toy) => toy.id === viewToyId)}
+      />
+
       <div style={{ width: '90%' }}>
         <Card sx={{ marginTop: '20px', border: '2px solid #ccc' }}>
           <CardContent>
@@ -84,12 +223,12 @@ const UserProfile = ({ subId }) => {
                 <ListItemText primary="Address" />
                 <ListItemText primary="Condition" />
                 <ListItemText primary="Created At" />
-                <ListItemText primary="Edit"/>
-                <ListItemText primary="Delete"/>
-                <ListItemText primary="View Details"/>
+                <ListItemText primary="Edit" />
+                <ListItemText primary="Delete" />
+                <ListItemText primary="View Details" />
               </ListItem>
               {/* Table Rows */}
-              {userData?.toy.map((toy) => (
+              {userData?.toys.map((toy) => (
                 <ListItem key={toy.id}>
                   <ListItemText primary={toy.title} />
                   <ListItemText primary={toy.description} />
@@ -125,6 +264,15 @@ const UserProfile = ({ subId }) => {
                 </ListItem>
               ))}
             </List>
+            {/* Render the EditToy component when editToyId is not null */}
+            {editToyId !== null && (
+              <EditToy
+                open={true}
+                onClose={() => setEditToyId(null)}
+                onSave={handleSaveEditedToy}
+                initialToy={userData.toys.find((toy) => toy.id === editToyId)}
+              />
+            )}
           </CardContent>
         </Card>
       </div>

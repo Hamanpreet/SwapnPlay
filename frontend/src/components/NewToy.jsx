@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "../styles/NewToy.scss";
+import config from '../config/config'
 import TopNavigationBar from "./TopNavigationBar";
 import {
   TextField,
@@ -45,7 +46,7 @@ const NewToy = () => {
     e.preventDefault();
     // Send a POST request to create a new toy entry on the server using Axios
     axios
-      .post("http://localhost:8080/api/toys/new", toyInfo)
+      .post(`${config.baseUrl}/api/toys/new`, toyInfo)
       .then((response) => {
         console.log("Form data submitted successfully:", response.data);
         setMessage("Request submitted successfully!");
