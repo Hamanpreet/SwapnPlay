@@ -49,8 +49,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route
               path="/userprofile"
-              element={<UserProfile subId={subId?.sub} />}
-            />
+              element={<UserProfile subId={subId?.sub} />} />
             <Route path="/toys/:id" element={<Toy />} />
             <Route path="/toys/new" element={<NewToy subId={subId?.sub} />} />
             <Route path="/toys" element={<ToyList subId={subId?.sub} />} />

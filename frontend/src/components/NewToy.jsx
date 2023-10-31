@@ -249,7 +249,7 @@ const NewToy = (subId) => {
                       color="primary"
                       elevation={3}
                       style={{ padding: 16 }}
-                      disabled={subId.subId === null}
+                      disabled={subId.subId == null}
                       fullWidth
                     >
                       Add New Toy
