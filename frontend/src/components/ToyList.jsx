@@ -23,7 +23,7 @@ const ToyListPage = (subId) => {
 
   useEffect(() => {
     axios
-      .get(`${config.baseUrl}/api/toy`)
+      .get(`${config.baseUrl}/api/toys`)
       .then((response) => {
         setToyList(response.data);
       })
