@@ -4,9 +4,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Contacts from "./Contacts";
 import { useParams } from "react-router-dom";
-import io from 'socket.io-client';
-import config from '../config/config'
-
+import io from "socket.io-client";
 
 const socket = io("/");
 
@@ -20,12 +18,7 @@ const Chat = (props) => {
   const [receiverName, setReceiverName] = useState("");
 
   const { matchId } = useParams();
-
-  useEffect(async () => {
-    const response = await axios.get(`${config.baseUrl}/api/messages/${userId}`);
-    console.log("Contact names", response.data);
-    setContacts(response.data);
-  }, [userId]);
+  const { subId } = props;
 
   useEffect(() => {
     socket.on("chat message", (newMessage) => {
@@ -41,6 +34,7 @@ const Chat = (props) => {
         .get(`http://localhost:8080/api/users/${subId}`)
         .then((response) => {
           // Set the currentUser state with the user's information
+          console.log("currentUser", currentUser);
           setCurrentUser(response.data[0]);
         })
         .catch((error) => {
@@ -67,8 +61,10 @@ const Chat = (props) => {
             }
           );
           console.log("reciver", response.data);
-          if (response.data[0]) {
+          if (Array.isArray(response.data) && response.data.length > 0) {
             setReceiverId(response.data[0].id);
+          } else {
+            console.error("Receiver information not found in the response.");
           }
         } catch (error) {
           console.error("Error fetching receiver information:", error);
@@ -102,11 +98,11 @@ const Chat = (props) => {
     };
     // Save the message to the backend
     try {
-      const response = await axios.post(`${config.baseUrl}/api/messages`, {
-        userId: userId,
-        message: message,
-      });
-      setMessage('');
+      const response = await axios.post(
+        "http://localhost:8080/api/messages",
+        data
+      );
+      setMessage("");
     } catch (error) {
       console.error("Error sending message:", error);
     }
@@ -116,7 +112,7 @@ const Chat = (props) => {
     return chat.map((message, index) => (
       <div
         key={index}
-        className={message.sender_id === currentUser.id ? "sent" : "received"}>
+        className={message.sender_id === currentUser?.id ? "sent" : "received"}>
         {message.text}
       </div>
     ));

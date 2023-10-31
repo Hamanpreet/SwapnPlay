@@ -15,19 +15,19 @@ router.get('/:matchId',(req, res)=>{
     });
 });
 
-router.get('/:matchId/usernames',(req, res)=>{
+// router.get('/:matchId/usernames',(req, res)=>{
  
-  const matchId = req.params.matchId;
-  console.log("matchID is", matchId);
-  getUserNamesByMatch(matchId)
-    .then((messages) => {
-      console.log("User names data fetched from database.")
-      res.send(messages);
-    })
-    .catch((err) => {
-      console.log(`An error occurred: ${err}`)
-    });
-})
+//   const matchId = req.params.matchId;
+//   console.log("matchID is", matchId);
+//   getUserNamesByMatch(matchId)
+//     .then((messages) => {
+//       console.log("User names data fetched from database.")
+//       res.send(messages);
+//     })
+//     .catch((err) => {
+//       console.log(`An error occurred: ${err}`)
+//     });
+// })
 
 router.get('/:matchId/receiver', (req, res) => {
   const matchId = req.params.matchId;
