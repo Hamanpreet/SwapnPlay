@@ -43,7 +43,7 @@ function App() {
         />
         <ThemeProvider theme={theme}>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home searchResults={searchResults}/>} />
             <Route path="/about" element={<About />} />
             <Route
               path="/userprofile"

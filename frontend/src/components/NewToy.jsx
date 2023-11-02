@@ -86,7 +86,7 @@ const NewToy = (subId) => {
                 longitude: "",
                 latitude: "",
                 condition: "New",
-                user_id: null,
+                 user_id: null,
               });
             })
             .catch((error) => {

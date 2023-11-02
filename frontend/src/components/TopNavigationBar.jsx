@@ -54,6 +54,7 @@ const TopNavigationBar = ({
         // Update the search results with the response data
         setSearchResults(response.data);
         console.log("search was successful", response.data);
+        setSearchQuery("");
       })
       .catch((error) => {
         console.error("Error submitting form data:", error);
@@ -74,6 +75,10 @@ const TopNavigationBar = ({
           console.log("No results found for the selected filter.");
         }
         setSearchResults(response.data);
+
+        // Clear the filter options
+    
+        setSelectedSubFilter(null);
       })
       .catch((error) => {
         console.error("Error submitting filter request:", error);
@@ -107,7 +112,6 @@ const TopNavigationBar = ({
         SwapnPlay
       </Link>
 
-      
       <form onSubmit={handleSearchSubmit} className="search-form">
         <input
           type="text"
