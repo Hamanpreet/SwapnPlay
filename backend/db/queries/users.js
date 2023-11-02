@@ -33,19 +33,19 @@ const insertNewUser = (data) => {
 };
 
 
-const updateUserDetails = (first_name, last_name, email,phone_number, city, subId) => {
+const updateUserDetails = (first_name, last_name, email,phone_number, city, profileimage, subId) => {
   // Input validation (you can customize this based on your requirements)
-  if (!first_name || !last_name || !email || !subId || !phone_number || !city) {
+  if (!first_name || !last_name || !email || !subId || !phone_number || !city || !profileimage) {
     throw new Error('All fields must be provided');
   }
 
   // Update the user with the new data
   const updateUserQuery = `
-    UPDATE users SET first_name=$1, last_name=$2, email=$3, phone_number=$4, city=$5 WHERE sub_Id=$6
+    UPDATE users SET first_name=$1, last_name=$2, email=$3, phone_number=$4, city=$5, profileImage=$6 WHERE sub_Id=$7
     RETURNING *;
   `;
   
-  return db.query(updateUserQuery, [first_name, last_name, email, phone_number, city, subId])
+  return db.query(updateUserQuery, [first_name, last_name, email, phone_number, city, profileimage, subId])
     .then((res) => {
       return res.rows[0] || null; // Assuming you expect one row to be updated
     })
