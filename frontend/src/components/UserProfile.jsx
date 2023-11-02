@@ -6,13 +6,15 @@ import '../styles/UserProfile.scss';
 import config from '../config/config'
 import EditToy from './EditToy'; // Import the EditToy component
 import ToyDetails from './ToyDetails';
+import CloudinaryUploadWidget from './CloudinaryUploadWidget';
 
-const UserProfile = ({ subId }) => {
+const UserProfile = ({ subId, uwConfig, setPublicId }) => {
   const [userData, setUserData] = useState(null);
   const [editToyId, setEditToyId] = useState(null);
   const [editedUserData, setEditedUserData] = useState(null); // Add state for edited user data
   const [viewToyId, setViewToyId] = useState(null); // Add state to store the ID of the toy to be viewed
   const [openToyDetails, setOpenToyDetails] = useState(false); // State to control the visibility of the toy details dialog
+  const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
 
 
   useEffect(() => {
@@ -50,7 +52,6 @@ const UserProfile = ({ subId }) => {
   };
 
   const handleSaveProfile = async () => {
-    console.log(editedUserData)
     try {
       // Send a PUT request to update the user's information on the server
       await axios.put(`${config.baseUrl}/api/users/${subId}`, editedUserData);
@@ -114,20 +115,35 @@ const UserProfile = ({ subId }) => {
     }
   };
   
+  const handleUploadSuccess =async (secure_url) => {
+    try {
+      // Set the uploaded image URL in the state
+      setUploadedImageUrl(secure_url);
+      // Update the profile image URL in the editedUserData state (if needed)
+      setEditedUserData((prevUserData) => ({
+        ...prevUserData,
+        profileimage: secure_url,
+      }));
+    }
+    catch{
+
+    }
+  };
 
   const handleViewToyDetails = (toyId) => {
     // Set the ID of the toy to be viewed and open the dialog
     setViewToyId(toyId);
     setOpenToyDetails(true);
   };
-
+  
   return (
     <div className="user-profile-container">
       {userData ? (
         <div style={{ width: '50%' }}>
           <Card sx={{ border: '2px solid #ccc' }}>
             <CardContent>
-              <Avatar src="https://cdn2.thecatapi.com/images/0XYvRd7oD.jpg" alt="User Profile" sx={{ width: 100, height: 100, margin: '0 auto' }} />
+              {/* <Avatar src= {userData.user.profileimage} alt="User Profile" sx={{ width: 100, height: 100, margin: '0 auto' }} /> */}
+              <Avatar src={uploadedImageUrl || userData.user.profileimage} alt="User Profile" sx={{ width: 100, height: 100, margin: '0 auto' }} />
               <Typography variant="h5" gutterBottom>
                 {userData.user.first_name} {userData.user.last_name}
               </Typography>
@@ -182,6 +198,11 @@ const UserProfile = ({ subId }) => {
                     onChange={handleInputChange}
                     fullWidth
                     sx={{ marginTop: '10px' }}
+                  />
+                  <CloudinaryUploadWidget  
+                  uwConfig={uwConfig} 
+                  setPublicId={setPublicId} 
+                  onUploadSuccess={handleUploadSuccess}
                   />
                   <Button variant="outlined" onClick={handleSaveProfile} sx={{ marginTop: '10px' }}>
                     Save Profile
