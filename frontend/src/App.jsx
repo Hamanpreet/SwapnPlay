@@ -6,7 +6,6 @@ import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
 import "./App.scss";
 
 import About from "./components/About";
-import Profile from "./components/Profile";
 import Toy from "./components/Toy";
 import NotFound from "./components/NotFound";
 import NewToy from "./components/NewToy";
@@ -29,6 +28,7 @@ function App() {
   const [subId, setSubId] = useState(null);
 
   console.log("searchResults", searchResults);
+  console.log("subId", subId?.sub)
 
   //set cloudinary config states
   const [publicId, setPublicId] = useState("");
@@ -86,8 +86,6 @@ function App() {
                 <ToyList subId={subId?.sub} searchResults={searchResults} />
               }
             />
-            <Route path="*" element={<NotFound />} />
-            <Route path="/chat/:userId" element={<Chat />} />
             <Route path="*" element={<NotFound />} />
 
             <Route path="/chat/:userId" element={<Chat subId={subId?.sub} />} />

@@ -106,45 +106,53 @@ const TopNavigationBar = ({
     }
   };
 
+  // Check if the current location matches one of the allowed paths
+  const isSearchFilterVisible =
+    location.pathname === "/" || location.pathname === "/toys";
+
   return (
     <div className="top-nav-bar">
       <Link to="/" className="top-nav-bar__logo">
         SwapnPlay
       </Link>
 
-      <form onSubmit={handleSearchSubmit} className="search-form">
-        <input
-          type="text"
-          placeholder="Search by toy name..."
-          value={searchQuery}
-          onChange={handleSearchChange}
-        />
-        <button type="submit">Search</button>
-      </form>
-
-      <div className="filter-container">
-        <Select
-          className="filter-dropdown"
-          value={selectedFilter}
-          onChange={handleFilterChange}
-          options={filterOptions}
-          placeholder="Filter by"
-        />
-        {selectedFilter && (
-          <Select
-            className="sub-filter-dropdown"
-            value={selectedSubFilter}
-            onChange={(selectedOption) => {
-              // Call the function to update selectedSubFilter
-              handleSubFilterChange(selectedOption);
-              sendFilterRequest(selectedFilter.value, selectedOption.value);
-            }}
-            options={subFilterOptions[selectedFilter.value]}
-            isDisabled={!selectedFilter}
-            placeholder={`Select ${selectedFilter.label}`}
+      {isSearchFilterVisible && ( // Conditional rendering
+        <form onSubmit={handleSearchSubmit} className="search-form">
+          <input
+            type="text"
+            placeholder="Search by toy name..."
+            value={searchQuery}
+            onChange={handleSearchChange}
           />
-        )}
-      </div>
+          <button type="submit">Search</button>
+        </form>
+      )}
+
+      {isSearchFilterVisible && ( // Conditional rendering
+        <div className="filter-container">
+          <Select
+            className="filter-dropdown"
+            value={selectedFilter}
+            onChange={handleFilterChange}
+            options={filterOptions}
+            placeholder="Filter by"
+          />
+          {selectedFilter && (
+            <Select
+              className="sub-filter-dropdown"
+              value={selectedSubFilter}
+              onChange={(selectedOption) => {
+                // Call the function to update selectedSubFilter
+                handleSubFilterChange(selectedOption);
+                sendFilterRequest(selectedFilter.value, selectedOption.value);
+              }}
+              options={subFilterOptions[selectedFilter.value]}
+              isDisabled={!selectedFilter}
+              placeholder={`Select ${selectedFilter.label}`}
+            />
+          )}
+        </div>
+      )}
       {/* Display welcome message if the user is logged in */}
       {subId && (
         <Link to="/userProfile" className="nav-link">
@@ -154,7 +162,7 @@ const TopNavigationBar = ({
 
       {location.pathname === "/userProfile" && (
         <Link to="/toys/new" className="nav-link">
-          Add New Toy
+          Add Toy
         </Link>
       )}
 
