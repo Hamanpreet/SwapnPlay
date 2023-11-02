@@ -1,7 +1,48 @@
 const express = require('express');
 const router = express.Router();
-const { getToys, insertNewToy, getToysByName, getToysById, 
-  getToysByAgeGroup, getToysByCondition, updateToy, findToyByIdAndRemove } = require("../../db/queries/toys");
+const { getToys, insertNewToy, getToysByName, getToysById, getToysBySubId, getToysByAgeGroup, getToysByCondition, updateToy, findToyByIdAndRemove } = require("../../db/queries/toys");
+const config = require('config');
+const { Configuration, OpenAIApi } = require("openai");
+const apiKey = config.get('OPEN_AI_KEY');
+
+const configuration = new Configuration({
+  apiKey
+});
+const openai = new OpenAIApi(configuration);
+
+//Get AI generated toy description
+router.post('/generate-toy-description', async (req, res) => {
+  try {
+    const body = req.body;
+    let prompt = `Please rewrite the description for the following toy to sell it online:\n${body.prompt}`
+
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: prompt,
+      max_tokens: 128,
+      temperature: 0,
+      top_p: 1.0,
+      frequency_penalty: 0.0,
+      presence_penalty: 0.0,
+      stop: "{\n}",
+    });
+
+    let description = response.data.choices[0].text.replace(/(\r\n|\n|\r)/gm, "");
+    return res.status(200).json({
+      success: true,
+      data: description,
+    });
+  } catch (error) {
+    console.log("Error: ", error);
+    return res.status(400).json({
+      success: false,
+      error: error.response
+        ? error.response.data
+        : "There was an issue on the server",
+    });
+  }
+});
+
 
 /**
  * @swagger
@@ -94,8 +135,8 @@ router.put('/:id', async (req, res) => {
 
     // Update the toy
     const updatedToy = await updateToy(title, description, age_group, value, address, condition, id);
-    
-    
+
+
     if (!updatedToy) {
       return res.status(500).json({ error: 'Failed to update toy' });
     }
@@ -161,22 +202,22 @@ router.post('/searchQuery', (req, res) => {
 });
 
 
-// // Get toys data by subId
-// router.get('/:subId', async (req, res) => {
-//   try {
-//     const toys = await getToysBySubId(req.params.subId);
-//     if (!toys) {
-//       return res.status(404).json({ error: 'No toys found for user' });
-//     }
-//     res.json(toys);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// });
+// Get toys data by subId
+router.get('/:subId', async (req, res) => {
+  try {
+    const toys = await getToysBySubId(req.params.subId);
+    if (!toys) {
+      return res.status(404).json({ error: 'No toys found for user' });
+    }
+    res.json(toys);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 router.post('/filter', (req, res) => {
   const { filterType, filterValue } = req.body;
- 
+
   if (!filterType) {
     return res.status(400).json({ error: "Filter type and value are required" });
   }
@@ -185,7 +226,7 @@ router.post('/filter', (req, res) => {
     getToysByAgeGroup(filterValue)
       .then((toys) => {
         res.send(toys);
-     
+
       })
       .catch((err) => {
         console.log(`An error occurred: ${err}`);
@@ -194,7 +235,7 @@ router.post('/filter', (req, res) => {
     getToysByCondition(filterValue)
       .then((toys) => {
         res.send(toys);
- 
+
       })
       .catch((err) => {
         console.log(`An error occurred: ${err}`);

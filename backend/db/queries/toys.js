@@ -5,7 +5,7 @@ const getToys = async (queryParams) => {
   try {
     let query = 'SELECT * FROM toy';
     const params = [];
-    
+
     // Check if ownerId is provided and add a WHERE clause to the query
     if (queryParams.queryString.ownerId) {
       query += ' WHERE user_id = $1';
@@ -20,8 +20,6 @@ const getToys = async (queryParams) => {
   }
 };
 
-
-
 const getToysByName = (name) => {
   return db
     .query('SELECT * FROM toy WHERE title=$1;', [name])
@@ -31,14 +29,22 @@ const getToysByName = (name) => {
     .catch((err) => console.error(err.message));
 }
 
-
-const getToysById = (id) =>{
+const getToysById = (id) => {
   return db
-  .query('SELECT * FROM toy WHERE id = $1', [id])
-  .then((res)=>{
-    return res.rows || null;
-  })
-  .catch((err) => console.error(err.message));
+    .query('SELECT * FROM toy WHERE id = $1', [id])
+    .then((res) => {
+      return res.rows || null;
+    })
+    .catch((err) => console.error(err.message));
+}
+
+const getToysBySubId = (subId) => {
+  return db
+    .query('SELECT t.* FROM toy t INNER JOIN users u ON t.user_id = u.id WHERE u.sub_id = $1', [subId])
+    .then((res) => {
+      return res.rows || null;
+    })
+    .catch((err) => console.error(err.message));
 }
 
 const insertNewToy = (data) => {
@@ -89,7 +95,7 @@ const updateToy = (title, description, age_group, value, address, condition, id)
     WHERE id = $7
     RETURNING *;
   `;
-  
+
   return db.query(updateToyQuery, [title, description, age_group, value, address, condition, id])
     .then((res) => {
       return res.rows[0] || null; // Assuming you expect one row to be updated
@@ -99,7 +105,6 @@ const updateToy = (title, description, age_group, value, address, condition, id)
       throw err; // Rethrow the error for higher-level error handling
     });
 };
-
 
 // Define the findToyByIdAndRemove function
 const findToyByIdAndRemove = async (toyId) => {
@@ -114,12 +119,14 @@ const findToyByIdAndRemove = async (toyId) => {
   }
 };
 
-
 module.exports = {
-  getToys, insertNewToy,
+  findToyByIdAndRemove,
+  getToys,
   getToysByName,
   getToysByAgeGroup,
   getToysByCondition,
-  getToysById, updateToy,
-  findToyByIdAndRemove
+  getToysById,
+  getToysBySubId,
+  insertNewToy,
+  updateToy,
 };

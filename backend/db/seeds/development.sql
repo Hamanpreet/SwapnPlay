@@ -21,6 +21,7 @@ VALUES
     ('Pending', 1, 2, 1, 2, NOW()),
     ('Accepted', 2, 1, 2, 1, NOW()),
     ('Pending', 3, 2, 3, 2, NOW());
+    
 
 -- Seed data for the IMAGE table
 INSERT INTO image (url, toy_id, created_at)
@@ -35,6 +36,7 @@ VALUES
     ('Hello, let''s trade!', 1, 1, 2, NOW()),
     ('Sure, I like your toy!', 1, 2, 1, NOW()),
     ('Hi, interested in a trade?', 2, 3, 2, NOW());
+    
 
 -- Seed data for the REVIEW table
 INSERT INTO review (ratings, review, user_id, match_id, created_at)

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/NewToy.scss";
-import config from '../config/config'
+import config from "../config/config";
 import TopNavigationBar from "./TopNavigationBar";
 import {
   TextField,
@@ -17,17 +17,18 @@ import {
 } from "@mui/material";
 
 // Define a functional React component for creating a new toy entry.
-const NewToy = () => {
+const NewToy = (subId) => {
   // State management: Initialize state variables to hold new toys form data and messages
   const [toyInfo, setToyInfo] = useState({
     title: "",
     description: "",
     ageGroup: "0-3 years",
-    value: "$0",
+    value: "0",
     address: "",
     longitude: "",
     latitude: "",
     condition: "New",
+    user_id: null,
   });
 
   const [message, setMessage] = useState("");
@@ -41,30 +42,65 @@ const NewToy = () => {
     });
   };
 
-  // Event handler for form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Send a POST request to create a new toy entry on the server using Axios
+  const enhanceDescription = async () => {
     axios
-      .post(`${config.baseUrl}/api/toys/new`, toyInfo)
+      .post(`${config.baseUrl}/api/toys/generate-toy-description`, {
+        prompt: toyInfo.description,
+      })
       .then((response) => {
-        console.log("Form data submitted successfully:", response.data);
-        setMessage("Request submitted successfully!");
-        // Clear the form after successful submission
+        console.log("Generated Toy Description:", response.data.data);
         setToyInfo({
-          title: "",
-          description: "",
-          ageGroup: "0-3 years",
-          value: "$0",
-          address: "",
-          longitude: "",
-          latitude: "",
-          condition: "New",
+          ...toyInfo,
+          description: response.data.data,
         });
       })
       .catch((error) => {
-        console.error("Error submitting form data:", error);
-        setMessage("Error submitting the request.");
+        console.error("Error:", error.response.data.error);
+      });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("This is subid:", subId.subId.sub);
+    axios
+      .get(`${config.baseUrl}/api/users/${subId.subId}`)
+      .then((response) => {
+        // Check if loggedInUser is defined and has an 'id' property
+        if (response.data && response.data.length > 0) {
+          axios
+            .post(`${config.baseUrl}/api/toys/new`, {
+              ...toyInfo,
+              user_id: response.data[0].id, // Use response.data instead of loggedInUser
+            })
+            .then((response) => {
+              console.log("Form data submitted successfully:", response.data);
+              setMessage("Request submitted successfully!");
+
+              // Clear the form after successful submission
+              setToyInfo({
+                title: "",
+                description: "",
+                ageGroup: "0-3 years",
+                value: "0",
+                address: "",
+                longitude: "",
+                latitude: "",
+                condition: "New",
+                user_id: null,
+              });
+            })
+            .catch((error) => {
+              console.error("Error submitting form data:", error);
+              setMessage("Error submitting the request.");
+            });
+        } else {
+          console.error("User data not found.");
+          setMessage("User data not found.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching user by subId", error);
+        setMessage("Error fetching user data.");
       });
   };
 
@@ -93,13 +129,25 @@ const NewToy = () => {
                     label="Description"
                     type="text"
                     name="description"
+                    placeholder="Please enter brief description of your toy..."
                     value={toyInfo.description}
                     onChange={handleChange}
                     fullWidth
+                    multiline
+                    rows={7}
                     required
                   />
                 </Grid>
-
+                {/* Button to enhance description */}
+                <Grid item xs={12} sm={12}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={enhanceDescription}
+                  >
+                    Enhance Description
+                  </Button>
+                </Grid>
                 <Grid item xs={12} sm={6}>
                   <FormControl variant="outlined" fullWidth>
                     <InputLabel>Age Group</InputLabel>
@@ -201,6 +249,7 @@ const NewToy = () => {
                       color="primary"
                       elevation={3}
                       style={{ padding: 16 }}
+                      disabled={subId.subId == null}
                       fullWidth
                     >
                       Add New Toy

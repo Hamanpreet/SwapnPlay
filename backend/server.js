@@ -69,12 +69,5 @@ server.listen(PORT, () => {
   console.log('Server is running on port 8080');
 });
 
-
-
-
-// app.listen(PORT, () => {
-//   console.log(`listening on port ${PORT}`);
-// });
-
 // Export the 'io' object
 module.exports.io = io;
