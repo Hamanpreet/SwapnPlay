@@ -4,6 +4,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import io from "socket.io-client";
+import config from "../config/config";
+
 
 const socket = io("/");
 
@@ -26,7 +28,7 @@ const Chat = (props) => {
     if (subId) {
       // Make an API request to get the user's information based on subId
       axios
-        .get(`http://localhost:8080/api/users/${subId}`)
+        .get(`${config.baseUrl}/api/users/${subId}`)
         .then((response) => {
           // Set the currentUser state with the user's information
           //console.log("currentUser", currentUser);
@@ -50,7 +52,7 @@ const Chat = (props) => {
       (async () => {
         try {
           const response = await axios.get(
-            `http://localhost:8080/api/messages/${matchId}/receiver`,
+            `${config.baseUrl}/api/messages/${matchId}/receiver`,
             {
               senderId,
             }
@@ -82,7 +84,7 @@ const Chat = (props) => {
     // Save the message to the backend
     try {
       await axios.post(
-        "http://localhost:8080/api/messages",
+        `${config.baseUrl}/api/messages`,
         data
       );
       setMessage("");
@@ -115,7 +117,7 @@ const Chat = (props) => {
     const fetchMessages = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/messages/${matchId}`
+          `${config.baseUrl}/api/messages/${matchId}`
         );
         const messagesData = response.data;
         // Update the state with the fetched messages
@@ -133,7 +135,7 @@ const Chat = (props) => {
       (async () => {
         try {
           const response = await axios.get(
-            `http://localhost:8080/api/${matchId}/receiverName`,
+            `${config.baseUrl}/api/${matchId}/receiverName`,
             { receiverId }
           );
           console.log("Receiver name", response.data);
