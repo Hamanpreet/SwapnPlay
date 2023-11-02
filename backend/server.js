@@ -70,11 +70,5 @@ server.listen(PORT, () => {
 });
 
 
-
-
-// app.listen(PORT, () => {
-//   console.log(`listening on port ${PORT}`);
-// });
-
 // Export the 'io' object
 module.exports.io = io;

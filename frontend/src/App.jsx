@@ -23,14 +23,11 @@ const theme = createTheme({
 });
 
 function App() {
-  const [filterData, setFilterData] = useState(null);
+  
+  const [searchResults, setSearchResults] = useState("");
   const [subId, setSubId] = useState(null);
 
-  // To update the filterData state
-  const updateFilterData = (data) => {
-    setFilterData(data);
-  };
-
+  console.log("searchResults",searchResults);
   // Function to receive the subId from LoginButton
   const handleSubIdChange = (newSubId) => {
     setSubId(newSubId);
@@ -42,6 +39,7 @@ function App() {
           onSubIdChange={handleSubIdChange}
           subId={subId?.sub}
           nickname={subId?.nickname}
+          setSearchResults={setSearchResults}
         />
         <ThemeProvider theme={theme}>
           <Routes>
@@ -49,10 +47,10 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route
               path="/userprofile"
-              element={<UserProfile subId={subId?.sub} />} />
+              element={<UserProfile subId={subId?.sub} searchResults={searchResults}/>} />
             <Route path="/toys/:id" element={<Toy />} />
             <Route path="/toys/new" element={<NewToy subId={subId?.sub} />} />
-            <Route path="/toys" element={<ToyList subId={subId?.sub} />} />
+            <Route path="/toys" element={<ToyList subId={subId?.sub} searchResults={searchResults}/>} />
             <Route path="*" element={<NotFound />} />
             <Route path="/chat/:userId" element={<Chat />} />
             <Route path="/chat/:matchId" element={<Chat subId={subId?.sub} />} />

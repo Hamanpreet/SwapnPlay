@@ -42,22 +42,22 @@ const NewToy = (subId) => {
     });
   };
 
-  const enhanceDescription = async () => {
-    axios
-      .post(`${config.baseUrl}/api/toys/generate-toy-description`, {
-        prompt: toyInfo.description,
-      })
-      .then((response) => {
-        console.log("Generated Toy Description:", response.data.data);
-        setToyInfo({
-          ...toyInfo,
-          description: response.data.data,
-        });
-      })
-      .catch((error) => {
-        console.error("Error:", error.response.data.error);
-      });
-  };
+  // const enhanceDescription = async () => {
+  //   axios
+  //     .post(`${config.baseUrl}/api/toys/generate-toy-description`, {
+  //       prompt: toyInfo.description,
+  //     })
+  //     .then((response) => {
+  //       console.log("Generated Toy Description:", response.data.data);
+  //       setToyInfo({
+  //         ...toyInfo,
+  //         description: response.data.data,
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error:", error.response.data.error);
+  //     });
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -143,7 +143,7 @@ const NewToy = (subId) => {
                   <Button
                     variant="outlined"
                     color="primary"
-                    onClick={enhanceDescription}
+                    // onClick={enhanceDescription}
                   >
                     Enhance Description
                   </Button>

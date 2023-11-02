@@ -22,7 +22,7 @@ const getToys = async (queryParams) => {
 
 const getToysByName = (name) => {
   return db
-    .query('SELECT * FROM toy WHERE title=$1;', [name])
+    .query('SELECT * FROM toy WHERE title LIKE $1;', [`%${name}%`])
     .then((res) => {
       return res.rows || null;
     })

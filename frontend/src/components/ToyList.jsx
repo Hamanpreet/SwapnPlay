@@ -13,13 +13,15 @@ import {
 } from "@mui/material";
 import config from "../config/config";
 
-const ToyListPage = (subId) => {
-  const [toyList, setToyList] = useState([]);
+const ToyListPage = (props) => {
+  const { subId, searchResults} = props;
+  const [toyList, setToyList] = useState([searchResults]);
   const [toyListLoggedInUser, setToyListLoggedInUser] = useState([]);
   const [selectedToy, setSelectedToy] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedYourToy, setSelectedYourToy] = useState([]);
 
+  console.log("searchResults",searchResults);
   useEffect(() => {
     axios
       .get(`${config.baseUrl}/api/toys`)
@@ -29,12 +31,12 @@ const ToyListPage = (subId) => {
       .catch((error) => {
         console.error("Error fetching toys data", error);
       });
-  }, []);
+  }, [searchResults]);
 
   const handleOpenModal = async (toy) => {
     setSelectedToy(toy);
     axios
-      .get(`${config.baseUrl}/api/toys/${subId.subId}`)
+      .get(`${config.baseUrl}/api/toys/${subId.sub}`)
       .then((response) => {
         setToyListLoggedInUser(response.data);
       })
@@ -77,33 +79,61 @@ const ToyListPage = (subId) => {
         <h1>Display List of All Toys</h1>
 
         <Grid container spacing={3}>
-          {toyList.map((toy) => (
-            <Grid item key={toy.id} xs={12} sm={6} md={4} lg={4}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h6" component="div">
-                    {toy.title}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    {toy.age_group}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    {toy.value}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    {toy.condition}
-                  </Typography>
-                </CardContent>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => handleOpenModal(toy)}
-                >
-                  Request to Match
-                </Button>
-              </Card>
-            </Grid>
-          ))}
+          {searchResults
+            ? searchResults.map((toy) => (
+                <Grid item key={toy.id} xs={12} sm={6} md={4} lg={4}>
+                  <Card>
+                    <CardContent>
+                      <Typography variant="h6" component="div">
+                        {toy.title}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {toy.age_group}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {toy.value}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {toy.condition}
+                      </Typography>
+                    </CardContent>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleOpenModal(toy)}
+                    >
+                      Request to Match
+                    </Button>
+                  </Card>
+                </Grid>
+              ))
+            : toyList.map((toy) => (
+                <Grid item key={toy.id} xs={12} sm={6} md={4} lg={4}>
+                  <Card>
+                    <CardContent>
+                      <Typography variant="h6" component="div">
+                        {toy.title}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {toy.age_group}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {toy.value}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {toy.condition}
+                      </Typography>
+                    </CardContent>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleOpenModal(toy)}
+                    >
+                      Request to Match
+                    </Button>
+                  </Card>
+                </Grid>
+              ))}
         </Grid>
       </div>
 
