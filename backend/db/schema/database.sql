@@ -15,6 +15,7 @@ CREATE TABLE users (
     phone_number VARCHAR(15),
     city VARCHAR(255) NOT NULL,
     sub_id VARCHAR(255) NOT NULL,
+    profileImage VARCHAR(255),
     created_at TIMESTAMP NOT NULL
 );
 

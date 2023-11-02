@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.get('/:matchId',(req, res)=>{
   const matchId = req.params.matchId;
+
   getMessages(matchId)
     .then((messages) => {
       console.log("Messages data fetched from database.")
@@ -36,7 +37,7 @@ router.get('/:matchId/receiver', (req, res) => {
   getReceiverByMatch(matchId, senderId)
     .then((receiver) => {
       console.log("Receiver id data fetched from the database.");
-      console.log("receiverId", receiver);
+      // console.log("receiverId", receiver);
       res.send(receiver);
     })
     .catch((err) => {

@@ -63,12 +63,12 @@ const NewToy = (subId) => {
     e.preventDefault();
     console.log("This is subid:", subId.subId.sub);
     axios
-      .get(`http://localhost:8080/api/users/${subId.subId}`)
+      .get(`${config.baseUrl}/api/users/${subId.subId}`)
       .then((response) => {
         // Check if loggedInUser is defined and has an 'id' property
         if (response.data && response.data.length > 0) {
           axios
-            .post("http://localhost:8080/api/toys/new", {
+            .post(`${config.baseUrl}/api/toys/new`, {
               ...toyInfo,
               user_id: response.data[0].id, // Use response.data instead of loggedInUser
             })

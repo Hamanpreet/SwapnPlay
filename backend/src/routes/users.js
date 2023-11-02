@@ -12,7 +12,8 @@ router.post('/', async (req,res)  => {
     email: email,
     phone_number: 0,
     city: " ",
-    sub_id: sub
+    sub_id: sub,
+    profileImage : ""
   }
   
   const checkUser = await getUserBySub(sub);
@@ -44,12 +45,14 @@ router.put('/:subId', async (req, res) => {
   const updatedUserData = req.body;
 
   try {
+    console.log(updatedUserData);
     // Update the user data in the database
     await updateUserDetails(updatedUserData.first_name,
       updatedUserData.last_name,
       updatedUserData.email,
       updatedUserData.phone_number,
       updatedUserData.city,
+      updatedUserData.profileimage,
       subId);
     
     res.json({ message: 'User data updated successfully' });

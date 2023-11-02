@@ -38,6 +38,7 @@ const ToyListPage = (props) => {
     axios
       .get(`${config.baseUrl}/api/toys/${subId.sub}`)
       .then((response) => {
+        console.log(response.data);
         setToyListLoggedInUser(response.data);
       })
       .catch((error) => {
