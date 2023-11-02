@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Avatar, Button, Card, CardContent, TextField, List, ListItem, ListItemText, Typography } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import PictureInPictureAltIcon from '@mui/icons-material/PictureInPictureAlt';
+import { Avatar, Button, Card, CardContent, TextField, List, ListItem, ListItemText, Typography, IconButton, Icon } from '@mui/material';
 import axios from 'axios';
 import '../styles/UserProfile.scss';
 import config from '../config/config'
@@ -244,9 +246,7 @@ const UserProfile = ({ subId, uwConfig, setPublicId }) => {
                 <ListItemText primary="Address" />
                 <ListItemText primary="Condition" />
                 <ListItemText primary="Created At" />
-                <ListItemText primary="Edit" />
-                <ListItemText primary="Delete" />
-                <ListItemText primary="View Details" />
+                <ListItemText primary="Actions" />
               </ListItem>
               {/* Table Rows */}
               {userData?.toys.map((toy) => (
@@ -258,30 +258,28 @@ const UserProfile = ({ subId, uwConfig, setPublicId }) => {
                   <ListItemText primary={toy.address} />
                   <ListItemText primary={toy.condition} />
                   <ListItemText primary={new Date(toy.created_at).toLocaleString()} /> {/* Format created_at */}
-                  <Button
-                    variant="outlined"
-                    size="small"
+                  <IconButton
+                    aria-label="edit" 
                     onClick={() => handleEditToy(toy.id)}
                     sx={{ marginRight: '10px' }}
                   >
-                    Edit Toy
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    size="small"
+                    <EditIcon/>
+                  </IconButton>
+                  <IconButton 
+                    aria-label="delete" 
                     onClick={() => handleDeleteToy(toy.id)}
                     sx={{ marginRight: '10px' }}
-                    startIcon={<DeleteIcon />}
                   >
-                    Delete Toy
-                  </Button>
-                  <Button
+                    <DeleteIcon />
+                  </IconButton>
+                  <IconButton
                     variant="outlined"
                     size="small"
                     onClick={() => handleViewToyDetails(toy.id)}
+                    sx={{ marginRight: '10px' }}
                   >
-                    View Toy Details
-                  </Button>
+                    <PictureInPictureAltIcon/>
+                  </IconButton>
                 </ListItem>
               ))}
             </List>
