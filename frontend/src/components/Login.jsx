@@ -14,7 +14,7 @@ const LoginButton = ({ onSubIdChange }) => {
     
     if (!isLoading && isAuthenticated) {
       // Send the user data to the backend
-      axios.post(`${config.baseUrl}/api/users`, user)
+      axios.post(`http://localhost:8080/api/users`, user)
         .then((response) => {
           onSubIdChange(user);
         })
