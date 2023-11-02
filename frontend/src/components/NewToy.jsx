@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/NewToy.scss";
 import config from "../config/config";
-import TopNavigationBar from "./TopNavigationBar";
+
 import {
   TextField,
   Select,
@@ -42,22 +42,22 @@ const NewToy = (subId) => {
     });
   };
 
-  const enhanceDescription = async () => {
-    axios
-      .post(`${config.baseUrl}/api/toys/generate-toy-description`, {
-        prompt: toyInfo.description,
-      })
-      .then((response) => {
-        console.log("Generated Toy Description:", response.data.data);
-        setToyInfo({
-          ...toyInfo,
-          description: response.data.data,
-        });
-      })
-      .catch((error) => {
-        console.error("Error:", error.response.data.error);
-      });
-  };
+  // const enhanceDescription = async () => {
+  //   axios
+  //     .post(`${config.baseUrl}/api/toys/generate-toy-description`, {
+  //       prompt: toyInfo.description,
+  //     })
+  //     .then((response) => {
+  //       console.log("Generated Toy Description:", response.data.data);
+  //       setToyInfo({
+  //         ...toyInfo,
+  //         description: response.data.data,
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error:", error.response.data.error);
+  //     });
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -86,7 +86,7 @@ const NewToy = (subId) => {
                 longitude: "",
                 latitude: "",
                 condition: "New",
-                user_id: null,
+                 user_id: null,
               });
             })
             .catch((error) => {
@@ -143,7 +143,7 @@ const NewToy = (subId) => {
                   <Button
                     variant="outlined"
                     color="primary"
-                    onClick={enhanceDescription}
+                    // onClick={enhanceDescription}
                   >
                     Enhance Description
                   </Button>
