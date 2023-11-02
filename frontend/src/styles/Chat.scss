@@ -27,7 +27,7 @@
   display: flex;
   flex-direction: column;
   border: 1px solid #FFB6C1; 
-  overflow: hidden;
+  overflow: auto; /* Enable vertical scrolling */
   background-color: #B2DBBF; 
   justify-content: flex-end;
 }
@@ -37,13 +37,9 @@
   background-color: #FFD3B6; 
   border: 1px solid #FF6B6B; 
   border-radius: 12px; 
-  padding: 12px; 
-  margin: 5px 0;
-  font-family: 'Chewy', cursive;
- 
-}
+  padding: 12px;
 
-/* Message Input Styles */
+}
 .Chat .message-input {
   padding: 10px;
   display: flex;
