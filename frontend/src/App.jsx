@@ -25,11 +25,29 @@ const theme = createTheme({
 });
 
 function App() {
-  
   const [searchResults, setSearchResults] = useState("");
   const [subId, setSubId] = useState(null);
 
-  console.log("searchResults",searchResults);
+  console.log("searchResults", searchResults);
+
+  //set cloudinary config states
+  const [publicId, setPublicId] = useState("");
+  const [cloudName] = useState("dhbnibaze");
+  const [uploadPreset] = useState("huv2jz5e");
+
+  const [uwConfig] = useState({
+    cloudName,
+    uploadPreset,
+  });
+
+  // Create a Cloudinary instance and set your cloud name.
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName,
+    },
+  });
+
+  const myImage = cld.image(publicId);
 
   // Function to receive the subId from LoginButton
   const handleSubIdChange = (newSubId) => {
@@ -47,18 +65,33 @@ function App() {
         />
         <ThemeProvider theme={theme}>
           <Routes>
-            <Route path="/" element={<Home searchResults={searchResults}/>} />
+            <Route path="/" element={<Home searchResults={searchResults} />} />
             <Route path="/about" element={<About />} />
-            <Route path="/userprofile" element={<UserProfile subId={subId?.sub} uwConfig={uwConfig} setPublicId={setPublicId}searchResults={searchResults}/>} />
+            <Route
+              path="/userprofile"
+              element={
+                <UserProfile
+                  subId={subId?.sub}
+                  uwConfig={uwConfig}
+                  setPublicId={setPublicId}
+                  searchResults={searchResults}
+                />
+              }
+            />
             <Route path="/toys/:id" element={<Toy />} />
             <Route path="/toys/new" element={<NewToy subId={subId?.sub} />} />
-            <Route path="/toys" element={<ToyList subId={subId?.sub} searchResults={searchResults}/>} />
+            <Route
+              path="/toys"
+              element={
+                <ToyList subId={subId?.sub} searchResults={searchResults} />
+              }
+            />
             <Route path="*" element={<NotFound />} />
             <Route path="/chat/:userId" element={<Chat />} />
             <Route path="*" element={<NotFound />} />
-          
+
             <Route path="/chat/:userId" element={<Chat subId={subId?.sub} />} />
-            </Routes>
+          </Routes>
         </ThemeProvider>
         {/* <div style={{ width: "800px" }}>
           <AdvancedImage
@@ -72,4 +105,4 @@ function App() {
   );
 }
 
-export default App;;
+export default App;
