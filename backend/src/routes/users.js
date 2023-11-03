@@ -45,7 +45,6 @@ router.put('/:subId', async (req, res) => {
   const updatedUserData = req.body;
 
   try {
-    console.log(updatedUserData);
     // Update the user data in the database
     await updateUserDetails(updatedUserData.first_name,
       updatedUserData.last_name,

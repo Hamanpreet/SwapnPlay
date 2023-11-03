@@ -64,7 +64,6 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
 
   const handleToyUploadSuccess = async (secure_url) => {
     try {
-      console.log("I am here o", secure_url);
         // Set the uploaded image URLs in the state
         setUploadedImageUrl(secure_url);
         setToyInfo({
