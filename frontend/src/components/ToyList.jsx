@@ -82,8 +82,17 @@ const ToyListPage = (props) => {
           {searchResults
             ? searchResults.map((toy) => (
                 <Grid item key={toy.id} xs={12} sm={6} md={4} lg={4}>
-                  <Card>
-                    <CardContent>
+                  <Card style={{ backgroundColor: '#f0f0f0' }}>
+                <Grid container>
+                  <Grid item xs={4}> {/* Adjust the width of the image column as needed */}
+                    <img
+                      src={toy.url} // Replace with the actual URL of the toy image
+                      alt="Toy"
+                      style={{ width: '100%', height: 'auto' }}
+                    />
+                  </Grid>
+                  <Grid item xs={8}> {/* Adjust the width of the details column as needed */}
+                     <CardContent>
                       <Typography variant="h6" component="div">
                         {toy.title}
                       </Typography>
@@ -99,13 +108,15 @@ const ToyListPage = (props) => {
                     </CardContent>
                     <Button
                       variant="contained"
-                      color="primary"
+                      color="success"
                       onClick={() => handleOpenModal(toy)}
                     >
                       Request to Match
                     </Button>
-                  </Card>
+                    </Grid>
                 </Grid>
+              </Card>
+            </Grid>
               ))
             : toyList.map((toy) => (
               <Grid item key={toy.id} xs={12} sm={6} md={4} lg={4}>
