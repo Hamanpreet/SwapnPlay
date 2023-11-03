@@ -48,14 +48,37 @@ const getToysBySubId = (subId) => {
 }
 
 const insertNewToy = (data) => {
-  const query = `
+  const firstQuery = `
     INSERT INTO toy(title, description, age_group, value, address, longitude, latitude, condition, user_id, created_at) 
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
-    RETURNING *;
-    `;
+    RETURNING id;
+  `;
+
   return db
-    .query(query, [data.title, data.description, data.ageGroup, data.value, data.address, data.longitude, data.latitude, data.condition, data.user_id, new Date()])
+    .query(firstQuery, [
+      data.title,
+      data.description,
+      data.ageGroup,
+      data.value,
+      data.address,
+      data.longitude,
+      data.latitude,
+      data.condition,
+      data.user_id,
+      new Date(),
+    ])
     .then((result) => {
+      const toyId = result.rows[0].id; // Retrieve the ID from the first query result
+      const secondQuery = `
+        INSERT INTO IMAGE(toy_id, url, Created_At)
+        VALUES ($1, $2, $3)
+        RETURNING *;
+      `;
+
+      return db.query(secondQuery, [toyId, data.url, new Date()]); // Use toyId in the second query
+    })
+    .then((result) => {
+      // The result.rows[0] will contain the inserted image record.
       return result.rows[0];
     })
     .catch((error) => {
@@ -63,6 +86,7 @@ const insertNewToy = (data) => {
       throw error;
     });
 };
+
 
 const getToysByAgeGroup = (ageGroup) => {
   return db

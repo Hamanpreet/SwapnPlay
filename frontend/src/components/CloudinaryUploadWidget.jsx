@@ -1,4 +1,6 @@
+import { Button } from "@mui/material";
 import { createContext, useEffect, useState } from "react";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 // Create a context to manage the script loading state
 const CloudinaryScriptContext = createContext();
@@ -31,7 +33,6 @@ function CloudinaryUploadWidget({ uwConfig, setPublicId, onUploadSuccess }) {
         uwConfig,
         (error, result) => {
           if (!error && result && result.event === "success") {
-            console.log("Done! Here is the image info: ", result.info);
             setPublicId(result.info.public_id);
             onUploadSuccess(result.info.secure_url);
           }
@@ -51,13 +52,17 @@ function CloudinaryUploadWidget({ uwConfig, setPublicId, onUploadSuccess }) {
 
   return (
     <CloudinaryScriptContext.Provider value={{ loaded }}>
-      <button
+       <Button 
+        component="label" 
+        variant="contained" 
+        startIcon={<CloudUploadIcon />}
         id="upload_widget"
-        className="cloudinary-button"
+        type="submit"
+        style={{ paddingLeft: 16, marginRight: 16, marginTop:12, paddingTop: 10 }}
         onClick={initializeCloudinaryWidget}
-      >
-        Upload
-      </button>
+       >
+        Upload Picture
+      </Button>
     </CloudinaryScriptContext.Provider>
   );
 }

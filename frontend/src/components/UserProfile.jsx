@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Avatar, Button, Card, CardContent, TextField, List, ListItem, ListItemText, Typography } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import PictureInPictureAltIcon from '@mui/icons-material/PictureInPictureAlt';
+import { Avatar, Button, Card, CardContent, TextField, List, ListItem, ListItemText, Typography, IconButton, Icon, Grid, Divider } from '@mui/material';
 import axios from 'axios';
 import '../styles/UserProfile.scss';
 import config from '../config/config'
@@ -228,64 +230,86 @@ const UserProfile = ({ subId, uwConfig, setPublicId, searchResults }) => {
         toy={userData?.toys.find((toy) => toy.id === viewToyId)}
       />
 
-      <div style={{ width: '90%' }}>
+<div style={{ width: '90%' }}>
         <Card sx={{ marginTop: '20px', border: '2px solid #ccc' }}>
           <CardContent>
-            <Typography variant="h6" gutterBottom>
-              Uploaded Toys
-            </Typography>
-            {/* Table Heading */}
+            <h1>Uploaded Toys</h1>
             <List className="toy-table">
               <ListItem>
-                <ListItemText primary="Title" />
-                <ListItemText primary="Description" />
-                <ListItemText primary="Age Group" />
-                <ListItemText primary="Value" />
-                <ListItemText primary="Address" />
-                <ListItemText primary="Condition" />
-                <ListItemText primary="Created At" />
-                <ListItemText primary="Edit" />
-                <ListItemText primary="Delete" />
-                <ListItemText primary="View Details" />
+                <Grid container spacing={1}>
+                  <Grid item xs={2}>
+                    <ListItemText primary="Title" />
+                  </Grid>
+                  <Grid item xs={1}>
+                    <ListItemText primary="Age Group" />
+                  </Grid>
+                  <Grid item xs={2}>
+                    <ListItemText primary="Value" />
+                  </Grid>
+                  <Grid item xs={2}>
+                    <ListItemText primary="Address" />
+                  </Grid>
+                  <Grid item xs={1}>
+                    <ListItemText primary="Condition" />
+                  </Grid>
+                  <Grid item xs={2}>
+                    <ListItemText primary="Created At" />
+                  </Grid>
+                  <Grid item xs={2}>
+                    <ListItemText primary="Actions" />
+                  </Grid>
+                </Grid>
               </ListItem>
-              {/* Table Rows */}
-              {userData?.toys.map((toy) => (
-                <ListItem key={toy.id}>
-                  <ListItemText primary={toy.title} />
-                  <ListItemText primary={toy.description} />
-                  <ListItemText primary={toy.age_group} />
-                  <ListItemText primary={toy.value} />
-                  <ListItemText primary={toy.address} />
-                  <ListItemText primary={toy.condition} />
-                  <ListItemText primary={new Date(toy.created_at).toLocaleString()} /> {/* Format created_at */}
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    onClick={() => handleEditToy(toy.id)}
-                    sx={{ marginRight: '10px' }}
-                  >
-                    Edit Toy
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    onClick={() => handleDeleteToy(toy.id)}
-                    sx={{ marginRight: '10px' }}
-                    startIcon={<DeleteIcon />}
-                  >
-                    Delete Toy
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    onClick={() => handleViewToyDetails(toy.id)}
-                  >
-                    View Toy Details
-                  </Button>
-                </ListItem>
+              {userData?.toys.map((toy, index) => (
+                <React.Fragment key={toy.id}>
+                  <Divider />
+                  <ListItem>
+                    <Grid container spacing={1}>
+                      <Grid item xs={2}>
+                        <ListItemText primary={toy.title} />
+                      </Grid>
+                      <Grid item xs={1}>
+                        <ListItemText primary={toy.age_group} />
+                      </Grid>
+                      <Grid item xs={2}>
+                        <ListItemText primary={toy.value} />
+                      </Grid>
+                      <Grid item xs={2}>
+                        <ListItemText primary={toy.address} />
+                      </Grid>
+                      <Grid item xs={1}>
+                        <ListItemText primary={toy.condition} />
+                      </Grid>
+                      <Grid item xs={2}>
+                        <ListItemText primary={new Date(toy.created_at).toLocaleString()} />
+                      </Grid>
+                      <Grid item xs={2}>
+                        <IconButton
+                          aria-label="edit"
+                          onClick={() => handleEditToy(toy.id)}
+                          sx={{ marginRight: '5px' }}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton
+                          aria-label="delete"
+                          onClick={() => handleDeleteToy(toy.id)}
+                          sx={{ marginRight: '5px' }}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => handleViewToyDetails(toy.id)}
+                          sx={{ marginRight: '5px' }}
+                        >
+                          <PictureInPictureAltIcon />
+                        </IconButton>
+                      </Grid>
+                    </Grid>
+                  </ListItem>
+                </React.Fragment>
               ))}
             </List>
-            {/* Render the EditToy component when editToyId is not null */}
             {editToyId !== null && (
               <EditToy
                 open={true}

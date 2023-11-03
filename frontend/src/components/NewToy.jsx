@@ -15,9 +15,10 @@ import {
   Box,
   Container,
 } from "@mui/material";
+import CloudinaryUploadWidget from "./CloudinaryUploadWidget";
 
 // Define a functional React component for creating a new toy entry.
-const NewToy = (subId) => {
+const NewToy = ({ subId, uwConfig, setPublicId }) => {
   // State management: Initialize state variables to hold new toys form data and messages
   const [toyInfo, setToyInfo] = useState({
     title: "",
@@ -32,6 +33,8 @@ const NewToy = (subId) => {
   });
 
   const [message, setMessage] = useState("");
+  const [uploadedImageUrl, setUploadedImageUrl] = useState(""); // State to hold uploaded images
+
   // TODO: Event handler for input field for form
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,11 +62,25 @@ const NewToy = (subId) => {
   //     });
   // };
 
+  const handleToyUploadSuccess = async (secure_url) => {
+    try {
+      console.log("I am here o", secure_url);
+        // Set the uploaded image URLs in the state
+        setUploadedImageUrl(secure_url);
+        setToyInfo({
+          ...toyInfo,
+          url: secure_url,
+        });
+    }
+    catch(error){
+      console.error("Error handling toy upload success:", error);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("This is subid:", subId.subId.sub);
     axios
-      .get(`${config.baseUrl}/api/users/${subId.subId}`)
+      .get(`${config.baseUrl}/api/users/${subId}`)
       .then((response) => {
         // Check if loggedInUser is defined and has an 'id' property
         if (response.data && response.data.length > 0) {
@@ -86,7 +103,8 @@ const NewToy = (subId) => {
                 longitude: "",
                 latitude: "",
                 condition: "New",
-                 user_id: null,
+                user_id: null,
+                url : ""
               });
             })
             .catch((error) => {
@@ -214,8 +232,6 @@ const NewToy = (subId) => {
                 <Grid
                   container
                   spacing={2}
-                  justifyContent="center"
-                  alignItems="center"
                   elevation={3}
                   style={{ padding: 16 }}
                 >
@@ -235,6 +251,14 @@ const NewToy = (subId) => {
                       </Select>
                     </FormControl>
                   </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <CloudinaryUploadWidget  
+                    uwConfig={uwConfig} 
+                    setPublicId={setPublicId} 
+                    onUploadSuccess={handleToyUploadSuccess}
+                    />
+                  {/* {renderUploadedImages()} */}
+                </Grid>
                 </Grid>
                 <Grid
                   container
@@ -249,7 +273,7 @@ const NewToy = (subId) => {
                       color="primary"
                       elevation={3}
                       style={{ padding: 16 }}
-                      disabled={subId.subId == null}
+                      disabled={subId == null}
                       fullWidth
                     >
                       Add New Toy
