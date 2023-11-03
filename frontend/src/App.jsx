@@ -68,7 +68,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/userprofile" element={<UserProfile subId={subId?.sub} uwConfig={uwConfig} setPublicId={setPublicId}/>} />
             <Route path="/toys/:id" element={<Toy />} />
-            <Route path="/toys/new" element={<NewToy subId={subId?.sub} />} />
+            <Route path="/toys/new" element={<NewToy subId={subId?.sub} uwConfig={uwConfig} setPublicId={setPublicId}/>} />
             <Route path="/toys" element={<ToyList subId={subId?.sub} />} />
             <Route path="/chat/:userId" element={<Chat />} />
             <Route path="*" element={<NotFound />} />
@@ -76,7 +76,7 @@ function App() {
             <Route path="/chat/:userId" element={<Chat subId={subId?.sub} />} />
             </Routes>
         </ThemeProvider>
-        {/* <div style={{ width: "800px" }}>
+         {/* <div style={{ width: "800px" }}>
           <AdvancedImage
             style={{ maxWidth: "100%" }}
             cldImg={myImage}
