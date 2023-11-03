@@ -54,11 +54,11 @@ function CloudinaryUploadWidget({ uwConfig, setPublicId, onUploadSuccess }) {
     <CloudinaryScriptContext.Provider value={{ loaded }}>
        <Button 
         component="label" 
-        variant="contained" 
+        variant="outlined" 
         startIcon={<CloudUploadIcon />}
         id="upload_widget"
         type="submit"
-        style={{ paddingLeft: 16, marginRight: 16, marginTop:12, paddingTop: 10 }}
+        style={{ marginTop: '10px' , marginRight: '10px' }}
         onClick={initializeCloudinaryWidget}
        >
         Upload Picture

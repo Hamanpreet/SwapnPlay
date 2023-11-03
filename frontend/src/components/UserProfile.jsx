@@ -69,7 +69,10 @@ const UserProfile = ({ subId, uwConfig, setPublicId, searchResults }) => {
     }
   };
 
-  
+  const handleCancelProfileEdit = () => {
+    // Reset the editedUserData state back to null when cancel is clicked
+    setEditedUserData(null);
+  };
 
   const handleEditToy = (toyId) => {
     setEditToyId(toyId);
@@ -201,6 +204,9 @@ const UserProfile = ({ subId, uwConfig, setPublicId, searchResults }) => {
                     fullWidth
                     sx={{ marginTop: '10px' }}
                   />
+                  <Button variant="outlined" onClick={handleCancelProfileEdit} sx={{ marginTop: '10px' , marginRight: '10px' }}>
+                    Cancel
+                  </Button>
                   <CloudinaryUploadWidget  
                   uwConfig={uwConfig} 
                   setPublicId={setPublicId} 

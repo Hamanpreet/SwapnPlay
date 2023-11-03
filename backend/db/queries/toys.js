@@ -3,7 +3,7 @@ const db = require("../connection");
 // Return all toys
 const getToys = async (queryParams) => {
   try {
-    let query = 'SELECT * FROM toy';
+    let query = 'SELECT *, i.url FROM toy t JOIN image i on t.id = i.toy_id';
     const params = [];
 
     // Check if ownerId is provided and add a WHERE clause to the query
@@ -22,7 +22,7 @@ const getToys = async (queryParams) => {
 
 const getToysByName = (name) => {
   return db
-    .query('SELECT * FROM toy WHERE title LIKE $1;', [`%${name}%`])
+    .query('SELECT *, i.url FROM toy t JOIN image i ON t.id = i.toy_id WHERE title LIKE $1;', [`%${name}%`])
     .then((res) => {
       return res.rows || null;
     })
