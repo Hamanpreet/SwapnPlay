@@ -10,7 +10,7 @@ import EditToy from './EditToy'; // Import the EditToy component
 import ToyDetails from './ToyDetails';
 import CloudinaryUploadWidget from './CloudinaryUploadWidget';
 
-const UserProfile = ({ subId, uwConfig, setPublicId }) => {
+const UserProfile = ({ subId, uwConfig, setPublicId, searchResults }) => {
   const [userData, setUserData] = useState(null);
   const [editToyId, setEditToyId] = useState(null);
   const [editedUserData, setEditedUserData] = useState(null); // Add state for edited user data
@@ -36,7 +36,7 @@ const UserProfile = ({ subId, uwConfig, setPublicId }) => {
     };
 
     fetchUserData();
-  }, [subId]);
+  }, [subId, searchResults]);
 
   const handleEditProfile = () => {
     // Toggle the edit mode by setting editedUserData to userData

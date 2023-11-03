@@ -6,7 +6,6 @@ import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
 import "./App.scss";
 
 import About from "./components/About";
-import Profile from "./components/Profile";
 import Toy from "./components/Toy";
 import NotFound from "./components/NotFound";
 import NewToy from "./components/NewToy";
@@ -25,33 +24,30 @@ const theme = createTheme({
 });
 
 function App() {
-  const [filterData, setFilterData] = useState(null);
+  const [searchResults, setSearchResults] = useState("");
   const [subId, setSubId] = useState(null);
-  
+
+  console.log("searchResults", searchResults);
+  console.log("subId", subId?.sub)
+
   //set cloudinary config states
   const [publicId, setPublicId] = useState("");
   const [cloudName] = useState("dhbnibaze");
   const [uploadPreset] = useState("huv2jz5e");
 
-
   const [uwConfig] = useState({
     cloudName,
-    uploadPreset
+    uploadPreset,
   });
 
   // Create a Cloudinary instance and set your cloud name.
   const cld = new Cloudinary({
     cloud: {
-      cloudName
-    }
+      cloudName,
+    },
   });
 
   const myImage = cld.image(publicId);
-
-  // To update the filterData state
-  const updateFilterData = (data) => {
-    setFilterData(data);
-  };
 
   // Function to receive the subId from LoginButton
   const handleSubIdChange = (newSubId) => {
@@ -61,20 +57,39 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <TopNavigationBar onSubIdChange={handleSubIdChange} subId={subId?.sub} nickname={subId?.nickname} />
+        <TopNavigationBar
+          onSubIdChange={handleSubIdChange}
+          subId={subId?.sub}
+          nickname={subId?.nickname}
+          setSearchResults={setSearchResults}
+        />
         <ThemeProvider theme={theme}>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home searchResults={searchResults} />} />
             <Route path="/about" element={<About />} />
-            <Route path="/userprofile" element={<UserProfile subId={subId?.sub} uwConfig={uwConfig} setPublicId={setPublicId}/>} />
+            <Route
+              path="/userprofile"
+              element={
+                <UserProfile
+                  subId={subId?.sub}
+                  uwConfig={uwConfig}
+                  setPublicId={setPublicId}
+                  searchResults={searchResults}
+                />
+              }
+            />
             <Route path="/toys/:id" element={<Toy />} />
             <Route path="/toys/new" element={<NewToy subId={subId?.sub} uwConfig={uwConfig} setPublicId={setPublicId}/>} />
-            <Route path="/toys" element={<ToyList subId={subId?.sub} />} />
-            <Route path="/chat/:userId" element={<Chat />} />
+            <Route
+              path="/toys"
+              element={
+                <ToyList subId={subId?.sub} searchResults={searchResults} />
+              }
+            />
             <Route path="*" element={<NotFound />} />
-          
+
             <Route path="/chat/:userId" element={<Chat subId={subId?.sub} />} />
-            </Routes>
+          </Routes>
         </ThemeProvider>
          {/* <div style={{ width: "800px" }}>
           <AdvancedImage
@@ -88,4 +103,4 @@ function App() {
   );
 }
 
-export default App;;
+export default App;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/NewToy.scss";
 import config from "../config/config";
-import TopNavigationBar from "./TopNavigationBar";
+
 import {
   TextField,
   Select,
@@ -45,22 +45,22 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
     });
   };
 
-  const enhanceDescription = async () => {
-    axios
-      .post(`${config.baseUrl}/api/toys/generate-toy-description`, {
-        prompt: toyInfo.description,
-      })
-      .then((response) => {
-        console.log("Generated Toy Description:", response.data.data);
-        setToyInfo({
-          ...toyInfo,
-          description: response.data.data,
-        });
-      })
-      .catch((error) => {
-        console.error("Error:", error.response.data.error);
-      });
-  };
+  // const enhanceDescription = async () => {
+  //   axios
+  //     .post(`${config.baseUrl}/api/toys/generate-toy-description`, {
+  //       prompt: toyInfo.description,
+  //     })
+  //     .then((response) => {
+  //       console.log("Generated Toy Description:", response.data.data);
+  //       setToyInfo({
+  //         ...toyInfo,
+  //         description: response.data.data,
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error:", error.response.data.error);
+  //     });
+  // };
 
   const handleToyUploadSuccess = async (secure_url) => {
     try {
@@ -161,7 +161,7 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                   <Button
                     variant="outlined"
                     color="primary"
-                    onClick={enhanceDescription}
+                    // onClick={enhanceDescription}
                   >
                     Enhance Description
                   </Button>
