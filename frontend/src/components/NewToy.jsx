@@ -63,14 +63,13 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
 
   const handleToyUploadSuccess = async (secure_url) => {
     try {
-        // Set the uploaded image URLs in the state
-        setUploadedImageUrl(secure_url);
-        setToyInfo({
-          ...toyInfo,
-          url: secure_url,
-        });
-    }
-    catch(error){
+      // Set the uploaded image URLs in the state
+      setUploadedImageUrl(secure_url);
+      setToyInfo({
+        ...toyInfo,
+        url: secure_url,
+      });
+    } catch (error) {
       console.error("Error handling toy upload success:", error);
     }
   };
@@ -101,7 +100,7 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                 latitude: "",
                 condition: "New",
                 user_id: null,
-                url : ""
+                url: "",
               });
             })
             .catch((error) => {
@@ -249,13 +248,13 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                     </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <CloudinaryUploadWidget  
-                    uwConfig={uwConfig} 
-                    setPublicId={setPublicId} 
-                    onUploadSuccess={handleToyUploadSuccess}
+                    <CloudinaryUploadWidget
+                      uwConfig={uwConfig}
+                      setPublicId={setPublicId}
+                      onUploadSuccess={handleToyUploadSuccess}
                     />
-                  {/* {renderUploadedImages()} */}
-                </Grid>
+                    {/* {renderUploadedImages()} */}
+                  </Grid>
                 </Grid>
                 <Grid
                   container

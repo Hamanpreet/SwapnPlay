@@ -118,9 +118,7 @@ const RequestReceivedPage = (subId) => {
                 >
                   <div style={{ flex: 1 }}>
                     <img
-                      src={
-                        "https://upload.wikimedia.org/wikipedia/commons/f/fe/Tin_toy_vehicles_with_picture_frame_function.jpg"
-                      }
+                      src={toy.url}
                       alt={toy.owner_toy_title}
                       style={{
                         width: "200px",
@@ -172,9 +170,7 @@ const RequestReceivedPage = (subId) => {
                 >
                   <div style={{ flex: 1 }}>
                     <img
-                      src={
-                        "https://upload.wikimedia.org/wikipedia/commons/2/26/LEGO_Technic_John_Deere_6130R.jpg"
-                      }
+                      src={toy.url}
                       alt={toy.owner_toy_title}
                       style={{ width: "200px", height: "200px" }}
                     />

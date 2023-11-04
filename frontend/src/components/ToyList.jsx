@@ -21,7 +21,7 @@ const ToyListPage = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedYourToy, setSelectedYourToy] = useState([]);
 
-  console.log("searchResults",searchResults);
+  // console.log("searchResults",searchResults);
   useEffect(() => {
     axios
       .get(`${config.baseUrl}/api/toys`)
@@ -33,10 +33,14 @@ const ToyListPage = (props) => {
       });
   }, [searchResults]);
 
+    console.log("subid:", subId);
+  console.log("path:", `${config.baseUrl}/api/toys/${subId}`);
+  
+
   const handleOpenModal = async (toy) => {
     setSelectedToy(toy);
     axios
-      .get(`${config.baseUrl}/api/toys/${subId.sub}`)
+      .get(`${config.baseUrl}/api/toys/${subId}`)
       .then((response) => {
         setToyListLoggedInUser(response.data);
       })

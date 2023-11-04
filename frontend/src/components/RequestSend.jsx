@@ -100,9 +100,7 @@ const RequestSendPage = (subId) => {
                 >
                   <div style={{ flex: 1 }}>
                     <img
-                      src={
-                        "https://upload.wikimedia.org/wikipedia/commons/e/ef/Wilkins_and_Wontkins_reproductions.jpg"
-                      }
+                      src={toy.url}
                       alt={toy.owner_toy_title}
                       style={{
                         width: "200px",
@@ -154,9 +152,7 @@ const RequestSendPage = (subId) => {
                 >
                   <div style={{ flex: 1 }}>
                     <img
-                      src={
-                        "https://upload.wikimedia.org/wikipedia/commons/2/26/LEGO_Technic_John_Deere_6130R.jpg"
-                      }
+                      src={toy.url}
                       alt={toy.owner_toy_title}
                       style={{ width: "200px", height: "200px" }}
                     />
