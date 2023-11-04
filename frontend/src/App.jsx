@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Cloudinary } from "@cloudinary/url-gen";
+import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
 import "./App.scss";
 
 import About from "./components/About";
-import Profile from "./components/Profile";
 import Toy from "./components/Toy";
 import NotFound from "./components/NotFound";
 import NewToy from "./components/NewToy";
@@ -25,18 +26,36 @@ const theme = createTheme({
 });
 
 function App() {
-  const [filterData, setFilterData] = useState(null);
+  const [searchResults, setSearchResults] = useState("");
   const [subId, setSubId] = useState(null);
 
-  // To update the filterData state
-  const updateFilterData = (data) => {
-    setFilterData(data);
-  };
+  console.log("searchResults", searchResults);
+  console.log("subId", subId?.sub)
+
+  //set cloudinary config states
+  const [publicId, setPublicId] = useState("");
+  const [cloudName] = useState("dhbnibaze");
+  const [uploadPreset] = useState("huv2jz5e");
+
+  const [uwConfig] = useState({
+    cloudName,
+    uploadPreset,
+  });
+
+  // Create a Cloudinary instance and set your cloud name.
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName,
+    },
+  });
+
+  const myImage = cld.image(publicId);
 
   // Function to receive the subId from LoginButton
   const handleSubIdChange = (newSubId) => {
     setSubId(newSubId);
   };
+
   return (
     <div className="App">
       <Router>
@@ -44,27 +63,46 @@ function App() {
           onSubIdChange={handleSubIdChange}
           subId={subId?.sub}
           nickname={subId?.nickname}
+          setSearchResults={setSearchResults}
         />
         <ThemeProvider theme={theme}>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home searchResults={searchResults} />} />
             <Route path="/about" element={<About />} />
-            <Route path="/userprofile" element={<UserProfile subId={subId?.sub} />} />
+            <Route
+              path="/userprofile"
+              element={
+                <UserProfile
+                  subId={subId?.sub}
+                  uwConfig={uwConfig}
+                  setPublicId={setPublicId}
+                  searchResults={searchResults}
+                />
+              }
+            />
             <Route path="/toys/:id" element={<Toy />} />
-            <Route path="/toys/new" element={<NewToy subId={subId?.sub} />} />
-            <Route path="/toys" element={<ToyList subId={subId?.sub} />} />
-            <Route path="/matches/requestsend" element={<RequestSend subId={subId?.sub} />} />
-            <Route path="/matches/requestreceived" element={<RequestReceived subId={subId?.sub} />} /> 
-            <Route path="/chat/:userId" element={<Chat />} />
-            <Route path="/chat/:userId" element={<Chat />} />
-            <Route path="/chat/:userId" element={<Chat />} />
-            <Route path="/chat/:matchId" element={<Chat subId={subId?.sub} />} />
+            <Route path="/toys/new" element={<NewToy subId={subId?.sub} uwConfig={uwConfig} setPublicId={setPublicId}/>} />
+            <Route
+              path="/toys"
+              element={
+                <ToyList subId={subId?.sub} searchResults={searchResults} />
+              }
+            />
             <Route path="*" element={<NotFound />} />
+
+            <Route path="/chat/:userId" element={<Chat subId={subId?.sub} />} />
           </Routes>
         </ThemeProvider>
+         {/* <div style={{ width: "800px" }}>
+          <AdvancedImage
+            style={{ maxWidth: "100%" }}
+            cldImg={myImage}
+            plugins={[responsive(), placeholder()]}
+          />
+        </div> */}
       </Router>
     </div>
   );
 }
 
-export default App;;
+export default App;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/NewToy.scss";
 import config from "../config/config";
-import TopNavigationBar from "./TopNavigationBar";
+
 import {
   TextField,
   Select,
@@ -15,9 +15,10 @@ import {
   Box,
   Container,
 } from "@mui/material";
+import CloudinaryUploadWidget from "./CloudinaryUploadWidget";
 
 // Define a functional React component for creating a new toy entry.
-const NewToy = (subId) => {
+const NewToy = ({ subId, uwConfig, setPublicId }) => {
   // State management: Initialize state variables to hold new toys form data and messages
   const [toyInfo, setToyInfo] = useState({
     title: "",
@@ -32,6 +33,8 @@ const NewToy = (subId) => {
   });
 
   const [message, setMessage] = useState("");
+  const [uploadedImageUrl, setUploadedImageUrl] = useState(""); // State to hold uploaded images
+
   // TODO: Event handler for input field for form
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,31 +45,46 @@ const NewToy = (subId) => {
     });
   };
 
-  const enhanceDescription = async () => {
-    axios
-      .post(`${config.baseUrl}/api/toys/generate-toy-description`, {
-        prompt: toyInfo.description,
-      })
-      .then((response) => {
+  // const enhanceDescription = async () => {
+  //   axios
+  //     .post(`${config.baseUrl}/api/toys/generate-toy-description`, {
+  //       prompt: toyInfo.description,
+  //     })
+  //     .then((response) => {
+  //       console.log("Generated Toy Description:", response.data.data);
+  //       setToyInfo({
+  //         ...toyInfo,
+  //         description: response.data.data,
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error:", error.response.data.error);
+  //     });
+  // };
+
+  const handleToyUploadSuccess = async (secure_url) => {
+    try {
+        // Set the uploaded image URLs in the state
+        setUploadedImageUrl(secure_url);
         setToyInfo({
           ...toyInfo,
-          description: response.data.data,
+          url: secure_url,
         });
-      })
-      .catch((error) => {
-        console.error("Error:", error.response.data.error);
-      });
+    }
+    catch(error){
+      console.error("Error handling toy upload success:", error);
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .get(`http://localhost:8080/api/users/${subId.subId}`)
+      .get(`${config.baseUrl}/api/users/${subId}`)
       .then((response) => {
         // Check if loggedInUser is defined and has an 'id' property
         if (response.data && response.data.length > 0) {
           axios
-            .post("http://localhost:8080/api/toys/new", {
+            .post(`${config.baseUrl}/api/toys/new`, {
               ...toyInfo,
               user_id: response.data[0].id, // Use response.data instead of loggedInUser
             })
@@ -84,6 +102,7 @@ const NewToy = (subId) => {
                 latitude: "",
                 condition: "New",
                 user_id: null,
+                url : ""
               });
             })
             .catch((error) => {
@@ -140,7 +159,7 @@ const NewToy = (subId) => {
                   <Button
                     variant="outlined"
                     color="primary"
-                    onClick={enhanceDescription}
+                    // onClick={enhanceDescription}
                   >
                     Enhance Description
                   </Button>
@@ -211,8 +230,6 @@ const NewToy = (subId) => {
                 <Grid
                   container
                   spacing={2}
-                  justifyContent="center"
-                  alignItems="center"
                   elevation={3}
                   style={{ padding: 16 }}
                 >
@@ -232,6 +249,14 @@ const NewToy = (subId) => {
                       </Select>
                     </FormControl>
                   </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <CloudinaryUploadWidget  
+                    uwConfig={uwConfig} 
+                    setPublicId={setPublicId} 
+                    onUploadSuccess={handleToyUploadSuccess}
+                    />
+                  {/* {renderUploadedImages()} */}
+                </Grid>
                 </Grid>
                 <Grid
                   container
@@ -246,7 +271,7 @@ const NewToy = (subId) => {
                       color="primary"
                       elevation={3}
                       style={{ padding: 16 }}
-                      disabled={subId.subId == null}
+                      disabled={subId == null}
                       fullWidth
                     >
                       Add New Toy

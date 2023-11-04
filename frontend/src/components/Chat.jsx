@@ -2,9 +2,10 @@ import React from "react";
 import "../styles/Chat.scss";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import Contacts from "./Contacts";
 import { useParams } from "react-router-dom";
 import io from "socket.io-client";
+import config from "../config/config";
+
 
 const socket = io("/");
 
@@ -16,31 +17,28 @@ const Chat = (props) => {
   const [senderId, setSenderId] = useState("");
   const [receiverName, setReceiverName] = useState("");
 
-  const { matchId } = useParams();
+  const  { userId }  = useParams();
+  const matchId = userId;
+  
+  
   const { subId } = props;
-
-  useEffect(() => {
-    socket.on("chat message", (newMessage) => {
-      // Spread operator to create a new array with the new message
-      setChat((prevChat) => [...prevChat, newMessage]);
-    });
-  }, []);
+  console.log("subId", subId)
 
   useEffect(() => {
     if (subId) {
       // Make an API request to get the user's information based on subId
       axios
-        .get(`http://localhost:8080/api/users/${subId}`)
+        .get(`${config.baseUrl}/api/users/${subId}`)
         .then((response) => {
           // Set the currentUser state with the user's information
-          console.log("currentUser", currentUser);
+          //console.log("currentUser", currentUser);
           setCurrentUser(response.data[0]);
         })
         .catch((error) => {
           console.error("Error fetching user information:", error);
         });
     }
-  }, [subId]);
+  }, [subId, currentUser]);
 
   useEffect(() => {
     if (currentUser.id) {
@@ -54,7 +52,7 @@ const Chat = (props) => {
       (async () => {
         try {
           const response = await axios.get(
-            `http://localhost:8080/api/messages/${matchId}/receiver`,
+            `${config.baseUrl}/api/messages/${matchId}/receiver`,
             {
               senderId,
             }
@@ -85,8 +83,8 @@ const Chat = (props) => {
     };
     // Save the message to the backend
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/messages",
+      await axios.post(
+        `${config.baseUrl}/api/messages`,
         data
       );
       setMessage("");
@@ -95,7 +93,15 @@ const Chat = (props) => {
     }
   };
 
+  useEffect(() => {
+    socket.on("chat message", (newMessage) => {
+      // Spread operator to create a new array with the new message
+      setChat((prevChat) => [...prevChat, newMessage]);
+    });
+  }, []);
+
   const renderMessages = () => {
+    if (chat) {
     return chat.map((message, index) => (
       <div
         key={index}
@@ -103,6 +109,7 @@ const Chat = (props) => {
         {message.text}
       </div>
     ));
+    }
   };
 
   // UseEffect hook to fetch messages and update the state
@@ -110,10 +117,9 @@ const Chat = (props) => {
     const fetchMessages = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/messages/${matchId}`
+          `${config.baseUrl}/api/messages/${matchId}`
         );
         const messagesData = response.data;
-        // console.log(messagesData);
         // Update the state with the fetched messages
         setChat(messagesData);
       } catch (error) {
@@ -129,7 +135,7 @@ const Chat = (props) => {
       (async () => {
         try {
           const response = await axios.get(
-            `http://localhost:8080/api/${matchId}/receiverName`,
+            `${config.baseUrl}/api/${matchId}/receiverName`,
             { receiverId }
           );
           console.log("Receiver name", response.data);
@@ -140,7 +146,7 @@ const Chat = (props) => {
         }
       })();
     }
-  }, [receiverId]);
+  }, [receiverId, matchId]);
 
   return (
     <div className="Chat">
