@@ -211,6 +211,7 @@ const UserProfile = ({ subId, uwConfig, setPublicId, searchResults }) => {
                   uwConfig={uwConfig} 
                   setPublicId={setPublicId} 
                   onUploadSuccess={handleUploadSuccess}
+                  editedUserData = {editedUserData}
                   />
                   <Button variant="outlined" onClick={handleSaveProfile} sx={{ marginTop: '10px' }}>
                     Save Profile
@@ -318,6 +319,8 @@ const UserProfile = ({ subId, uwConfig, setPublicId, searchResults }) => {
             </List>
             {editToyId !== null && (
               <EditToy
+                uwConfig = {uwConfig} 
+                setPublicId = {setPublicId}
                 open={true}
                 onClose={() => setEditToyId(null)}
                 onSave={handleSaveEditedToy}
