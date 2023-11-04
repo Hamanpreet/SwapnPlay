@@ -8,6 +8,8 @@ import Profile from "./components/Profile";
 import Toy from "./components/Toy";
 import NotFound from "./components/NotFound";
 import NewToy from "./components/NewToy";
+import RequestReceived from "./components/RequestReceived";
+import RequestSend from "./components/RequestSend";
 import ToyList from "./components/ToyList";
 import UserProfile from "./components/UserProfile";
 import Home from "./components/Home";
@@ -47,18 +49,20 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
-            <Route
-              path="/userprofile"
-              element={<UserProfile subId={subId?.sub} />} />
+            <Route path="/userprofile" element={<UserProfile subId={subId?.sub} />} />
             <Route path="/toys/:id" element={<Toy />} />
             <Route path="/toys/new" element={<NewToy subId={subId?.sub} />} />
             <Route path="/toys" element={<ToyList subId={subId?.sub} />} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="/matches/requestsend" element={<RequestSend subId={subId?.sub} />} />
+            <Route path="/matches/requestreceived" element={<RequestReceived subId={subId?.sub} />} /> 
+            <Route path="/chat/:userId" element={<Chat />} />
+            <Route path="/chat/:userId" element={<Chat />} />
             <Route path="/chat/:userId" element={<Chat />} />
             <Route path="/chat/:matchId" element={<Chat subId={subId?.sub} />} />
-            </Routes>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
         </ThemeProvider>
-       </Router>
+      </Router>
     </div>
   );
 }
