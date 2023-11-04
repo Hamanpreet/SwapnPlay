@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getToys, insertNewToy, getToysByName, getToysById, getToysBySubId, getToysByAgeGroup, getToysByCondition, updateToy, findToyByIdAndRemove } = require("../../db/queries/toys");
+const { getToys, insertNewToy, getToysByName, getToysById, getToysBySubId, getToysByAgeGroup, getToysByCondition, updateToy, findToyByIdAndRemove, getOthersToys } = require("../../db/queries/toys");
 const config = require('config');
 // const { Configuration, OpenAIApi } = require("openai");
 // const apiKey = config.get('OPEN_AI_KEY');
@@ -113,6 +113,20 @@ router.get('/', async (req, res) => {
       const toys = await getToys();
       res.json(toys);
     }
+  } catch (err) {
+    console.error(`An error occurred: ${err}`);
+    res.status(500).json({ error: 'An error occurred' });
+  }
+});
+
+router.get('/others/:subId', async (req, res) => {
+  try {
+      // If queryString is not provided, return all toys
+      const toy = await getOthersToys(req.params.subId);
+      if (!toy) {
+        return res.status(404).json({ error: 'No Toy found' });
+      }
+      res.json(toy);
   } catch (err) {
     console.error(`An error occurred: ${err}`);
     res.status(500).json({ error: 'An error occurred' });

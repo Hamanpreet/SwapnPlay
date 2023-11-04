@@ -38,6 +38,15 @@ const getToysById = (id) => {
     .catch((err) => console.error(err.message));
 }
 
+const getOthersToys = (subId) => {
+  return db
+  .query(`SELECT t.*, i.url FROM toy t LEFT JOIN image i ON t.id = i.toy_id JOIN users u ON t.user_id = u.id WHERE u.sub_id != $1`, [subId])
+  .then((res) => {
+    return res.rows || null;
+  })
+  .catch((err) => {console.error(err.message)});
+}
+
 const getToysBySubId = (subId) => {
   return db
     .query('SELECT t.*, i.url FROM toy t JOIN image i ON t.id = i.toy_id JOIN users u ON t.user_id = u.id WHERE u.sub_id = $1', [subId])
@@ -161,4 +170,5 @@ module.exports = {
   getToysBySubId,
   insertNewToy,
   updateToy,
+  getOthersToys
 };
