@@ -189,6 +189,7 @@ router.post('/new', (req, res) => {
 router.post('/searchQuery', (req, res) => {
   const { searchQuery } = req.body;
 
+  console.log(searchQuery);
   if (!searchQuery) {
     return res.status(400).json({ error: "Name is required" });
   }

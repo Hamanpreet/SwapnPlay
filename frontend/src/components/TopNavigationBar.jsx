@@ -113,7 +113,7 @@ const TopNavigationBar = ({
   return (
     <div className="top-nav-bar">
       <Link to="/" className="top-nav-bar__logo">
-        SwapnPlay
+        <img src="logo.png" alt="logo" className="logo"/>
       </Link>
 
       {isSearchFilterVisible && ( // Conditional rendering
