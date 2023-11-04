@@ -45,33 +45,31 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
     });
   };
 
-  // const enhanceDescription = async () => {
-  //   axios
-  //     .post(`${config.baseUrl}/api/toys/generate-toy-description`, {
-  //       prompt: toyInfo.description,
-  //     })
-  //     .then((response) => {
-  //       console.log("Generated Toy Description:", response.data.data);
-  //       setToyInfo({
-  //         ...toyInfo,
-  //         description: response.data.data,
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error:", error.response.data.error);
-  //     });
-  // };
+  const enhanceDescription = async () => {
+    axios
+      .post(`${config.baseUrl}/api/toys/generate-toy-description`, {
+        prompt: toyInfo.description,
+      })
+      .then((response) => {
+        setToyInfo({
+          ...toyInfo,
+          description: response.data.data,
+        });
+      })
+      .catch((error) => {
+        console.error("Error:", error.response.data.error);
+      });
+  };
 
   const handleToyUploadSuccess = async (secure_url) => {
     try {
-        // Set the uploaded image URLs in the state
-        setUploadedImageUrl(secure_url);
-        setToyInfo({
-          ...toyInfo,
-          url: secure_url,
-        });
-    }
-    catch(error){
+      // Set the uploaded image URLs in the state
+      setUploadedImageUrl(secure_url);
+      setToyInfo({
+        ...toyInfo,
+        url: secure_url,
+      });
+    } catch (error) {
       console.error("Error handling toy upload success:", error);
     }
   };
@@ -89,7 +87,6 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
               user_id: response.data[0].id, // Use response.data instead of loggedInUser
             })
             .then((response) => {
-              console.log("Form data submitted successfully:", response.data);
               setMessage("Request submitted successfully!");
 
               // Clear the form after successful submission
@@ -103,7 +100,7 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                 latitude: "",
                 condition: "New",
                 user_id: null,
-                url : ""
+                url: "",
               });
             })
             .catch((error) => {
@@ -160,7 +157,7 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                   <Button
                     variant="outlined"
                     color="primary"
-                    // onClick={enhanceDescription}
+                    onClick={enhanceDescription}
                   >
                     Enhance Description
                   </Button>
@@ -256,8 +253,8 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                     setPublicId={setPublicId} 
                     onImageUpload={handleToyUploadSuccess}
                     />
-                  {/* {renderUploadedImages()} */}
-                </Grid>
+                    {/* {renderUploadedImages()} */}
+                  </Grid>
                 </Grid>
                 <Grid
                   container

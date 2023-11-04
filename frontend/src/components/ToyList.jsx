@@ -14,14 +14,13 @@ import {
 import config from "../config/config";
 
 const ToyListPage = (props) => {
-  const { subId, searchResults} = props;
+  const { subId, searchResults } = props;
   const [toyList, setToyList] = useState([searchResults]);
   const [toyListLoggedInUser, setToyListLoggedInUser] = useState([]);
   const [selectedToy, setSelectedToy] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedYourToy, setSelectedYourToy] = useState([]);
 
-  //console.log("searchResults",searchResults);
   useEffect(() => {
     axios
       .get(`${config.baseUrl}/api/toys/others/${subId}`)
@@ -32,6 +31,9 @@ const ToyListPage = (props) => {
         console.error("Error fetching toys data", error);
       });
   }, [searchResults, subId]);
+
+  console.log("subid:", subId);
+  console.log("path:", `${config.baseUrl}/api/toys/${subId}`);
 
   const handleOpenModal = async (toy) => {
     setSelectedToy(toy);
@@ -72,91 +74,98 @@ const ToyListPage = (props) => {
 
     handleCloseModal();
   };
-  
+
   return (
     <Container maxWidth="lg">
       <div>
         <h1>Display List of All Toys</h1>
-        
+
         <Grid container spacing={3}>
           {searchResults
             ? searchResults.map((toy) => (
                 <Grid item key={toy.id} xs={12} sm={6} md={4} lg={4}>
-                  <Card style={{ backgroundColor: '#f0f0f0' }}>
-                <Grid container>
-                  <Grid item xs={4}> {/* Adjust the width of the image column as needed */}
-                    <img
-                      src={toy.url} // Replace with the actual URL of the toy image
-                      alt="Toy"
-                      style={{ width: '100%', height: 'auto' }}
-                    />
-                  </Grid>
-                  <Grid item xs={8}> {/* Adjust the width of the details column as needed */}
-                     <CardContent>
-                      <Typography variant="h6" component="div">
-                        {toy.title}
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {toy.age_group}
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {toy.value}
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {toy.condition}
-                      </Typography>
-                    </CardContent>
-                    <Button
-                      variant="contained"
-                      color="success"
-                      onClick={() => handleOpenModal(toy)}
-                    >
-                      Request to Match
-                    </Button>
+                  <Card style={{ backgroundColor: "#f0f0f0" }}>
+                    <Grid container>
+                      <Grid item xs={4}>
+                        {" "}
+                        {/* Adjust the width of the image column as needed */}
+                        <img
+                          src={toy.url} // Replace with the actual URL of the toy image
+                          alt="Toy"
+                          style={{ width: "100%", height: "auto" }}
+                        />
+                      </Grid>
+                      <Grid item xs={8}>
+                        {" "}
+                        {/* Adjust the width of the details column as needed */}
+                        <CardContent>
+                          <Typography variant="h6" component="div">
+                            {toy.title}
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary">
+                            {toy.age_group}
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary">
+                            {toy.value}
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary">
+                            {toy.condition}
+                          </Typography>
+                        </CardContent>
+                        <Button
+                          variant="contained"
+                          color="success"
+                          onClick={() => handleOpenModal(toy)}
+                        >
+                          Request to Match
+                        </Button>
+                      </Grid>
                     </Grid>
+                  </Card>
                 </Grid>
-              </Card>
-            </Grid>
               ))
             : toyList.map((toy) => (
-              <Grid item key={toy.id} xs={12} sm={6} md={4} lg={4}>
-              <Card style={{ backgroundColor: '#f0f0f0' }}>
-                <Grid container>
-                <Grid item xs={4}> {/* Adjust the width of the image column as needed */}
-                    <img
-                      src={toy.url} // Replace with the actual URL of the toy image
-                      alt="Toy"
-                      style={{ width: '100%', height: 'auto' }}
-                    />
-                  </Grid>
-                  <Grid item xs={8}> {/* Adjust the width of the details column as needed */}
-                    <CardContent>
-                      <Typography variant="h6" component="div">
-                        {toy.title}
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {toy.age_group}
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {toy.value}
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {toy.condition}
-                      </Typography>
-                    </CardContent>
-                    <Button
-                      variant="contained"
-                      color="success"
-                      onClick={() => handleOpenModal(toy)}
-                      style={{ margin: 'auto', marginBottom: '16px' }}
-                    >
-                      Request to Match
-                    </Button>
-                  </Grid>
+                <Grid item key={toy.id} xs={12} sm={6} md={4} lg={4}>
+                  <Card style={{ backgroundColor: "#f0f0f0" }}>
+                    <Grid container>
+                      <Grid item xs={4}>
+                        {" "}
+                        {/* Adjust the width of the image column as needed */}
+                        <img
+                          src={toy.url} // Replace with the actual URL of the toy image
+                          alt="Toy"
+                          style={{ width: "100%", height: "auto" }}
+                        />
+                      </Grid>
+                      <Grid item xs={8}>
+                        {" "}
+                        {/* Adjust the width of the details column as needed */}
+                        <CardContent>
+                          <Typography variant="h6" component="div">
+                            {toy.title}
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary">
+                            {toy.age_group}
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary">
+                            {toy.value}
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary">
+                            {toy.condition}
+                          </Typography>
+                        </CardContent>
+                        <Button
+                          variant="contained"
+                          color="success"
+                          onClick={() => handleOpenModal(toy)}
+                          style={{ margin: "auto", marginBottom: "16px" }}
+                        >
+                          Request to Match
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </Card>
                 </Grid>
-              </Card>
-            </Grid>
-            
               ))}
         </Grid>
       </div>
@@ -196,45 +205,44 @@ const ToyListPage = (props) => {
             </Typography>
 
             {/* <Grid item key={selectedToy.id} xs={12} sm={6} md={4} lg={4}> */}
-              <Card style={{ backgroundColor: '#f0f0f0' }}>
-                <Grid container>
-                  <Grid item xs={4}>
-                      <img
-                        src= {selectedToy && selectedToy.url}
-                        alt="Toy"
-                        style={{ width: '100%', height: 'auto' }}
-                      />
-                  </Grid>
-                  <Grid item xs={8}>
-                    <CardContent>
-                    <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginBottom: "16px",
-                    }}
-                  >
-                  <Typography variant="h6" component="div">
-                    {selectedToy && selectedToy.title}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    {selectedToy && selectedToy.age_group}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    {selectedToy && selectedToy.value}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    {selectedToy && selectedToy.condition}
-                  </Typography>
-                </div>
-                  </CardContent>
-                  </Grid>
+            <Card style={{ backgroundColor: "#f0f0f0" }}>
+              <Grid container>
+                <Grid item xs={4}>
+                  <img
+                    src={selectedToy && selectedToy.url}
+                    alt="Toy"
+                    style={{ width: "100%", height: "auto" }}
+                  />
                 </Grid>
-              </Card>
+                <Grid item xs={8}>
+                  <CardContent>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginBottom: "16px",
+                      }}
+                    >
+                      <Typography variant="h6" component="div">
+                        {selectedToy && selectedToy.title}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {selectedToy && selectedToy.age_group}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {selectedToy && selectedToy.value}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {selectedToy && selectedToy.condition}
+                      </Typography>
+                    </div>
+                  </CardContent>
+                </Grid>
+              </Grid>
+            </Card>
             {/* </Grid> */}
-            
           </Box>
 
           {/* Divider */}
@@ -263,63 +271,61 @@ const ToyListPage = (props) => {
             <Grid container spacing={3}>
               {toyListLoggedInUser.map((toy) => (
                 <Grid item key={toy.id} xs={12} sm={4} md={4} lg={4}>
-                    <Card style={{ backgroundColor: '#f0f0f0' }}>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
+                  <Card style={{ backgroundColor: "#f0f0f0" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Radio
+                        value={toy}
+                        checked={selectedYourToy === toy}
+                        onChange={(e) => {
+                          setSelectedYourToy(toy);
                         }}
-                      >
-                        <Radio
-                          value={toy}
-                          checked={selectedYourToy === toy}
-                          onChange={(e) => {
-                            setSelectedYourToy(toy);
-                          }}
-                        />
-                      </div>
-                      <CardContent
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column", // row
-                          alignItems: "center",
-                        }}
-                      >
-                        <Grid container>
-                          <Grid item xs={5}>
-                              <img
-                                src= {toy && toy.url}
-                                alt="Toy"
-                                style={{ width: '100%', height: 'auto' }}
-                              />
-                          </Grid>
-                          <Grid item xs={7} padding={2}>
-                            <Typography variant="h6" component="div">
-                              {toy.title}
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary">
-                              {toy.age_group}
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary">
-                              {toy.value}
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary">
-                              {toy.condition}
-                            </Typography>
-                          </Grid>
+                      />
+                    </div>
+                    <CardContent
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column", // row
+                        alignItems: "center",
+                      }}
+                    >
+                      <Grid container>
+                        <Grid item xs={5}>
+                          <img
+                            src={toy && toy.url}
+                            alt="Toy"
+                            style={{ width: "100%", height: "auto" }}
+                          />
                         </Grid>
-
-                        
-                      </CardContent>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          marginBottom: "20px",
-                        }}
-                      ></div>
-                    </Card>
+                        <Grid item xs={7} padding={2}>
+                          <Typography variant="h6" component="div">
+                            {toy.title}
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary">
+                            {toy.age_group}
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary">
+                            {toy.value}
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary">
+                            {toy.condition}
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    </CardContent>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        marginBottom: "20px",
+                      }}
+                    ></div>
+                  </Card>
                 </Grid>
               ))}
             </Grid>

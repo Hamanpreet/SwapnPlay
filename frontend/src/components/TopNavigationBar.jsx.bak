@@ -18,21 +18,6 @@ const TopNavigationBar = ({
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("");
   const [selectedSubFilter, setSelectedSubFilter] = useState("");
-  const [notification, setNotification] = useState(0);
-      
-  useEffect(() => {
-    if (subId)
-    {
-    axios
-      .get(`${config.baseUrl}/api/matches/notificationcount/${subId}`)
-      .then((response) => {
-         setNotification(response.data[0].count);
-      })
-      .catch((error) => {
-        console.error("Error fetching toys data", error);
-      });
-    }
-  }, [subId]);
 
   // Options for the "Filter by" dropdown
   const filterOptions = [
@@ -128,12 +113,8 @@ const TopNavigationBar = ({
 
   return (
     <div className="top-nav-bar">
-      <Link to="/toys" className="top-nav-bar__logo">
-        <img src="logo.png" alt="logo" className="logo"/>
-      </Link>
-
-      <Link to="/toys" className="nav-link">
-        Catalog
+      <Link to="/" className="top-nav-bar__logo">
+        SwapnPlay
       </Link>
 
       {isSearchFilterVisible && ( // Conditional rendering
@@ -186,8 +167,6 @@ const TopNavigationBar = ({
         </Link>
       )}
 
-	  <NotificationBadge notification={notification} />
-	  
       <LoginButton onSubIdChange={onSubIdChange} />
       <LogoutButton />
     </div>
