@@ -2,46 +2,46 @@ const express = require('express');
 const router = express.Router();
 const { getToys, insertNewToy, getToysByName, getToysById, getToysBySubId, getToysByAgeGroup, getToysByCondition, updateToy, findToyByIdAndRemove, getOthersToys } = require("../../db/queries/toys");
 const config = require('config');
-// const { Configuration, OpenAIApi } = require("openai");
-// const apiKey = config.get('OPEN_AI_KEY');
+const { Configuration, OpenAIApi } = require("openai");
+const apiKey = config.get('OPEN_AI_KEY');
 
-// const configuration = new Configuration({
-//   apiKey
-// });
-// const openai = new OpenAIApi(configuration);
+const configuration = new Configuration({
+  apiKey
+});
+const openai = new OpenAIApi(configuration);
 
-// //Get AI generated toy description
-// router.post('/generate-toy-description', async (req, res) => {
-//   try {
-//     const body = req.body;
-//     let prompt = `Please rewrite the description for the following toy to sell it online:\n${body.prompt}`
+//Get AI generated toy description
+router.post('/generate-toy-description', async (req, res) => {
+  try {
+    const body = req.body;
+    let prompt = `Please rewrite the description for the following toy to sell it online:\n${body.prompt}`
 
-//     const response = await openai.createCompletion({
-//       model: "text-davinci-003",
-//       prompt: prompt,
-//       max_tokens: 128,
-//       temperature: 0,
-//       top_p: 1.0,
-//       frequency_penalty: 0.0,
-//       presence_penalty: 0.0,
-//       stop: "{\n}",
-//     });
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: prompt,
+      max_tokens: 128,
+      temperature: 0,
+      top_p: 1.0,
+      frequency_penalty: 0.0,
+      presence_penalty: 0.0,
+      stop: "{\n}",
+    });
 
-//     let description = response.data.choices[0].text.replace(/(\r\n|\n|\r)/gm, "");
-//     return res.status(200).json({
-//       success: true,
-//       data: description,
-//     });
-//   } catch (error) {
-//     console.log("Error: ", error);
-//     return res.status(400).json({
-//       success: false,
-//       error: error.response
-//         ? error.response.data
-//         : "There was an issue on the server",
-//     });
-//   }
-// });
+    let description = response.data.choices[0].text.replace(/(\r\n|\n|\r)/gm, "");
+    return res.status(200).json({
+      success: true,
+      data: description,
+    });
+  } catch (error) {
+    console.log("Error: ", error);
+    return res.status(400).json({
+      success: false,
+      error: error.response
+        ? error.response.data
+        : "There was an issue on the server",
+    });
+  }
+});
 
 
 /**
@@ -192,7 +192,6 @@ router.post('/new', (req, res) => {
   const body = req.body;
   insertNewToy(body)
     .then((toy) => {
-      console.log("Toy data added in the database.")
       res.status(201).send(toy);
     })
     .catch((err) => {
@@ -202,6 +201,7 @@ router.post('/new', (req, res) => {
 
 router.post('/searchQuery', (req, res) => {
   const { searchQuery } = req.body;
+
 
   if (!searchQuery) {
     return res.status(400).json({ error: "Name is required" });

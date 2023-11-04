@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
+import ToyListPage from './ToyList';
 
 
 const images = [
@@ -118,6 +119,12 @@ const ImageMarked = styled('span')(({ theme }) => ({
 }));
 
 const Home = ({searchResults}) => {
+  // Check if searchResults exist
+  if (searchResults) {
+    // If searchResults exist, render the ToyList component with searchResults as a prop
+    return <ToyListPage searchResults={searchResults} />;
+  } else {
+    // If searchResults do not exist, render the image grid
   return (
     <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' }}>
       {images.map((image) => (
@@ -150,6 +157,7 @@ const Home = ({searchResults}) => {
       ))}
     </Box>
   );
+            }
 }
 
 
