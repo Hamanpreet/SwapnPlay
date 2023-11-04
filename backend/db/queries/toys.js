@@ -40,7 +40,7 @@ const getToysById = (id) => {
 
 const getToysBySubId = (subId) => {
   return db
-    .query('SELECT t.* FROM toy t INNER JOIN users u ON t.user_id = u.id WHERE u.sub_id = $1', [subId])
+    .query('SELECT t.*, i.url FROM toy t JOIN image i ON t.id = i.toy_id JOIN users u ON t.user_id = u.id WHERE u.sub_id = $1', [subId])
     .then((res) => {
       return res.rows || null;
     })

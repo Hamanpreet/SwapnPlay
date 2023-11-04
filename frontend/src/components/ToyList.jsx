@@ -36,7 +36,7 @@ const ToyListPage = (props) => {
   const handleOpenModal = async (toy) => {
     setSelectedToy(toy);
     axios
-      .get(`${config.baseUrl}/api/toys/${subId.sub}`)
+      .get(`${config.baseUrl}/api/toys/${subId}`)
       .then((response) => {
         setToyListLoggedInUser(response.data);
       })
@@ -72,12 +72,12 @@ const ToyListPage = (props) => {
 
     handleCloseModal();
   };
-
+  
   return (
     <Container maxWidth="lg">
       <div>
         <h1>Display List of All Toys</h1>
-
+        
         <Grid container spacing={3}>
           {searchResults
             ? searchResults.map((toy) => (
@@ -122,13 +122,7 @@ const ToyListPage = (props) => {
               <Grid item key={toy.id} xs={12} sm={6} md={4} lg={4}>
               <Card style={{ backgroundColor: '#f0f0f0' }}>
                 <Grid container>
-                  <Grid item xs={4}> {/* Adjust the width of the image column as needed */}
-                    <img
-                      src={toy.url} // Replace with the actual URL of the toy image
-                      alt="Toy"
-                      style={{ width: '100%', height: 'auto' }}
-                    />
-                  </Grid>
+                  
                   <Grid item xs={8}> {/* Adjust the width of the details column as needed */}
                     <CardContent>
                       <Typography variant="h6" component="div">
@@ -152,6 +146,13 @@ const ToyListPage = (props) => {
                     >
                       Request to Match
                     </Button>
+                  </Grid>
+                  <Grid item xs={4}> {/* Adjust the width of the image column as needed */}
+                    <img
+                      src={toy.url} // Replace with the actual URL of the toy image
+                      alt="Toy"
+                      style={{ width: '100%', height: 'auto' }}
+                    />
                   </Grid>
                 </Grid>
               </Card>
@@ -194,28 +195,47 @@ const ToyListPage = (props) => {
             >
               Toy Requested to be swaped
             </Typography>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                marginBottom: "16px",
-              }}
-            >
-              <Typography variant="h6" component="div">
-                {selectedToy && selectedToy.title}
-              </Typography>
-              <Typography variant="body2" color="textSecondary">
-                {selectedToy && selectedToy.age_group}
-              </Typography>
-              <Typography variant="body2" color="textSecondary">
-                {selectedToy && selectedToy.value}
-              </Typography>
-              <Typography variant="body2" color="textSecondary">
-                {selectedToy && selectedToy.condition}
-              </Typography>
-            </div>
+
+            {/* <Grid item key={selectedToy.id} xs={12} sm={6} md={4} lg={4}> */}
+              <Card style={{ backgroundColor: '#f0f0f0' }}>
+                <Grid container>
+                  <Grid item xs={4}>
+                      <img
+                        src= {selectedToy && selectedToy.url}
+                        alt="Toy"
+                        style={{ width: '100%', height: 'auto' }}
+                      />
+                  </Grid>
+                  <Grid item xs={8}>
+                    <CardContent>
+                    <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginBottom: "16px",
+                    }}
+                  >
+                  <Typography variant="h6" component="div">
+                    {selectedToy && selectedToy.title}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    {selectedToy && selectedToy.age_group}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    {selectedToy && selectedToy.value}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    {selectedToy && selectedToy.condition}
+                  </Typography>
+                </div>
+                  </CardContent>
+                  </Grid>
+                </Grid>
+              </Card>
+            {/* </Grid> */}
+            
           </Box>
 
           {/* Divider */}
@@ -244,50 +264,63 @@ const ToyListPage = (props) => {
             <Grid container spacing={3}>
               {toyListLoggedInUser.map((toy) => (
                 <Grid item key={toy.id} xs={12} sm={4} md={4} lg={4}>
-                  <Card>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Radio
-                        value={toy}
-                        checked={selectedYourToy === toy}
-                        onChange={(e) => {
-                          setSelectedYourToy(toy);
+                    <Card style={{ backgroundColor: '#f0f0f0' }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
                         }}
-                      />
-                    </div>
-                    <CardContent
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column", // row
-                        alignItems: "center",
-                      }}
-                    >
-                      <Typography variant="h6" component="div">
-                        {toy.title}
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {toy.age_group}
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {toy.value}
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {toy.condition}
-                      </Typography>
-                    </CardContent>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        marginBottom: "20px",
-                      }}
-                    ></div>
-                  </Card>
+                      >
+                        <Radio
+                          value={toy}
+                          checked={selectedYourToy === toy}
+                          onChange={(e) => {
+                            setSelectedYourToy(toy);
+                          }}
+                        />
+                      </div>
+                      <CardContent
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column", // row
+                          alignItems: "center",
+                        }}
+                      >
+                        <Grid container>
+                          <Grid item xs={5}>
+                              <img
+                                src= {toy && toy.url}
+                                alt="Toy"
+                                style={{ width: '100%', height: 'auto' }}
+                              />
+                          </Grid>
+                          <Grid item xs={7} padding={2}>
+                            <Typography variant="h6" component="div">
+                              {toy.title}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary">
+                              {toy.age_group}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary">
+                              {toy.value}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary">
+                              {toy.condition}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+
+                        
+                      </CardContent>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          marginBottom: "20px",
+                        }}
+                      ></div>
+                    </Card>
                 </Grid>
               ))}
             </Grid>
