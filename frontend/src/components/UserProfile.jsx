@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import PictureInPictureAltIcon from '@mui/icons-material/PictureInPictureAlt';
-import { Avatar, Button, Card, CardContent, TextField, List, ListItem, ListItemText, Typography, IconButton, Icon, Grid, Divider } from '@mui/material';
+import { Avatar, Button, Card, CardContent, TextField, List, ListItem, ListItemText, Typography, IconButton, Grid, Divider } from '@mui/material';
 import axios from 'axios';
 import '../styles/UserProfile.scss';
 import config from '../config/config'
@@ -211,6 +211,7 @@ const UserProfile = ({ subId, uwConfig, setPublicId, searchResults }) => {
                   uwConfig={uwConfig} 
                   setPublicId={setPublicId} 
                   onUploadSuccess={handleUploadSuccess}
+                  editedUserData = {editedUserData}
                   />
                   <Button variant="outlined" onClick={handleSaveProfile} sx={{ marginTop: '10px' }}>
                     Save Profile
@@ -318,6 +319,8 @@ const UserProfile = ({ subId, uwConfig, setPublicId, searchResults }) => {
             </List>
             {editToyId !== null && (
               <EditToy
+                uwConfig = {uwConfig} 
+                setPublicId = {setPublicId}
                 open={true}
                 onClose={() => setEditToyId(null)}
                 onSave={handleSaveEditedToy}

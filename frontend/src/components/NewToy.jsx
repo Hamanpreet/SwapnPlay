@@ -248,10 +248,10 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                     </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <CloudinaryUploadWidget
-                      uwConfig={uwConfig}
-                      setPublicId={setPublicId}
-                      onUploadSuccess={handleToyUploadSuccess}
+                    <CloudinaryUploadWidget  
+                    uwConfig={uwConfig} 
+                    setPublicId={setPublicId} 
+                    onImageUpload={handleToyUploadSuccess}
                     />
                     {/* {renderUploadedImages()} */}
                   </Grid>

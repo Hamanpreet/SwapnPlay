@@ -5,7 +5,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 // Create a context to manage the script loading state
 const CloudinaryScriptContext = createContext();
 
-function CloudinaryUploadWidget({ uwConfig, setPublicId, onUploadSuccess }) {
+function CloudinaryUploadWidget({ uwConfig, setPublicId, onUploadSuccess, onImageUpload, initialToy, editedUserData }) {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -34,7 +34,12 @@ function CloudinaryUploadWidget({ uwConfig, setPublicId, onUploadSuccess }) {
         (error, result) => {
           if (!error && result && result.event === "success") {
             setPublicId(result.info.public_id);
-            onUploadSuccess(result.info.secure_url);
+            if(editedUserData){
+              onUploadSuccess(result.info.secure_url);
+            }
+            if (initialToy !== null && !editedUserData){
+              onImageUpload(result.info.secure_url);
+            }
           }
         }
       );

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getToys, insertNewToy, getToysByName, getToysById, getToysBySubId, getToysByAgeGroup, getToysByCondition, updateToy, findToyByIdAndRemove } = require("../../db/queries/toys");
+const { getToys, insertNewToy, getToysByName, getToysById, getToysBySubId, getToysByAgeGroup, getToysByCondition, updateToy, findToyByIdAndRemove, getOthersToys } = require("../../db/queries/toys");
 const config = require('config');
 const { Configuration, OpenAIApi } = require("openai");
 const apiKey = config.get('OPEN_AI_KEY');
@@ -119,11 +119,25 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/others/:subId', async (req, res) => {
+  try {
+      // If queryString is not provided, return all toys
+      const toy = await getOthersToys(req.params.subId);
+      if (!toy) {
+        return res.status(404).json({ error: 'No Toy found' });
+      }
+      res.json(toy);
+  } catch (err) {
+    console.error(`An error occurred: ${err}`);
+    res.status(500).json({ error: 'An error occurred' });
+  }
+});
+
 
 // Update a toy by its ID
 router.put('/:id', async (req, res) => {
   const { id } = req.params; // Get the toy ID from the URL parameter
-  const { title, description, age_group, value, address, condition } = req.body; // Get updated toy data from the request body
+  const { title, description, age_group, value, address, condition, url } = req.body; // Get updated toy data from the request body
 
   try {
     // Check if the toy with the provided ID exists
@@ -134,7 +148,7 @@ router.put('/:id', async (req, res) => {
     }
 
     // Update the toy
-    const updatedToy = await updateToy(title, description, age_group, value, address, condition, id);
+    const updatedToy = await updateToy(title, description, age_group, value, address, condition, url, id);
 
 
     if (!updatedToy) {
@@ -187,6 +201,7 @@ router.post('/new', (req, res) => {
 
 router.post('/searchQuery', (req, res) => {
   const { searchQuery } = req.body;
+
 
   if (!searchQuery) {
     return res.status(400).json({ error: "Name is required" });

@@ -77,7 +77,7 @@ const Chat = (props) => {
     console.log("receiverid:", receiverId);
     const data = {
       text: message,
-      match_id: 2,
+      match_id: matchId,
       sender_id: senderId,
       receiver_id: 2,
     };
