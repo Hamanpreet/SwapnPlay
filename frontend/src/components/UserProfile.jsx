@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import PictureInPictureAltIcon from '@mui/icons-material/PictureInPictureAlt';
-import { Avatar, Button, Card, CardContent, TextField, List, ListItem, ListItemText, Typography, IconButton, Icon, Grid, Divider } from '@mui/material';
+import { Avatar, Button, Card, CardContent, TextField, List, ListItem, ListItemText, Typography, IconButton, Grid, Divider } from '@mui/material';
 import axios from 'axios';
 import '../styles/UserProfile.scss';
 import config from '../config/config'
