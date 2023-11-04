@@ -13,9 +13,12 @@ import {
   FormControl,
   InputLabel,
 } from '@mui/material';
+import CloudinaryUploadWidget from './CloudinaryUploadWidget';
 
-const EditToy = ({ open, onClose, onSave, initialToy }) => {
+const EditToy = ({ uwConfig, setPublicId, open, onClose, onSave, onImageUpload, initialToy, onUploadSuccess }) => {
   const [editedToy, setEditedToy] = useState(initialToy);
+  const [editedUploadedImageUrl, setEditedUploadedImageUrl] = useState(null);
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -25,7 +28,23 @@ const EditToy = ({ open, onClose, onSave, initialToy }) => {
     });
   };
 
+  const handleOnImageUpload = async (secure_url) => {
+    try{
+      setEditedUploadedImageUrl(secure_url);
+      setEditedToy((prevToyData) => ({
+        ...prevToyData,
+        url: secure_url
+      }));
+     
+      console.log(secure_url);
+    }
+    catch{
+
+    }
+  }
+
   const handleSave = () => {
+    console.log(editedToy);
     onSave(editedToy);
     onClose();
   };
@@ -83,7 +102,9 @@ const EditToy = ({ open, onClose, onSave, initialToy }) => {
           onChange={handleInputChange}
           style={{ margin: '10px' }}
         />
-        <Grid item xs={12} sm={6} style={{ margin: '10px' }}>
+        <Grid item container spacing={2} xs={12} sm={12}>
+        {/* Condition dropdown */}
+        <Grid item xs={12} sm={6}>
           <FormControl variant="outlined" fullWidth>
             <InputLabel>Condition</InputLabel>
             <Select
@@ -100,14 +121,26 @@ const EditToy = ({ open, onClose, onSave, initialToy }) => {
             </Select>
           </FormControl>
         </Grid>
+
+        {/* Upload Picture button */}
+        <Grid item xs={12} sm={6}>
+          <CloudinaryUploadWidget  
+            uwConfig={uwConfig} 
+            setPublicId={setPublicId} 
+            onImageUpload={handleOnImageUpload}
+            initialToy = {initialToy}
+          />
+        </Grid>
+      </Grid>
+
         {/* Add similar fields for other toy details */}
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={handleSave} color="primary">
-          Save
-        </Button>
-      </DialogActions>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onClose}>Cancel</Button>
+          <Button onClick={handleSave} color="primary">
+            Save
+          </Button>
+        </DialogActions>
     </Dialog>
   );
 };

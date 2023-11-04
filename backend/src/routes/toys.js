@@ -123,7 +123,7 @@ router.get('/', async (req, res) => {
 // Update a toy by its ID
 router.put('/:id', async (req, res) => {
   const { id } = req.params; // Get the toy ID from the URL parameter
-  const { title, description, age_group, value, address, condition } = req.body; // Get updated toy data from the request body
+  const { title, description, age_group, value, address, condition, url } = req.body; // Get updated toy data from the request body
 
   try {
     // Check if the toy with the provided ID exists
@@ -134,7 +134,7 @@ router.put('/:id', async (req, res) => {
     }
 
     // Update the toy
-    const updatedToy = await updateToy(title, description, age_group, value, address, condition, id);
+    const updatedToy = await updateToy(title, description, age_group, value, address, condition, url, id);
 
 
     if (!updatedToy) {
