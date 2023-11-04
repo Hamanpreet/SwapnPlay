@@ -1,21 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/TopNavigationBar.scss";
 import config from '../config/config';
 import LoginButton from "./Login";
 import LogoutButton from "./Logout";
 import axios from "axios";
-import Home from "./Home";
 import { Link } from "react-router-dom";
-import ToyListPage from "./ToyList";
 import Select from 'react-select';
-
+import NotificationBadge from "./NotificationBadge";
 
 const TopNavigationBar = ({ onSubIdChange, subId, nickname }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("");
   const [selectedSubFilter, setSelectedSubFilter] = useState("");
   const [searchResults, setSearchResults] = useState("");
-
+  const [notification, setNotification] = useState(0);
+      
+  useEffect(() => {
+    if (subId)
+    {
+      console.log("subId:", subId);
+      console.log(
+        "Path:",
+        `${config.baseUrl}/api/matches/notificationcount/${subId}`
+      );
+    axios
+      .get(`${config.baseUrl}/api/matches/notificationcount/${subId}`)
+      .then((response) => {
+         setNotification(response.data[0].count);
+      })
+      .catch((error) => {
+        console.error("Error fetching toys data", error);
+      });
+    }
+  }, [subId]);
 
   // Options for the "Filter by" dropdown
   const filterOptions = [
@@ -90,60 +107,59 @@ const TopNavigationBar = ({ onSubIdChange, subId, nickname }) => {
       
   };
 
- 
+   return (
+     <div className="top-nav-bar">
+       <Link to="/" className="top-nav-bar__logo">
+         SwapnPlay
+       </Link>
+       {/* Display welcome message if the user is logged in */}
+       {subId && (
+         <div className="welcome-message">
+           Welcome, {nickname}{" "}
+           {/* Replace "User" with the actual user's name */}
+         </div>
+       )}
+       <form onSubmit={handleSearchSubmit} className="search-form">
+         <input
+           type="text"
+           placeholder="Search by toy name..."
+           value={searchQuery}
+           onChange={handleSearchChange}
+         />
+         <button type="submit">Search</button>
+       </form>
+       <div className="filter-container">
+         <Select
+           className="filter-dropdown"
+           value={selectedFilter}
+           onChange={handleFilterChange}
+           options={filterOptions}
+           placeholder="Filter by"
+         />
+         {selectedFilter && (
+           <Select
+             className="sub-filter-dropdown"
+             value={selectedSubFilter}
+             onChange={(selectedOption) => {
+               // Call the function to update selectedSubFilter
+               handleSubFilterChange(selectedOption);
+               sendFilterRequest(selectedFilter.value, selectedOption.value);
+             }}
+             options={subFilterOptions[selectedFilter.value]}
+             isDisabled={!selectedFilter}
+             placeholder={`Select ${selectedFilter.label}`}
+           />
+         )}
+       </div>
+       
+       <NotificationBadge notification={notification} />
 
+       <LoginButton onSubIdChange={onSubIdChange} />
 
-  return (
-    <div className="top-nav-bar">
-      <Link to="/" className="top-nav-bar__logo">
-        SwapnPlay
-      </Link>
-
-      {/* Display welcome message if the user is logged in */}
-      {subId && (
-        <div className="welcome-message">
-          Welcome, {nickname} {/* Replace "User" with the actual user's name */}
-        </div>
-      )}
-
-      <form onSubmit={handleSearchSubmit} className="search-form">
-        <input
-          type="text"
-          placeholder="Search by toy name..."
-          value={searchQuery}
-          onChange={handleSearchChange}
-        />
-        <button type="submit">Search</button>
-      </form>
-      
-      <div className="filter-container">
-        <Select
-          className="filter-dropdown"
-          value={selectedFilter}
-          onChange={handleFilterChange}
-          options={filterOptions}
-          placeholder="Filter by"
-        />
-        {selectedFilter && (
-          <Select
-            className="sub-filter-dropdown"
-            value={selectedSubFilter}
-            onChange={(selectedOption) => {
-              // Call the function to update selectedSubFilter
-              handleSubFilterChange(selectedOption);
-              sendFilterRequest(selectedFilter.value, selectedOption.value);
-            }}
-            options={subFilterOptions[selectedFilter.value]}
-            isDisabled={!selectedFilter}
-            placeholder={`Select ${selectedFilter.label}`}
-          />
-        )}
-      </div>
-      <LoginButton onSubIdChange={onSubIdChange}/>
-      <LogoutButton />
-      {/* {searchResults.length > 0 && <ToyListPage toyList={searchResults} />} */}
-    </div>
-  );
+       <LogoutButton />
+       {/* {searchResults.length > 0 && <ToyListPage toyList={searchResults} />} */}
+     </div>
+   );
 };
 
 export default TopNavigationBar;
