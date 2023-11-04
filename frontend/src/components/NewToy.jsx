@@ -172,9 +172,9 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                       label="Age Group"
                     >
                       <MenuItem value="0-3 years">0-3 years</MenuItem>
-                      <MenuItem value="3-6 years">3-6 years</MenuItem>
-                      <MenuItem value="5-8 years">5-8 years</MenuItem>
-                      <MenuItem value="7-10 years">7-10 years</MenuItem>
+                      <MenuItem value="3-5 years">3-5 years</MenuItem>
+                      <MenuItem value="6-8 years">6-8 years</MenuItem>
+                      <MenuItem value="9-12 years">9-12 years</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
