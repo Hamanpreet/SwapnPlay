@@ -48,7 +48,6 @@ const NewToy = (subId) => {
         prompt: toyInfo.description,
       })
       .then((response) => {
-        console.log("Generated Toy Description:", response.data.data);
         setToyInfo({
           ...toyInfo,
           description: response.data.data,
@@ -61,7 +60,6 @@ const NewToy = (subId) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("This is subid:", subId.subId.sub);
     axios
       .get(`http://localhost:8080/api/users/${subId.subId}`)
       .then((response) => {
@@ -73,7 +71,6 @@ const NewToy = (subId) => {
               user_id: response.data[0].id, // Use response.data instead of loggedInUser
             })
             .then((response) => {
-              console.log("Form data submitted successfully:", response.data);
               setMessage("Request submitted successfully!");
 
               // Clear the form after successful submission

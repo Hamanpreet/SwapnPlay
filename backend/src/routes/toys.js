@@ -178,7 +178,6 @@ router.post('/new', (req, res) => {
   const body = req.body;
   insertNewToy(body)
     .then((toy) => {
-      console.log("Toy data added in the database.")
       res.status(201).send(toy);
     })
     .catch((err) => {

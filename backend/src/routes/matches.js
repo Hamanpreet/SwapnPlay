@@ -8,7 +8,6 @@ router.post('/new', (req, res) => {
   const body = req.body;
   createtNewMatch(body)
     .then((matches) => {
-      console.log("New match created", body)
       res.send(matches);
     })
     .catch((err) => {

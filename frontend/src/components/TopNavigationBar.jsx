@@ -18,11 +18,6 @@ const TopNavigationBar = ({ onSubIdChange, subId, nickname }) => {
   useEffect(() => {
     if (subId)
     {
-      console.log("subId:", subId);
-      console.log(
-        "Path:",
-        `${config.baseUrl}/api/matches/notificationcount/${subId}`
-      );
     axios
       .get(`${config.baseUrl}/api/matches/notificationcount/${subId}`)
       .then((response) => {
