@@ -30,7 +30,7 @@ function App() {
   const [subId, setSubId] = useState(null);
 
   console.log("searchResults", searchResults);
-  console.log("subId", subId?.sub)
+  console.log("subId", subId?.sub);
 
   //set cloudinary config states
   const [publicId, setPublicId] = useState("");
@@ -81,19 +81,35 @@ function App() {
               }
             />
             <Route path="/toys/:id" element={<Toy />} />
-            <Route path="/toys/new" element={<NewToy subId={subId?.sub} uwConfig={uwConfig} setPublicId={setPublicId}/>} />
+            <Route
+              path="/toys/new"
+              element={
+                <NewToy
+                  subId={subId?.sub}
+                  uwConfig={uwConfig}
+                  setPublicId={setPublicId}
+                />
+              }
+            />
             <Route
               path="/toys"
               element={
                 <ToyList subId={subId?.sub} searchResults={searchResults} />
               }
             />
+            <Route
+              path="/matches/requestsend"
+              element={<RequestSend subId={subId?.sub} />}
+            />
+            <Route
+              path="/matches/requestreceived"
+              element={<RequestReceived subId={subId?.sub} />}
+            />
             <Route path="*" element={<NotFound />} />
-
             <Route path="/chat/:userId" element={<Chat subId={subId?.sub} />} />
           </Routes>
         </ThemeProvider>
-         {/* <div style={{ width: "800px" }}>
+        {/* <div style={{ width: "800px" }}>
           <AdvancedImage
             style={{ maxWidth: "100%" }}
             cldImg={myImage}

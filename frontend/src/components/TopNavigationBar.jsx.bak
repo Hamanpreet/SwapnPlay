@@ -18,21 +18,6 @@ const TopNavigationBar = ({
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("");
   const [selectedSubFilter, setSelectedSubFilter] = useState("");
-  const [notification, setNotification] = useState(0);
-      
-  useEffect(() => {
-    if (subId)
-    {
-    axios
-      .get(`${config.baseUrl}/api/matches/notificationcount/${subId}`)
-      .then((response) => {
-         setNotification(response.data[0].count);
-      })
-      .catch((error) => {
-        console.error("Error fetching toys data", error);
-      });
-    }
-  }, [subId]);
 
   // Options for the "Filter by" dropdown
   const filterOptions = [
@@ -182,8 +167,6 @@ const TopNavigationBar = ({
         </Link>
       )}
 
-	  <NotificationBadge notification={notification} />
-	  
       <LoginButton onSubIdChange={onSubIdChange} />
       <LogoutButton />
     </div>
