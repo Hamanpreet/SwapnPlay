@@ -3,7 +3,7 @@ const db = require("../connection");
 // Return all toys
 const getToys = async (queryParams) => {
   try {
-    let query = 'SELECT *, i.url FROM toy t JOIN image i on t.id = i.toy_id';
+    let query = 'SELECT t.*, i.url FROM toy t JOIN image i on t.id = i.toy_id';
     const params = [];
 
     // Check if ownerId is provided and add a WHERE clause to the query
@@ -22,7 +22,7 @@ const getToys = async (queryParams) => {
 
 const getToysByName = (name) => {
   return db
-    .query('SELECT *, i.url FROM toy t JOIN image i ON t.id = i.toy_id WHERE title LIKE $1;', [`%${name}%`])
+    .query('SELECT t.*, i.url FROM toy t JOIN image i ON t.id = i.toy_id WHERE title LIKE $1;', [`%${name}%`])
     .then((res) => {
       return res.rows || null;
     })
@@ -40,7 +40,7 @@ const getToysById = (id) => {
 
 const getToysBySubId = (subId) => {
   return db
-    .query('SELECT t.* FROM toy t INNER JOIN users u ON t.user_id = u.id WHERE u.sub_id = $1', [subId])
+    .query('SELECT t.*, i.url FROM toy t JOIN image i ON t.id = i.toy_id JOIN users u ON t.user_id = u.id WHERE u.sub_id = $1', [subId])
     .then((res) => {
       return res.rows || null;
     })
@@ -106,13 +106,13 @@ const getToysByCondition = (condition) => {
     .catch((err) => console.error(err.message));
 }
 
-const updateToy = (title, description, age_group, value, address, condition, id) => {
+const updateToy = async (title, description, age_group, value, address, condition, url, id) => {
   // Input validation (you can customize this based on your requirements)
-  if (!title || !description || !age_group || !value || !address || !condition || !id) {
+  if (!title || !description || !age_group || !value || !address || !condition || !url || !id) {
     throw new Error('All fields must be provided');
   }
 
-  // Update the toy with the new data
+  // First, update the toy with the new data
   const updateToyQuery = `
     UPDATE toy
     SET title = $1, description = $2, age_group = $3, value = $4, address = $5, condition = $6
@@ -120,14 +120,22 @@ const updateToy = (title, description, age_group, value, address, condition, id)
     RETURNING *;
   `;
 
-  return db.query(updateToyQuery, [title, description, age_group, value, address, condition, id])
-    .then((res) => {
-      return res.rows[0] || null; // Assuming you expect one row to be updated
-    })
-    .catch((err) => {
-      console.error(err.message);
-      throw err; // Rethrow the error for higher-level error handling
-    });
+  const toyResult = await db.query(updateToyQuery, [title, description, age_group, value, address, condition, id]);
+
+  // Then, update the image URL
+  const updateImageQuery = `
+    UPDATE image
+    SET url = $1
+    WHERE toy_id = $2
+    RETURNING *;
+  `;
+
+  const imageResult = await db.query(updateImageQuery, [url, id]);
+
+  return {
+    toy: toyResult.rows[0] || null,
+    image: imageResult.rows[0] || null,
+  };
 };
 
 // Define the findToyByIdAndRemove function
