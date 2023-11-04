@@ -37,7 +37,7 @@ function CloudinaryUploadWidget({ uwConfig, setPublicId, onUploadSuccess, onImag
             if(editedUserData){
               onUploadSuccess(result.info.secure_url);
             }
-            if (initialToy !== null){
+            if (initialToy !== null && !editedUserData){
               onImageUpload(result.info.secure_url);
             }
           }

@@ -254,7 +254,7 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                     <CloudinaryUploadWidget  
                     uwConfig={uwConfig} 
                     setPublicId={setPublicId} 
-                    onUploadSuccess={handleToyUploadSuccess}
+                    onImageUpload={handleToyUploadSuccess}
                     />
                   {/* {renderUploadedImages()} */}
                 </Grid>

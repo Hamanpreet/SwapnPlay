@@ -21,17 +21,17 @@ const ToyListPage = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedYourToy, setSelectedYourToy] = useState([]);
 
-  console.log("searchResults",searchResults);
+  //console.log("searchResults",searchResults);
   useEffect(() => {
     axios
-      .get(`${config.baseUrl}/api/toys`)
+      .get(`${config.baseUrl}/api/toys/others/${subId}`)
       .then((response) => {
         setToyList(response.data);
       })
       .catch((error) => {
         console.error("Error fetching toys data", error);
       });
-  }, [searchResults]);
+  }, [searchResults, subId]);
 
   const handleOpenModal = async (toy) => {
     setSelectedToy(toy);
