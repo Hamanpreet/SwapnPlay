@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import "../styles/ToyList.scss";
 import axios from "axios";
+
 import {
   Grid,
   Card,
@@ -10,6 +12,8 @@ import {
   Modal,
   Box,
   Radio,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import config from "../config/config";
 
@@ -20,9 +24,11 @@ const ToyListPage = (props) => {
   const [selectedToy, setSelectedToy] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedYourToy, setSelectedYourToy] = useState([]);
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
 
   useEffect(() => {
-    //const route = `${config.baseUrl}/api/toys/others/${subId}` //: `${config.baseUrl}/api/toys`; 
+    //const route = `${config.baseUrl}/api/toys/others/${subId}` //: `${config.baseUrl}/api/toys`;
     axios
       .get(`${config.baseUrl}/api/toys/others/${subId}`)
       .then((response) => {
@@ -63,24 +69,27 @@ const ToyListPage = (props) => {
           requester_id: selectedYourToy.user_id,
         })
         .then((response) => {
+          setSuccessMessage("Your match request has been sent successfully");
           setSelectedYourToy(response.data);
         })
         .catch((error) => {
           console.error("Error fetching user's toys", error);
         });
     }
-
     handleCloseModal();
   };
 
   return (
     <Container maxWidth="lg">
       <div>
-        <h1>Display List of All Toys</h1>
-
+        <div class="fontstyle">
+          <h1 class="mint">Welcome to Swap n Play !</h1>
+          <h2>Choose a toy to swap! </h2>
+        </div>
         <Grid container spacing={3}>
           {searchResults
-            ? searchResults.length > 0 && searchResults.map((toy) => (
+            ? searchResults.length > 0 &&
+              searchResults.map((toy) => (
                 <Grid item key={toy.id} xs={12} sm={6} md={4} lg={4}>
                   <Card style={{ backgroundColor: "#f0f0f0" }}>
                     <Grid container>
@@ -122,7 +131,8 @@ const ToyListPage = (props) => {
                   </Card>
                 </Grid>
               ))
-            : toyList.length > 0 && toyList.map((toy) => (
+            : toyList.length > 0 &&
+              toyList.map((toy) => (
                 <Grid item key={toy.id} xs={12} sm={6} md={4} lg={4}>
                   <Card style={{ backgroundColor: "#f0f0f0" }}>
                     <Grid container>
@@ -167,6 +177,34 @@ const ToyListPage = (props) => {
               ))}
         </Grid>
       </div>
+
+      <Snackbar
+        open={error !== null || successMessage !== null}
+        autoHideDuration={4000}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        onClose={() => {
+          setError(null);
+          setSuccessMessage(null);
+        }}
+      >
+        {error !== null ? (
+          <Alert
+            variant="filled"
+            severity="error"
+            onClose={() => setError(null)}
+          >
+            {error}
+          </Alert>
+        ) : (
+          <Alert
+            variant="filled"
+            severity="info"
+            onClose={() => setSuccessMessage(null)}
+          >
+            {successMessage}
+          </Alert>
+        )}
+      </Snackbar>
 
       <Modal open={modalOpen} onClose={handleCloseModal}>
         <Box
@@ -226,13 +264,16 @@ const ToyListPage = (props) => {
                       <Typography variant="h6" component="div">
                         {selectedToy && selectedToy.title}
                       </Typography>
-                      <Typography variant="body2" color="textSecondary">
+                      <Typography variant="body3" component="div">
+                        {selectedToy && selectedToy.description}
+                      </Typography>
+                      <Typography variant="body3" color="textSecondary">
                         {selectedToy && selectedToy.age_group}
                       </Typography>
-                      <Typography variant="body2" color="textSecondary">
+                      <Typography variant="body3" color="textSecondary">
                         {selectedToy && selectedToy.value}
                       </Typography>
-                      <Typography variant="body2" color="textSecondary">
+                      <Typography variant="body3" color="textSecondary">
                         {selectedToy && selectedToy.condition}
                       </Typography>
                     </div>
