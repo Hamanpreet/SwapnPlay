@@ -45,33 +45,31 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
     });
   };
 
-  // const enhanceDescription = async () => {
-  //   axios
-  //     .post(`${config.baseUrl}/api/toys/generate-toy-description`, {
-  //       prompt: toyInfo.description,
-  //     })
-  //     .then((response) => {
-  //       console.log("Generated Toy Description:", response.data.data);
-  //       setToyInfo({
-  //         ...toyInfo,
-  //         description: response.data.data,
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error:", error.response.data.error);
-  //     });
-  // };
+  const enhanceDescription = async () => {
+    axios
+      .post(`${config.baseUrl}/api/toys/generate-toy-description`, {
+        prompt: toyInfo.description,
+      })
+      .then((response) => {
+        setToyInfo({
+          ...toyInfo,
+          description: response.data.data,
+        });
+      })
+      .catch((error) => {
+        console.error("Error:", error.response.data.error);
+      });
+  };
 
   const handleToyUploadSuccess = async (secure_url) => {
     try {
-        // Set the uploaded image URLs in the state
-        setUploadedImageUrl(secure_url);
-        setToyInfo({
-          ...toyInfo,
-          url: secure_url,
-        });
-    }
-    catch(error){
+      // Set the uploaded image URLs in the state
+      setUploadedImageUrl(secure_url);
+      setToyInfo({
+        ...toyInfo,
+        url: secure_url,
+      });
+    } catch (error) {
       console.error("Error handling toy upload success:", error);
     }
   };
@@ -89,7 +87,6 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
               user_id: response.data[0].id, // Use response.data instead of loggedInUser
             })
             .then((response) => {
-              console.log("Form data submitted successfully:", response.data);
               setMessage("Request submitted successfully!");
 
               // Clear the form after successful submission
@@ -103,7 +100,7 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                 latitude: "",
                 condition: "New",
                 user_id: null,
-                url : ""
+                url: "",
               });
             })
             .catch((error) => {
@@ -138,6 +135,8 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                     value={toyInfo.title}
                     onChange={handleChange}
                     fullWidth
+                    multiline
+                    rows={2}
                   />
                 </Grid>
                 <Grid item xs={12} sm={12}>
@@ -160,7 +159,7 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                   <Button
                     variant="outlined"
                     color="primary"
-                    // onClick={enhanceDescription}
+                    onClick={enhanceDescription}
                   >
                     Enhance Description
                   </Button>
@@ -175,9 +174,9 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                       label="Age Group"
                     >
                       <MenuItem value="0-3 years">0-3 years</MenuItem>
-                      <MenuItem value="3-6 years">3-6 years</MenuItem>
-                      <MenuItem value="5-8 years">5-8 years</MenuItem>
-                      <MenuItem value="7-10 years">7-10 years</MenuItem>
+                      <MenuItem value="3-5 years">3-5 years</MenuItem>
+                      <MenuItem value="6-8 years">6-8 years</MenuItem>
+                      <MenuItem value="9-12 years">9-12 years</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
@@ -202,6 +201,8 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                     onChange={handleChange}
                     fullWidth
                     required
+                    multiline
+                    rows={2}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -214,6 +215,8 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                     onChange={handleChange}
                     fullWidth
                     required
+                    multiline
+                    rows={2}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -226,6 +229,8 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                     onChange={handleChange}
                     fullWidth
                     required
+                    multiline
+                    rows={2}
                   />
                 </Grid>
                 <Grid
@@ -256,8 +261,8 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                     setPublicId={setPublicId} 
                     onImageUpload={handleToyUploadSuccess}
                     />
-                  {/* {renderUploadedImages()} */}
-                </Grid>
+                    {/* {renderUploadedImages()} */}
+                  </Grid>
                 </Grid>
                 <Grid
                   container

@@ -4,7 +4,7 @@
   justify-content: space-between;
   padding: 12px 20px; 
   align-items: center;
-  background-color: #f7f7f7; 
+  background-color: #fff; 
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
   height: 72px;
 }
@@ -48,6 +48,13 @@
 }
 
 input[type="text"] {
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 14px;
+}
+
+#searchBar-btn {
   border: 2px solid #ccc;
   border-radius: 4px;
   padding: 8px;

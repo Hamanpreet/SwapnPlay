@@ -8,13 +8,13 @@ import ToyListPage from './ToyList';
 
 const images = [
   {
-    url: 'https://res.cloudinary.com/dhbnibaze/image/upload/v1698751571/samples/bike.jpg',
-    title: 'Bicycle',
+    url: 'https://res.cloudinary.com/dhbnibaze/image/upload/v1699135107/aij4l6qp4sfdeuabddvm.jpg',
+    title: 'Train',
     width: '40%',
   },
   {
-    url: 'https://res.cloudinary.com/dhbnibaze/image/upload/v1698751592/samples/two-ladies.jpg',
-    title: 'Toy Ladies',
+    url: 'https://res.cloudinary.com/dhbnibaze/image/upload/v1699135051/h3pwoycemffd0n7yp0cg.jpg',
+    title: 'Legos',
     width: '30%',
   },
   {
@@ -23,8 +23,8 @@ const images = [
     width: '30%',
   },
   {
-    url: 'https://res.cloudinary.com/dhbnibaze/image/upload/v1698751594/samples/breakfast.jpg',
-    title: 'Food',
+    url: 'https://res.cloudinary.com/dhbnibaze/image/upload/v1699135026/rlztesanvask45xls7to.jpg',
+    title: 'Robot',
     width: '40%',
   },
   {
@@ -37,12 +37,26 @@ const images = [
     title: 'Bag',
     width: '30%',
   },
- 
+  {
+    url: 'https://res.cloudinary.com/dhbnibaze/image/upload/v1699134991/zesjz4rzm3oftv1yycgh.jpg',
+    title: 'Train Station',
+    width: '40%',
+  },
+  {
+    url: 'https://res.cloudinary.com/dhbnibaze/image/upload/v1699134971/ibq97pez5b21tb6vtrfw.jpg',
+    title: 'Wooden Blocks',
+    width: '30%',
+  },
+  {
+    url: 'https://res.cloudinary.com/dhbnibaze/image/upload/v1699128208/t06vujk8atls3cvq8ybt.jpg',
+    title: 'Stacking Rings',
+    width: '30%',
+  },
 ];
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: 'relative',
-  height: 200,
+  height: 250,
   [theme.breakpoints.down('sm')]: {
     width: '100% !important', // Overrides inline-style
     height: 100,
