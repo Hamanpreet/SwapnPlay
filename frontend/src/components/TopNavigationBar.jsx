@@ -121,16 +121,19 @@ const TopNavigationBar = ({
   const isSearchFilterVisible =
     location.pathname === "/" || location.pathname === "/toys";
 
+  const isCatalogVisible = location.pathname !== "/";
+
   return (
     <div className="top-nav-bar">
       <Link to="/toys" className="top-nav-bar__logo">
-      <img src="/logo.png" alt="logo" className="logo" />
-        {/* <img src="../../public/logo.png" alt="logo" className="logo" /> */}
+        <img src="/logo.png" alt="logo" className="logo" />
       </Link>
 
+    {isCatalogVisible && (
       <Link to="/toys" className="nav-link" onClick={handleCatalogClick}>
-        Catalog
-      </Link>
+      Catalog
+    </Link>
+    )}
 
       {isSearchFilterVisible && ( // Conditional rendering
         <form onSubmit={handleSearchSubmit} className="search-form">
