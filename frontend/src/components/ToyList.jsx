@@ -22,6 +22,7 @@ const ToyListPage = (props) => {
   const [selectedYourToy, setSelectedYourToy] = useState([]);
 
   useEffect(() => {
+    //const route = `${config.baseUrl}/api/toys/others/${subId}` //: `${config.baseUrl}/api/toys`; 
     axios
       .get(`${config.baseUrl}/api/toys/others/${subId}`)
       .then((response) => {
@@ -82,7 +83,7 @@ const ToyListPage = (props) => {
 
         <Grid container spacing={3}>
           {searchResults
-            ? searchResults.map((toy) => (
+            ? searchResults.length > 0 && searchResults.map((toy) => (
                 <Grid item key={toy.id} xs={12} sm={6} md={4} lg={4}>
                   <Card style={{ backgroundColor: "#f0f0f0" }}>
                     <Grid container>
@@ -124,7 +125,7 @@ const ToyListPage = (props) => {
                   </Card>
                 </Grid>
               ))
-            : toyList.map((toy) => (
+            : toyList.length > 0 && toyList.map((toy) => (
                 <Grid item key={toy.id} xs={12} sm={6} md={4} lg={4}>
                   <Card style={{ backgroundColor: "#f0f0f0" }}>
                     <Grid container>

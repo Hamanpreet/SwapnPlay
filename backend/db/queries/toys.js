@@ -99,7 +99,7 @@ const insertNewToy = (data) => {
 
 const getToysByAgeGroup = (ageGroup) => {
   return db
-    .query('SELECT * FROM toy WHERE age_group=$1;', [ageGroup])
+    .query('SELECT t.*, i.url FROM toy t JOIN image i ON t.id = i.toy_id WHERE age_group=$1;', [ageGroup])
     .then((res) => {
       return res.rows || null;
     })
