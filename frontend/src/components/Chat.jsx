@@ -59,7 +59,6 @@ const Chat = (props) => {
             }
           );
           console.log("reciver", response.data);
-         
             setReceiverId(response.data.id);
             setReceiverName(response.data.receiver_first_name);
          
