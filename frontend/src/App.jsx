@@ -29,8 +29,8 @@ function App() {
   const [searchResults, setSearchResults] = useState("");
   const [subId, setSubId] = useState(null);
 
-  console.log("searchResults", searchResults);
-  console.log("subId", subId?.sub);
+  // console.log("searchResults", searchResults);
+  // console.log("subId", subId?.sub);
 
   //set cloudinary config states
   const [publicId, setPublicId] = useState("");

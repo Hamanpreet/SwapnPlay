@@ -33,9 +33,6 @@ const ToyListPage = (props) => {
       });
   }, [searchResults, subId]);
 
-  console.log("subid:", subId);
-  console.log("path:", `${config.baseUrl}/api/toys/${subId}`);
-
   const handleOpenModal = async (toy) => {
     setSelectedToy(toy);
     axios
