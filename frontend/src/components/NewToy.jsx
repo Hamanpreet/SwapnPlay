@@ -16,7 +16,8 @@ import {
   Container,
   Snackbar,
   Alert,
-} from "@mui/material";
+  CircularProgress,
+  } from "@mui/material";
 import CloudinaryUploadWidget from "./CloudinaryUploadWidget";
 
 // Define a functional React component for creating a new toy entry.
@@ -37,6 +38,7 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState(""); // State to hold uploaded images
+  const [loading, setLoading] = useState(false);
 
   // TODO: Event handler for input field for form
   const handleChange = (e) => {
@@ -49,6 +51,8 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
   };
 
   const enhanceDescription = async () => {
+    setLoading(true);
+
     axios
       .post(`${config.baseUrl}/api/toys/generate-toy-description`, {
         prompt: toyInfo.description,
@@ -58,10 +62,12 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
           ...toyInfo,
           description: response.data.data,
         });
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error:", error.response.data.error);
         setError("Error:", error.response.data.error);
+        setLoading(false); 
       });
   };
 
@@ -168,6 +174,7 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                   >
                     Enhance Description
                   </Button>
+                  {loading && <CircularProgress color="warning" />}
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <FormControl variant="outlined" fullWidth>
@@ -261,10 +268,10 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                     </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <CloudinaryUploadWidget  
-                    uwConfig={uwConfig} 
-                    setPublicId={setPublicId} 
-                    onImageUpload={handleToyUploadSuccess}
+                    <CloudinaryUploadWidget
+                      uwConfig={uwConfig}
+                      setPublicId={setPublicId}
+                      onImageUpload={handleToyUploadSuccess}
                     />
                     {/* {renderUploadedImages()} */}
                   </Grid>
