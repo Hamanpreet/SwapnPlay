@@ -135,6 +135,8 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                     value={toyInfo.title}
                     onChange={handleChange}
                     fullWidth
+                    multiline
+                    rows={2}
                   />
                 </Grid>
                 <Grid item xs={12} sm={12}>
@@ -199,6 +201,8 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                     onChange={handleChange}
                     fullWidth
                     required
+                    multiline
+                    rows={2}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -211,6 +215,8 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                     onChange={handleChange}
                     fullWidth
                     required
+                    multiline
+                    rows={2}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -223,6 +229,8 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                     onChange={handleChange}
                     fullWidth
                     required
+                    multiline
+                    rows={2}
                   />
                 </Grid>
                 <Grid

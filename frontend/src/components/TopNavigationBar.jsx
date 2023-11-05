@@ -139,6 +139,7 @@ const TopNavigationBar = ({
       {isSearchFilterVisible && ( // Conditional rendering
         <form onSubmit={handleSearchSubmit} className="search-form">
           <input
+            id = 'searchBar-btn'
             type="text"
             placeholder="Search by toy name..."
             value={searchQuery}
