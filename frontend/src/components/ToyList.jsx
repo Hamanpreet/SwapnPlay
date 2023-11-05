@@ -20,6 +20,8 @@ const ToyListPage = (props) => {
   const [selectedToy, setSelectedToy] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedYourToy, setSelectedYourToy] = useState([]);
+  const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     //const route = `${config.baseUrl}/api/toys/others/${subId}` //: `${config.baseUrl}/api/toys`; 
@@ -27,9 +29,13 @@ const ToyListPage = (props) => {
       .get(`${config.baseUrl}/api/toys/others/${subId}`)
       .then((response) => {
         setToyList(response.data);
+        // Data has been loaded
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching toys data", error);
+        // Loading finished even on error
+        setLoading(false);
       });
   }, [searchResults, subId]);
 
@@ -78,9 +84,11 @@ const ToyListPage = (props) => {
 
   return (
     <Container maxWidth="lg">
+      {loading ? (
+      <p>Loading...</p> // Display a loading message
+    ) : (
       <div>
         <h1>Display List of All Toys</h1>
-
         <Grid container spacing={3}>
           {searchResults.length > 0
             ? searchResults.map((toy) => (
@@ -170,6 +178,7 @@ const ToyListPage = (props) => {
               ))}
         </Grid>
       </div>
+    )}
 
       <Modal open={modalOpen} onClose={handleCloseModal}>
         <Box

@@ -124,7 +124,8 @@ const TopNavigationBar = ({
   return (
     <div className="top-nav-bar">
       <Link to="/toys" className="top-nav-bar__logo">
-        <img src="/frontend/public/logo.png" alt="logo" className="logo" />
+      <img src="/logo.png" alt="logo" className="logo" />
+        {/* <img src="../../public/logo.png" alt="logo" className="logo" /> */}
       </Link>
 
       <Link to="/toys" className="nav-link" onClick={handleCatalogClick}>
