@@ -22,7 +22,7 @@ const Chat = (props) => {
   
   
   const { subId } = props;
-  console.log("subId", subId)
+
 
   useEffect(() => {
     if (subId) {
@@ -54,16 +54,14 @@ const Chat = (props) => {
           const response = await axios.get(
             `${config.baseUrl}/api/messages/${matchId}/receiver`,
             {
-              senderId,
+              params: { senderId },
+
             }
           );
           console.log("reciver", response.data);
-          if (Array.isArray(response.data) && response.data.length > 0) {
-            setReceiverId(response.data[0].id);
-            setReceiverName(response.data[0].receiver_first_name);
-          } else {
-            console.error("Receiver information not found in the response.");
-          }
+            setReceiverId(response.data.id);
+            setReceiverName(response.data.receiver_first_name);
+         
         } catch (error) {
           console.error("Error fetching receiver information:", error);
         }
@@ -79,7 +77,7 @@ const Chat = (props) => {
       text: message,
       match_id: matchId,
       sender_id: senderId,
-      receiver_id: 2,
+      receiver_id: receiverId,
     };
     // Save the message to the backend
     try {
@@ -151,7 +149,7 @@ const Chat = (props) => {
   return (
     <div className="Chat">
       <div className="chat-header">
-        <h2>Hamanpreet</h2>
+        <h2>{receiverName}</h2>
       </div>
       <div className="chat-container">
         <div className="message-list">

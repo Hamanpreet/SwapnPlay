@@ -24,6 +24,7 @@ const ToyListPage = (props) => {
   const [selectedToy, setSelectedToy] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedYourToy, setSelectedYourToy] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
 
@@ -33,9 +34,13 @@ const ToyListPage = (props) => {
       .get(`${config.baseUrl}/api/toys/others/${subId}`)
       .then((response) => {
         setToyList(response.data);
+        // Data has been loaded
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching toys data", error);
+        // Loading finished even on error
+        setLoading(false);
       });
   }, [searchResults, subId]);
 
@@ -81,15 +86,17 @@ const ToyListPage = (props) => {
 
   return (
     <Container maxWidth="lg">
+      {loading ? (
+      <p>Loading...</p> // Display a loading message
+    ) : (
       <div>
         <div class="fontstyle">
           <h1 class="mint">Welcome to Swap n Play !</h1>
           <h2>Choose a toy to swap! </h2>
         </div>
         <Grid container spacing={3}>
-          {searchResults
-            ? searchResults.length > 0 &&
-              searchResults.map((toy) => (
+          {searchResults.length > 0
+            ? searchResults.map((toy) => (
                 <Grid item key={toy.id} xs={12} sm={6} md={4} lg={4}>
                   <Card style={{ backgroundColor: "#f0f0f0" }}>
                     <Grid container>
@@ -131,8 +138,7 @@ const ToyListPage = (props) => {
                   </Card>
                 </Grid>
               ))
-            : toyList.length > 0 &&
-              toyList.map((toy) => (
+            : toyList.map((toy) => (
                 <Grid item key={toy.id} xs={12} sm={6} md={4} lg={4}>
                   <Card style={{ backgroundColor: "#f0f0f0" }}>
                     <Grid container>
