@@ -4,7 +4,7 @@ import config from "../config/config";
 import LoginButton from "./Login";
 import LogoutButton from "./Logout";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { useLocation } from "react-router-dom";
 
@@ -22,7 +22,6 @@ const TopNavigationBar = ({
   const filterOptions = [
     { value: "AgeGroup", label: "Age Group" },
     { value: "Condition", label: "Condition" },
-    { value: "Clear", label: "Clear" },
   ];
 
   // Options for the "Sub-Filter" dropdown based on selected filter
@@ -77,7 +76,7 @@ const TopNavigationBar = ({
         setSearchResults(response.data);
 
         // Clear the filter options
-    
+        setSelectedFilter(null);
         setSelectedSubFilter(null);
       })
       .catch((error) => {
@@ -86,24 +85,20 @@ const TopNavigationBar = ({
   };
 
   const handleFilterChange = (selectedOption) => {
-    // setSelectedSubFilter(null);
-    // Handle the selected filter (e.g., age group or condition) by sending it to the backend
-    // to fetch filtered results
-    if (selectedOption.value === "Clear") {
-      // If the "Clear" option is selected, reset the filters and clear the search results
-      setSelectedFilter(null);
-      setSelectedSubFilter(null);
-      setSearchResults([]);
-    } else {
-      setSelectedFilter(selectedOption);
-    }
+    setSelectedFilter(selectedOption);
 
-    if (
-      selectedOption.value === "ageGroup" ||
-      selectedOption.value === "Condition"
-    ) {
+    if (selectedFilter && selectedSubFilter) {
       sendFilterRequest(selectedOption.value, selectedSubFilter);
     }
+  };
+
+  const navigate = useNavigate();
+  const handleCatalogClick = () => {
+    // Reset the filters and retrieve all toys when clicking "Catalog"
+    setSelectedFilter("");
+    setSelectedSubFilter("");
+    setSearchResults([]); // Clear the search results
+    navigate("/toys");
   };
 
   // Check if the current location matches one of the allowed paths
@@ -113,10 +108,10 @@ const TopNavigationBar = ({
   return (
     <div className="top-nav-bar">
       <Link to="/toys" className="top-nav-bar__logo">
-        <img src="logo.png" alt="logo" className="logo"/>
+        <img src="/frontend/public/logo.png" alt="logo" className="logo" />
       </Link>
 
-      <Link to="/toys" className="nav-link">
+      <Link to="/toys" className="nav-link" onClick={handleCatalogClick}>
         Catalog
       </Link>
 

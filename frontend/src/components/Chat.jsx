@@ -22,7 +22,7 @@ const Chat = (props) => {
   
   
   const { subId } = props;
-  console.log("subId", subId)
+
 
   useEffect(() => {
     if (subId) {
