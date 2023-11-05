@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
 import ToyListPage from './ToyList';
+import { useNavigate } from 'react-router-dom';
 
 
 const images = [
@@ -118,7 +119,11 @@ const ImageMarked = styled('span')(({ theme }) => ({
   transition: theme.transitions.create('opacity'),
 }));
 
+
+
 const Home = ({searchResults}) => {
+  const navigate = useNavigate();
+
   // Check if searchResults exist
   if (searchResults) {
     // If searchResults exist, render the ToyList component with searchResults as a prop
@@ -134,6 +139,7 @@ const Home = ({searchResults}) => {
           style={{
             width: image.width,
           }}
+          onClick={() => navigate('/toys')}
         >
           <ImageSrc style={{ backgroundImage: `url(${image.url})` }} />
           <ImageBackdrop className="MuiImageBackdrop-root" />
