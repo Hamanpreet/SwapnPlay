@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import "../styles/NewToy.scss";
 import config from "../config/config";
@@ -14,6 +14,8 @@ import {
   Paper,
   Box,
   Container,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import CloudinaryUploadWidget from "./CloudinaryUploadWidget";
 
@@ -32,7 +34,8 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
     user_id: null,
   });
 
-  const [message, setMessage] = useState("");
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState(""); // State to hold uploaded images
 
   // TODO: Event handler for input field for form
@@ -58,6 +61,7 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
       })
       .catch((error) => {
         console.error("Error:", error.response.data.error);
+        setError("Error:", error.response.data.error);
       });
   };
 
@@ -71,6 +75,7 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
       });
     } catch (error) {
       console.error("Error handling toy upload success:", error);
+      setError("Error handling toy upload success:", error);
     }
   };
 
@@ -87,7 +92,7 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
               user_id: response.data[0].id, // Use response.data instead of loggedInUser
             })
             .then((response) => {
-              setMessage("Request submitted successfully!");
+              setSuccessMessage("Your toy has been created successfully!");
 
               // Clear the form after successful submission
               setToyInfo({
@@ -105,16 +110,16 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
             })
             .catch((error) => {
               console.error("Error submitting form data:", error);
-              setMessage("Error submitting the request.");
+              setError("Error submitting form data");
             });
         } else {
           console.error("User data not found.");
-          setMessage("User data not found.");
+          setError("User data not found.");
         }
       })
       .catch((error) => {
         console.error("Error fetching user by subId", error);
-        setMessage("Error fetching user data.");
+        setError("Error fetching user data");
       });
   };
 
@@ -284,10 +289,38 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                     </Button>
                   </Grid>
                 </Grid>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                   {message && <p>{message}</p>}
-                </Grid>
+                </Grid> */}
               </Grid>
+
+              <Snackbar
+                open={error !== null || successMessage !== null}
+                autoHideDuration={4000}
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                onClose={() => {
+                  setError(null);
+                  setSuccessMessage(null);
+                }}
+              >
+                {error !== null ? (
+                  <Alert
+                    variant="filled"
+                    severity="error"
+                    onClose={() => setError(null)}
+                  >
+                    {error}
+                  </Alert>
+                ) : (
+                  <Alert
+                    variant="filled"
+                    severity="info"
+                    onClose={() => setSuccessMessage(null)}
+                  >
+                    {successMessage}
+                  </Alert>
+                )}
+              </Snackbar>
             </form>
           </Paper>
         </Box>
