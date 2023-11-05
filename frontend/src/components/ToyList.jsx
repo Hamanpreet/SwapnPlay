@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/ToyList.scss";
 import axios from "axios";
-
 import {
   Grid,
   Card,
@@ -81,108 +80,110 @@ const ToyListPage = (props) => {
           console.error("Error fetching user's toys", error);
         });
     }
+
     handleCloseModal();
   };
 
   return (
     <Container maxWidth="lg">
       {loading ? (
-      <p>Loading...</p> // Display a loading message
-    ) : (
-      <div>
-        <div class="fontstyle">
-          <h1 class="mint">Welcome to Swap n Play !</h1>
-          <h2>Choose a toy to swap! </h2>
+        <p>Loading...</p> // Display a loading message
+      ) : (
+        <div>
+          <div class="fontstyle">
+            <h1 class="mint head1">Welcome to Swap n Play !</h1>
+            <h2 class="head2">Choose a toy to swap! </h2>
+          </div>
+          <Grid container spacing={3}>
+            {searchResults.length > 0
+              ? searchResults.map((toy) => (
+                  <Grid item key={toy.id} xs={12} sm={6} md={4} lg={4}>
+                    <Card style={{ backgroundColor: "#f0f0f0" }}>
+                      <Grid container>
+                        <Grid item xs={4}>
+                          {" "}
+                          {/* Adjust the width of the image column as needed */}
+                          <img
+                            src={toy.url} // Replace with the actual URL of the toy image
+                            alt="Toy"
+                            style={{ width: "100%", height: "auto" }}
+                          />
+                        </Grid>
+                        <Grid item xs={8}>
+                          {" "}
+                          {/* Adjust the width of the details column as needed */}
+                          <CardContent>
+                            <Typography variant="h6" component="div">
+                              {toy.title}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary">
+                              {toy.age_group}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary">
+                              {toy.value}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary">
+                              {toy.condition}
+                            </Typography>
+                          </CardContent>
+                          <Button
+                            variant="contained"
+                            color="success"
+                            onClick={() => handleOpenModal(toy)}
+                          >
+                            Request to Match
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    </Card>
+                  </Grid>
+                ))
+              : toyList.map((toy) => (
+                  <Grid item key={toy.id} xs={12} sm={6} md={4} lg={4}>
+                    <Card style={{ backgroundColor: "#f0f0f0" }}>
+                      <Grid container>
+                        <Grid item xs={4}>
+                          {" "}
+                          {/* Adjust the width of the image column as needed */}
+                          <img
+                            src={toy.url} // Replace with the actual URL of the toy image
+                            alt="Toy"
+                            style={{ width: "100%", height: "auto" }}
+                          />
+                        </Grid>
+                        <Grid item xs={8}>
+                          {" "}
+                          {/* Adjust the width of the details column as needed */}
+                          <CardContent>
+                            <Typography variant="h6" component="div">
+                              {toy.title}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary">
+                              {toy.age_group}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary">
+                              {toy.value}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary">
+                              {toy.condition}
+                            </Typography>
+                          </CardContent>
+                          <Button
+                            variant="contained"
+                            color="success"
+                            onClick={() => handleOpenModal(toy)}
+                            style={{ margin: "auto", marginBottom: "16px" }}
+                          >
+                            Request to Match
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    </Card>
+                  </Grid>
+                ))}
+          </Grid>
         </div>
-        <Grid container spacing={3}>
-          {searchResults.length > 0
-            ? searchResults.map((toy) => (
-                <Grid item key={toy.id} xs={12} sm={6} md={4} lg={4}>
-                  <Card style={{ backgroundColor: "#f0f0f0" }}>
-                    <Grid container>
-                      <Grid item xs={4}>
-                        {" "}
-                        {/* Adjust the width of the image column as needed */}
-                        <img
-                          src={toy.url} // Replace with the actual URL of the toy image
-                          alt="Toy"
-                          style={{ width: "100%", height: "auto" }}
-                        />
-                      </Grid>
-                      <Grid item xs={8}>
-                        {" "}
-                        {/* Adjust the width of the details column as needed */}
-                        <CardContent>
-                          <Typography variant="h6" component="div">
-                            {toy.title}
-                          </Typography>
-                          <Typography variant="body2" color="textSecondary">
-                            {toy.age_group}
-                          </Typography>
-                          <Typography variant="body2" color="textSecondary">
-                            {toy.value}
-                          </Typography>
-                          <Typography variant="body2" color="textSecondary">
-                            {toy.condition}
-                          </Typography>
-                        </CardContent>
-                        <Button
-                          variant="contained"
-                          color="success"
-                          onClick={() => handleOpenModal(toy)}
-                        >
-                          Request to Match
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  </Card>
-                </Grid>
-              ))
-            : toyList.map((toy) => (
-                <Grid item key={toy.id} xs={12} sm={6} md={4} lg={4}>
-                  <Card style={{ backgroundColor: "#f0f0f0" }}>
-                    <Grid container>
-                      <Grid item xs={4}>
-                        {" "}
-                        {/* Adjust the width of the image column as needed */}
-                        <img
-                          src={toy.url} // Replace with the actual URL of the toy image
-                          alt="Toy"
-                          style={{ width: "100%", height: "auto" }}
-                        />
-                      </Grid>
-                      <Grid item xs={8}>
-                        {" "}
-                        {/* Adjust the width of the details column as needed */}
-                        <CardContent>
-                          <Typography variant="h6" component="div">
-                            {toy.title}
-                          </Typography>
-                          <Typography variant="body2" color="textSecondary">
-                            {toy.age_group}
-                          </Typography>
-                          <Typography variant="body2" color="textSecondary">
-                            {toy.value}
-                          </Typography>
-                          <Typography variant="body2" color="textSecondary">
-                            {toy.condition}
-                          </Typography>
-                        </CardContent>
-                        <Button
-                          variant="contained"
-                          color="success"
-                          onClick={() => handleOpenModal(toy)}
-                          style={{ margin: "auto", marginBottom: "16px" }}
-                        >
-                          Request to Match
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  </Card>
-                </Grid>
-              ))}
-        </Grid>
-      </div>
+      )}
 
       <Snackbar
         open={error !== null || successMessage !== null}
@@ -273,13 +274,13 @@ const ToyListPage = (props) => {
                       <Typography variant="body3" component="div">
                         {selectedToy && selectedToy.description}
                       </Typography>
-                      <Typography variant="body3" color="textSecondary">
+                      <Typography variant="body2" color="textSecondary">
                         {selectedToy && selectedToy.age_group}
                       </Typography>
-                      <Typography variant="body3" color="textSecondary">
+                      <Typography variant="body2" color="textSecondary">
                         {selectedToy && selectedToy.value}
                       </Typography>
-                      <Typography variant="body3" color="textSecondary">
+                      <Typography variant="body2" color="textSecondary">
                         {selectedToy && selectedToy.condition}
                       </Typography>
                     </div>

@@ -50,7 +50,7 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
       [name]: value,
     });
   };
-
+  
   const enhanceDescription = async () => {
     setLoading(true);
 
