@@ -48,7 +48,7 @@ if (app.get('env') === 'development') {
 
 // Configure Socket.io to listen for connections
 io.on('connection', (socket) => {
-  console.log('a user connected');
+  // console.log('a user connected');
 
   // Handle chat messages and broadcasting
   socket.on('chat message', (message) => {
