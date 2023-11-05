@@ -19,6 +19,7 @@ import {
   CircularProgress,
   } from "@mui/material";
 import CloudinaryUploadWidget from "./CloudinaryUploadWidget";
+import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 
 // Define a functional React component for creating a new toy entry.
 const NewToy = ({ subId, uwConfig, setPublicId }) => {
@@ -171,6 +172,7 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                     variant="outlined"
                     color="primary"
                     onClick={enhanceDescription}
+                    startIcon={<AutoFixHighIcon />}
                   >
                     Enhance Description
                   </Button>
