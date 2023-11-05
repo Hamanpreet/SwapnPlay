@@ -16,6 +16,7 @@ import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SwapHorizontalCircleIcon from "@mui/icons-material/SwapHorizontalCircle";
 import config from "../config/config";
+import { useNavigate } from "react-router-dom";
 
 const RequestReceivedPage = (subId) => {
   const [requestedToy, setRequestedToy] = useState([]);
@@ -80,6 +81,11 @@ const RequestReceivedPage = (subId) => {
     });
   };
 
+  const navigate = useNavigate();
+  const handleChatClick = (toy) => {
+    // When the chat button is clicked, navigate to the chat route
+   navigate(`/chat/${toy.match_id}`);
+  };
   return (
     <Container maxWidth="lg">
       <h1
@@ -228,7 +234,7 @@ const RequestReceivedPage = (subId) => {
                 Click to Chat
               </Button> */}
               <Tooltip title="Click to chat">
-                <Fab color="secondary" aria-label="Chat">
+                <Fab color="secondary" aria-label="Chat" onClick={() => handleChatClick(toy)}>
                   <QuestionAnswerIcon />
                 </Fab>
               </Tooltip>

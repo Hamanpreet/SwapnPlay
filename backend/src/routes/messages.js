@@ -16,23 +16,10 @@ router.get('/:matchId',(req, res)=>{
     });
 });
 
-// router.get('/:matchId/usernames',(req, res)=>{
- 
-//   const matchId = req.params.matchId;
-//   console.log("matchID is", matchId);
-//   getUserNamesByMatch(matchId)
-//     .then((messages) => {
-//       console.log("User names data fetched from database.")
-//       res.send(messages);
-//     })
-//     .catch((err) => {
-//       console.log(`An error occurred: ${err}`)
-//     });
-// })
-
 router.get('/:matchId/receiver', (req, res) => {
   const matchId = req.params.matchId;
   const senderId = req.query.senderId;
+
   // Add a query to retrieve receiver names based on matchId
   getReceiverByMatch(matchId, senderId)
     .then((receiver) => {
