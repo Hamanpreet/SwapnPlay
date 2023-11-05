@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import "../styles/NewToy.scss";
 import config from "../config/config";
@@ -14,8 +14,12 @@ import {
   Paper,
   Box,
   Container,
-} from "@mui/material";
+  Snackbar,
+  Alert,
+  CircularProgress,
+  } from "@mui/material";
 import CloudinaryUploadWidget from "./CloudinaryUploadWidget";
+import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 
 // Define a functional React component for creating a new toy entry.
 const NewToy = ({ subId, uwConfig, setPublicId }) => {
@@ -32,8 +36,10 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
     user_id: null,
   });
 
-  const [message, setMessage] = useState("");
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState(""); // State to hold uploaded images
+  const [loading, setLoading] = useState(false);
 
   // TODO: Event handler for input field for form
   const handleChange = (e) => {
@@ -44,8 +50,10 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
       [name]: value,
     });
   };
-
+  
   const enhanceDescription = async () => {
+    setLoading(true);
+
     axios
       .post(`${config.baseUrl}/api/toys/generate-toy-description`, {
         prompt: toyInfo.description,
@@ -55,9 +63,12 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
           ...toyInfo,
           description: response.data.data,
         });
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error:", error.response.data.error);
+        setError("Error:", error.response.data.error);
+        setLoading(false); 
       });
   };
 
@@ -71,6 +82,7 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
       });
     } catch (error) {
       console.error("Error handling toy upload success:", error);
+      setError("Error handling toy upload success:", error);
     }
   };
 
@@ -87,7 +99,7 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
               user_id: response.data[0].id, // Use response.data instead of loggedInUser
             })
             .then((response) => {
-              setMessage("Request submitted successfully!");
+              setSuccessMessage("Your toy has been created successfully!");
 
               // Clear the form after successful submission
               setToyInfo({
@@ -105,16 +117,16 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
             })
             .catch((error) => {
               console.error("Error submitting form data:", error);
-              setMessage("Error submitting the request.");
+              setError("Error submitting form data");
             });
         } else {
           console.error("User data not found.");
-          setMessage("User data not found.");
+          setError("User data not found.");
         }
       })
       .catch((error) => {
         console.error("Error fetching user by subId", error);
-        setMessage("Error fetching user data.");
+        setError("Error fetching user data");
       });
   };
 
@@ -160,9 +172,11 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                     variant="outlined"
                     color="primary"
                     onClick={enhanceDescription}
+                    startIcon={<AutoFixHighIcon />}
                   >
                     Enhance Description
                   </Button>
+                  {loading && <CircularProgress color="warning" />}
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <FormControl variant="outlined" fullWidth>
@@ -256,10 +270,10 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                     </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <CloudinaryUploadWidget  
-                    uwConfig={uwConfig} 
-                    setPublicId={setPublicId} 
-                    onImageUpload={handleToyUploadSuccess}
+                    <CloudinaryUploadWidget
+                      uwConfig={uwConfig}
+                      setPublicId={setPublicId}
+                      onImageUpload={handleToyUploadSuccess}
                     />
                     {/* {renderUploadedImages()} */}
                   </Grid>
@@ -284,10 +298,38 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
                     </Button>
                   </Grid>
                 </Grid>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                   {message && <p>{message}</p>}
-                </Grid>
+                </Grid> */}
               </Grid>
+
+              <Snackbar
+                open={error !== null || successMessage !== null}
+                autoHideDuration={4000}
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                onClose={() => {
+                  setError(null);
+                  setSuccessMessage(null);
+                }}
+              >
+                {error !== null ? (
+                  <Alert
+                    variant="filled"
+                    severity="error"
+                    onClose={() => setError(null)}
+                  >
+                    {error}
+                  </Alert>
+                ) : (
+                  <Alert
+                    variant="filled"
+                    severity="info"
+                    onClose={() => setSuccessMessage(null)}
+                  >
+                    {successMessage}
+                  </Alert>
+                )}
+              </Snackbar>
             </form>
           </Paper>
         </Box>
