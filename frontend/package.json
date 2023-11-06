@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8080",
+  "proxy": "https://swapnplay.onrender.com",
   "dependencies": {
     "@auth0/auth0-react": "^2.2.1",
     "@cloudinary/react": "^1.11.2",
