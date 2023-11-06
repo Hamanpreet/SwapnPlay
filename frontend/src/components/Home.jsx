@@ -19,8 +19,8 @@ const images = [
     width: '30%',
   },
   {
-    url: 'https://res.cloudinary.com/dhbnibaze/image/upload/v1698751593/samples/balloons.jpg',
-    title: 'Toy Balloon',
+    url: 'https://res.cloudinary.com/dhbnibaze/image/upload/v1699234425/dgvdoq6bqybrk8lhsdyc.jpg',
+    title: 'Child',
     width: '30%',
   },
   {
@@ -29,13 +29,13 @@ const images = [
     width: '40%',
   },
   {
-    url: 'https://res.cloudinary.com/dhbnibaze/image/upload/v1698751598/samples/cup-on-a-table.jpg',
-    title: 'Cup',
+    url: 'https://res.cloudinary.com/dhbnibaze/image/upload/v1699134971/ibq97pez5b21tb6vtrfw.jpg',
+    title: 'Wooden Blocks',
     width: '30%',
   },
   {
-    url: 'https://res.cloudinary.com/dhbnibaze/image/upload/v1698751576/samples/ecommerce/leather-bag-gray.jpg',
-    title: 'Bag',
+    url: 'https://res.cloudinary.com/dhbnibaze/image/upload/v1699135071/cvtkovxsxlvdaortayvd.jpg',
+    title: "Rubik's cube",
     width: '30%',
   },
   {
@@ -44,8 +44,8 @@ const images = [
     width: '40%',
   },
   {
-    url: 'https://res.cloudinary.com/dhbnibaze/image/upload/v1699134971/ibq97pez5b21tb6vtrfw.jpg',
-    title: 'Wooden Blocks',
+    url: 'https://res.cloudinary.com/dhbnibaze/image/upload/v1699234598/gkdg5zymujc5xtvpaa6z.jpg',
+    title: 'Crossing Bunnies',
     width: '30%',
   },
   {
