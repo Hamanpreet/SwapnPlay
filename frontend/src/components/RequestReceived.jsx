@@ -13,15 +13,14 @@ import {
 } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
-import DeleteIcon from "@mui/icons-material/Delete";
 import SwapHorizontalCircleIcon from "@mui/icons-material/SwapHorizontalCircle";
 import config from "../config/config";
 import { useNavigate } from "react-router-dom";
 
 const RequestReceivedPage = (subId) => {
   const [requestedToy, setRequestedToy] = useState([]);
-  const [value, setValue] = useState(null);
-  const [error, setError] = useState(null);
+  // const [value, setValue] = useState(null);
+   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [feedbackRatings, setFeedbackRatings] = useState({});
 

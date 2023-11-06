@@ -1,6 +1,5 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import TopNavigationBar from "./TopNavigationBar";
 
 const Toy = () => {
   const { id } = useParams();

@@ -38,7 +38,7 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
 
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState(""); // State to hold uploaded images
+  //const [uploadedImageUrl, setUploadedImageUrl] = useState(""); // State to hold uploaded images
   const [loading, setLoading] = useState(false);
 
   // TODO: Event handler for input field for form
@@ -75,7 +75,7 @@ const NewToy = ({ subId, uwConfig, setPublicId }) => {
   const handleToyUploadSuccess = async (secure_url) => {
     try {
       // Set the uploaded image URLs in the state
-      setUploadedImageUrl(secure_url);
+      // setUploadedImageUrl(secure_url);
       setToyInfo({
         ...toyInfo,
         url: secure_url,

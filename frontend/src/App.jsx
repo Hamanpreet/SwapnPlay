@@ -2,7 +2,6 @@ import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Cloudinary } from "@cloudinary/url-gen";
-import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
 import "./App.scss";
 
 import About from "./components/About";
@@ -10,8 +9,6 @@ import Toy from "./components/Toy";
 import NotFound from "./components/NotFound";
 import NewToy from "./components/NewToy";
 import Requests from "./components/Requests";
-import RequestReceived from "./components/RequestReceived";
-import RequestSend from "./components/RequestSend";
 import ToyList from "./components/ToyList";
 import UserProfile from "./components/UserProfile";
 import Home from "./components/Home";
@@ -50,7 +47,8 @@ function App() {
     },
   });
 
-  const myImage = cld.image(publicId);
+  // const myImage = cld.image(publicId);
+  cld.image(publicId);
 
   // Function to receive the subId from LoginButton
   const handleSubIdChange = (newSubId) => {
