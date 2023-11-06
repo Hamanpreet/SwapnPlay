@@ -1,10 +1,11 @@
-const config = require('config');
+require("dotenv").config();
+const config = require('./config/development');
 const http = require('http');
 const express = require("express");
 const socketIo = require('socket.io');
 const app = express();
 const server = http.createServer(app);
-const PORT = config.get('APPPORT') || 8080;
+const PORT = config.PORT || 8080;
 const helmet = require('helmet');
 const morgan = require("morgan");
 const cors = require('cors');

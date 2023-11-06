@@ -17,7 +17,7 @@ import CloudinaryUploadWidget from './CloudinaryUploadWidget';
 
 const EditToy = ({ uwConfig, setPublicId, open, onClose, onSave, onImageUpload, initialToy, onUploadSuccess }) => {
   const [editedToy, setEditedToy] = useState(initialToy);
-  const [editedUploadedImageUrl, setEditedUploadedImageUrl] = useState(null);
+  // const [editedUploadedImageUrl, setEditedUploadedImageUrl] = useState(null);
   
 
   const handleInputChange = (e) => {
@@ -30,7 +30,7 @@ const EditToy = ({ uwConfig, setPublicId, open, onClose, onSave, onImageUpload, 
 
   const handleOnImageUpload = async (secure_url) => {
     try{
-      setEditedUploadedImageUrl(secure_url);
+      // setEditedUploadedImageUrl(secure_url);
       setEditedToy((prevToyData) => ({
         ...prevToyData,
         url: secure_url

@@ -186,8 +186,8 @@ const TopNavigationBar = ({
         </Link>
       )}
 
-	  <NotificationBadge notification={notification} />
-	  
+      {subId && <NotificationBadge notification={notification} />}
+
       <LoginButton onSubIdChange={onSubIdChange} />
       <LogoutButton />
     </div>

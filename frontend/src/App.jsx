@@ -2,15 +2,13 @@ import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Cloudinary } from "@cloudinary/url-gen";
-import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
 import "./App.scss";
 
 import About from "./components/About";
 import Toy from "./components/Toy";
 import NotFound from "./components/NotFound";
 import NewToy from "./components/NewToy";
-import RequestReceived from "./components/RequestReceived";
-import RequestSend from "./components/RequestSend";
+import Requests from "./components/Requests";
 import ToyList from "./components/ToyList";
 import UserProfile from "./components/UserProfile";
 import Home from "./components/Home";
@@ -49,7 +47,8 @@ function App() {
     },
   });
 
-  const myImage = cld.image(publicId);
+  // const myImage = cld.image(publicId);
+  cld.image(publicId);
 
   // Function to receive the subId from LoginButton
   const handleSubIdChange = (newSubId) => {
@@ -99,25 +98,15 @@ function App() {
               }
             />
             <Route
-              path="/matches/requestsend"
-              element={<RequestSend subId={subId?.sub} />}
+              path="/matches/requests"
+              element={<Requests subId={subId?.sub} />}
             />
-            <Route
-              path="/matches/requestreceived"
-              element={<RequestReceived subId={subId?.sub} />}
-            />
+            
             <Route path="*" element={<NotFound />} />
             <Route path="/chat/:userId" element={<Chat subId={subId?.sub} />} />
           </Routes>
         </ThemeProvider>
-        {/* <div style={{ width: "800px" }}>
-          <AdvancedImage
-            style={{ maxWidth: "100%" }}
-            cldImg={myImage}
-            plugins={[responsive(), placeholder()]}
-          />
-        </div> */}
-      </Router>
+       </Router>
     </div>
   );
 }

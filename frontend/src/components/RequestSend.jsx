@@ -20,7 +20,7 @@ import config from "../config/config";
 
 const RequestSendPage = (subId) => {
   const [requestedToy, setRequestedToy] = useState([]);
-  const [value, setValue] = useState(null);
+  //const [value, setValue] = useState(null);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [feedbackRatings, setFeedbackRatings] = useState({});

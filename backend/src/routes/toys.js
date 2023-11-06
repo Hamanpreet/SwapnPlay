@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { getToys, insertNewToy, getToysByName, getToysById, getToysBySubId, getToysByAgeGroup, getToysByCondition, updateToy, findToyByIdAndRemove, getOthersToys } = require("../../db/queries/toys");
-const config = require('config');
-// const { Configuration, OpenAIApi } = require("openai");
-// const apiKey = config.get('OPEN_AI_KEY');
+const config = require('../../config/development');
+const { Configuration, OpenAIApi } = require("openai");
+const apiKey = config.OPEN_AI_KEY;
 
 // const configuration = new Configuration({
 //   apiKey

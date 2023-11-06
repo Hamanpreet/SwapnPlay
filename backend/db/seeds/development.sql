@@ -9,11 +9,11 @@ VALUES
 -- Seed data for the TOY table
 INSERT INTO toy (title, description, age_group, value, address, longitude, latitude, condition, user_id, created_at)
 VALUES
-    ('Bicycle', 'Description', 'Ages 3-5', 19.99, '123 Toy Street, Toronto', -79.3832, 43.6532, 'New', 1, NOW()),
-    ('Stroller', 'Description', 'Ages 6-8', 29.99, '456 Play Avenue, Mississauga', -79.6129, 43.5890, 'Used', 2, NOW()),
-    ('Legos', 'Description', 'Ages 9-12', 39.99, '789 Fun Road, Brampton', -79.7529, 43.6830, 'Like New', 3, NOW()),
-    ('Piano', 'Description', 'Ages 6-8', 39.99, '789 Fun Road, Hamilton', -79.1234, 43.6789, 'New', 3, NOW()),
-    ('Car', 'Description', 'Ages 3-5', 39.99, '789 Fun Road, Calidon', -79.6666, 43.9877, 'Used', 3, NOW());
+    ('Car', 'Description', 'Ages 3-5', 19.99, '123 Toy Street, Toronto', -79.3832, 43.6532, 'New', 1, NOW()),
+    ('Teddy Bear', 'Description', 'Ages 6-8', 29.99, '456 Play Avenue, Mississauga', -79.6129, 43.5890, 'Used', 2, NOW()),
+    ('Spiderman', 'Description', 'Ages 9-12', 39.99, '789 Fun Road, Brampton', -79.7529, 43.6830, 'Like New', 3, NOW()),
+    ('Duckling', 'Description', 'Ages 6-8', 39.99, '789 Fun Road, Hamilton', -79.1234, 43.6789, 'New', 3, NOW()),
+    ('Robot', 'Description', 'Ages 3-5', 39.99, '789 Fun Road, Calidon', -79.6666, 43.9877, 'Used', 3, NOW());
 
 -- Seed data for the MATCH table
 INSERT INTO match (status, toy_id, toy_in_exchange_id, requester_id, owner_id, created_at)
@@ -26,9 +26,11 @@ VALUES
 -- Seed data for the IMAGE table
 INSERT INTO image (url, toy_id, created_at)
 VALUES
-    ('https://res.cloudinary.com/dhbnibaze/image/upload/v1699135026/rlztesanvask45xls7to.jpg', 1, NOW()),
-    ('https://res.cloudinary.com/dhbnibaze/image/upload/v1699135026/rlztesanvask45xls7to.jpg', 2, NOW()),
-    ('https://res.cloudinary.com/dhbnibaze/image/upload/v1699135026/rlztesanvask45xls7to.jpg', 3, NOW());
+    ('https://res.cloudinary.com/dhbnibaze/image/upload/v1699220173/t7nzt8vgqyc5xxztf0zy.jpg', 1, NOW()),
+    ('https://res.cloudinary.com/dhbnibaze/image/upload/v1699235344/mmsae3xfpsayqokftdnn.jpg', 2, NOW()),
+    ('https://res.cloudinary.com/dhbnibaze/image/upload/v1699235461/uuuvxfvyln7hhtw6h9qb.jpg', 3, NOW());
+    ('https://res.cloudinary.com/dhbnibaze/image/upload/v1699235536/us6austgvzdhmwburykh.jpg', 4, NOW());
+    ('https://res.cloudinary.com/dhbnibaze/image/upload/v1699135026/rlztesanvask45xls7to.jpg', 5, NOW());
 
 -- Seed data for the MESSAGE table
 INSERT INTO message (text, match_id, sender_id, receiver_id, created_at)

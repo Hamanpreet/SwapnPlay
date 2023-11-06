@@ -9,7 +9,7 @@ function NotificationBadge({ notification }) {
 
   return notification > 0 ? (
     <Badge color={badgeColor} badgeContent={notification}>
-      <Link to="http://localhost:3000/matches/requestreceived">
+      <Link to="http://localhost:3000/matches/requests">
         <IconButton color="secondary" className="request-button">
           <NotificationsIcon />
         </IconButton>
@@ -17,7 +17,7 @@ function NotificationBadge({ notification }) {
     </Badge>
   ) : (
     // When notification is 0, don't render the Badge component
-    <Link to="http://localhost:3000/matches/requestreceived">
+    <Link to="http://localhost:3000/matches/requests">
       <IconButton color="secondary" className="request-button">
         <NotificationsIcon />
       </IconButton>

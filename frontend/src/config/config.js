@@ -1,5 +1,5 @@
 const config = {
-  baseUrl: 'http://localhost:8080',
+  baseUrl: 'https://swapnplay.onrender.com',
 };
 
 export default config;
