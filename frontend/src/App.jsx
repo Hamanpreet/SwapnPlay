@@ -9,6 +9,7 @@ import About from "./components/About";
 import Toy from "./components/Toy";
 import NotFound from "./components/NotFound";
 import NewToy from "./components/NewToy";
+import Requests from "./components/Requests";
 import RequestReceived from "./components/RequestReceived";
 import RequestSend from "./components/RequestSend";
 import ToyList from "./components/ToyList";
@@ -98,25 +99,15 @@ function App() {
               }
             />
             <Route
-              path="/matches/requestsend"
-              element={<RequestSend subId={subId?.sub} />}
+              path="/matches/requests"
+              element={<Requests subId={subId?.sub} />}
             />
-            <Route
-              path="/matches/requestreceived"
-              element={<RequestReceived subId={subId?.sub} />}
-            />
+            
             <Route path="*" element={<NotFound />} />
             <Route path="/chat/:userId" element={<Chat subId={subId?.sub} />} />
           </Routes>
         </ThemeProvider>
-        {/* <div style={{ width: "800px" }}>
-          <AdvancedImage
-            style={{ maxWidth: "100%" }}
-            cldImg={myImage}
-            plugins={[responsive(), placeholder()]}
-          />
-        </div> */}
-      </Router>
+       </Router>
     </div>
   );
 }
