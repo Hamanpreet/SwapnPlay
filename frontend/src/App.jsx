@@ -65,6 +65,7 @@ function App() {
           nickname={subId?.nickname}
           setSearchResults={setSearchResults}
         />
+
         <ThemeProvider theme={theme}>
           <Routes>
             <Route path="/" element={<Home searchResults={searchResults} />} />

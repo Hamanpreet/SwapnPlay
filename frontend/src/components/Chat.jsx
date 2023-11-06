@@ -60,7 +60,9 @@ const Chat = (props) => {
           );
           console.log("reciver", response.data);
             setReceiverId(response.data.id);
-            setReceiverName(response.data.receiver_first_name);
+            const username = response.data.receiver_first_name;
+            setReceiverName(username);
+            // setReceiverName(username.split('@')[0]);
          
         } catch (error) {
           console.error("Error fetching receiver information:", error);
@@ -126,26 +128,7 @@ const Chat = (props) => {
     };
     fetchMessages();
   }, [matchId]);
-
-  // Fetch the receiver's name based on receiverId
-  useEffect(() => {
-    if (receiverId) {
-      (async () => {
-        try {
-          const response = await axios.get(
-            `${config.baseUrl}/api/${matchId}/receiverName`,
-            { receiverId }
-          );
-          console.log("Receiver name", response.data);
-          // Set the receiver's name based on the response
-          setReceiverName(response.data[0]);
-        } catch (error) {
-          console.error("Error fetching receiver's name:", error);
-        }
-      })();
-    }
-  }, [receiverId, matchId]);
-
+  
   return (
     <div className="Chat">
       <div className="chat-header">

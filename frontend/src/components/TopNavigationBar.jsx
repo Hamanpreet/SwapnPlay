@@ -125,7 +125,7 @@ const TopNavigationBar = ({
 
   return (
     <div className="top-nav-bar">
-      <Link to="/toys" className="top-nav-bar__logo">
+      <Link to="/" className="top-nav-bar__logo">
         <img src="/logo.png" alt="logo" className="logo" />
       </Link>
 
