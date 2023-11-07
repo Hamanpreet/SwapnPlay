@@ -28,8 +28,8 @@ INSERT INTO image (url, toy_id, created_at)
 VALUES
     ('https://res.cloudinary.com/dhbnibaze/image/upload/v1699220173/t7nzt8vgqyc5xxztf0zy.jpg', 1, NOW()),
     ('https://res.cloudinary.com/dhbnibaze/image/upload/v1699235344/mmsae3xfpsayqokftdnn.jpg', 2, NOW()),
-    ('https://res.cloudinary.com/dhbnibaze/image/upload/v1699235461/uuuvxfvyln7hhtw6h9qb.jpg', 3, NOW());
-    ('https://res.cloudinary.com/dhbnibaze/image/upload/v1699235536/us6austgvzdhmwburykh.jpg', 4, NOW());
+    ('https://res.cloudinary.com/dhbnibaze/image/upload/v1699235461/uuuvxfvyln7hhtw6h9qb.jpg', 3, NOW()),
+    ('https://res.cloudinary.com/dhbnibaze/image/upload/v1699235536/us6austgvzdhmwburykh.jpg', 4, NOW()),
     ('https://res.cloudinary.com/dhbnibaze/image/upload/v1699135026/rlztesanvask45xls7to.jpg', 5, NOW());
 
 -- Seed data for the MESSAGE table

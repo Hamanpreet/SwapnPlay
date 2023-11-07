@@ -1,3 +1,178 @@
+/**
+ * @swagger
+ * tags:
+ *   name: Matches
+ *   description: API endpoints for managing match requests and notifications
+ */
+
+/**
+ * @swagger
+ * /api/matches/new:
+ *   post:
+ *     summary: Create a new match request
+ *     description: Create a new match request and add it to the database.
+ *     tags: [Matches]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/MatchRequest'
+ *     responses:
+ *       200:
+ *         description: The newly created match request
+ *       500:
+ *         description: An internal server error occurred.
+ */
+
+/**
+ * @swagger
+ * /api/matches/requestsend/{subId}:
+ *   get:
+ *     summary: Get match requests sent by a user
+ *     description: Retrieve match requests sent by a user based on their subId.
+ *     tags: [Matches]
+ *     parameters:
+ *       - in: path
+ *         name: subId
+ *         required: true
+ *         description: SubId of the user to retrieve sent match requests for.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A list of match requests sent by the user
+ *       404:
+ *         description: No match requests found for the user.
+ *       500:
+ *         description: An internal server error occurred.
+ */
+
+/**
+ * @swagger
+ * /api/matches/requestreceived/{subId}:
+ *   get:
+ *     summary: Get match requests received by a user
+ *     description: Retrieve match requests received by a user based on their subId.
+ *     tags: [Matches]
+ *     parameters:
+ *       - in: path
+ *         name: subId
+ *         required: true
+ *         description: SubId of the user to retrieve received match requests for.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A list of match requests received by the user
+ *       404:
+ *         description: No match requests found for the user.
+ *       500:
+ *         description: An internal server error occurred.
+ */
+
+/**
+ * @swagger
+ * /api/matches/requestcancel/{matchId}:
+ *   put:
+ *     summary: Cancel a match request
+ *     description: Cancel a match request by updating its status to "Cancelled."
+ *     tags: [Matches]
+ *     parameters:
+ *       - in: path
+ *         name: matchId
+ *         required: true
+ *         description: ID of the match request to cancel.
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Match request cancelled successfully
+ *       404:
+ *         description: Match request not found.
+ *       500:
+ *         description: An internal server error occurred.
+ */
+
+/**
+ * @swagger
+ * /api/matches/requestdecline/{matchId}:
+ *   put:
+ *     summary: Decline a match request
+ *     description: Decline a match request by updating its status to "Declined."
+ *     tags: [Matches]
+ *     parameters:
+ *       - in: path
+ *         name: matchId
+ *         required: true
+ *         description: ID of the match request to decline.
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Match request declined successfully
+ *       404:
+ *         description: Match request not found.
+ *       500:
+ *         description: An internal server error occurred.
+ */
+
+/**
+ * @swagger
+ * /api/matches/requestaccept/{matchId}:
+ *   put:
+ *     summary: Accept a match request
+ *     description: Accept a match request by updating its status to "Accepted."
+ *     tags: [Matches]
+ *     parameters:
+ *       - in: path
+ *         name: matchId
+ *         required: true
+ *         description: ID of the match request to accept.
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Match request accepted successfully
+ *       404:
+ *         description: Match request not found.
+ *       500:
+ *         description: An internal server error occurred.
+ */
+
+/**
+ * @swagger
+ * /api/matches/notificationcount/{subId}:
+ *   get:
+ *     summary: Get notification count for a user
+ *     description: Retrieve the notification count for a user based on their subId.
+ *     tags: [Matches]
+ *     parameters:
+ *       - in: path
+ *         name: subId
+ *         required: true
+ *         description: SubId of the user to retrieve the notification count for.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: The notification count for the user
+ *       404:
+ *         description: No notifications found for the user.
+ *       500:
+ *         description: An internal server error occurred.
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     MatchRequest:
+ *       type: object
+ *       properties:
+ *         // Define the properties of the MatchRequest object here
+ */
+
 const express = require('express');
 const router = express.Router();
 

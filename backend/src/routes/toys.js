@@ -1,3 +1,256 @@
+/**
+ * @swagger
+ * tags:
+ *   name: Toys
+ *   description: API endpoints for managing toys
+ */
+
+/**
+ * @swagger
+ * /api/toys:
+ *   get:
+ *     summary: Get a list of toys
+ *     description: Retrieve a list of toys from the database.
+ *     tags: [Toys]
+ *     responses:
+ *       200:
+ *         description: A list of toys
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Toy'
+ *       500:
+ *         description: An internal server error occurred.
+ */
+
+/**
+ * @swagger
+ * /api/toys/new:
+ *   post:
+ *     summary: Create a new toy
+ *     description: Create a new toy and add it to the database.
+ *     tags: [Toys]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Toy'
+ *     responses:
+ *       201:
+ *         description: The newly created toy
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Toy'
+ *       400:
+ *         description: Bad request. Invalid input data.
+ *       500:
+ *         description: An internal server error occurred.
+ */
+
+/**
+ * @swagger
+ * /api/toys/{id}:
+ *   put:
+ *     summary: Update a toy by ID
+ *     description: Update an existing toy's information by its ID.
+ *     tags: [Toys]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the toy to update.
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Toy'
+ *     responses:
+ *       200:
+ *         description: The updated toy
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Toy'
+ *       400:
+ *         description: Bad request. Invalid input data.
+ *       404:
+ *         description: Toy not found.
+ *       500:
+ *         description: An internal server error occurred.
+ */
+
+/**
+ * @swagger
+ * /api/toys/{id}:
+ *   delete:
+ *     summary: Delete a toy by ID
+ *     description: Delete a toy from the database by its ID.
+ *     tags: [Toys]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the toy to delete.
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Toy deleted successfully
+ *       404:
+ *         description: Toy not found.
+ *       500:
+ *         description: An internal server error occurred.
+ */
+
+/**
+ * @swagger
+ * /api/toys/others/{subId}:
+ *   get:
+ *     summary: Get toys by subId
+ *     description: Retrieve toys for a specific subId.
+ *     tags: [Toys]
+ *     parameters:
+ *       - in: path
+ *         name: subId
+ *         required: true
+ *         description: SubId of the user to get toys for.
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: A list of toys for the specified subId
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Toy'
+ *       404:
+ *         description: No toys found for the specified subId.
+ *       500:
+ *         description: An internal server error occurred.
+ */
+
+/**
+ * @swagger
+ * /api/toys/searchQuery:
+ *   post:
+ *     summary: Search for toys by name
+ *     description: Search for toys in the database by name.
+ *     tags: [Toys]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               searchQuery:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: A list of toys matching the search query
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Toy'
+ *       400:
+ *         description: Bad request. Name is required.
+ *       500:
+ *         description: An internal server error occurred.
+ */
+
+/**
+ * @swagger
+ * /api/toys/filter:
+ *   post:
+ *     summary: Filter toys by criteria
+ *     description: Filter toys in the database by criteria (e.g., AgeGroup or Condition).
+ *     tags: [Toys]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               filterType:
+ *                 type: string
+ *               filterValue:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: A list of toys matching the filter criteria
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Toy'
+ *       400:
+ *         description: Bad request. Filter type and value are required.
+ *       500:
+ *         description: An internal server error occurred.
+ */
+
+/**
+ * @swagger
+ * /api/toys/generate-toy-description:
+ *   post:
+ *     summary: Generate AI toy description
+ *     description: Generate an AI-generated toy description based on a prompt.
+ *     tags: [Toys]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               prompt:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: AI-generated toy description
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 data:
+ *                   type: string
+ *       400:
+ *         description: Bad request. There was an issue on the server.
+ *       500:
+ *         description: An internal server error occurred.
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Toy:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         name:
+ *           type: string
+ *         description:
+ *           type: string
+ */
+
 const express = require('express');
 const router = express.Router();
 const { getToys, insertNewToy, getToysByName, getToysById, getToysBySubId, getToysByAgeGroup, getToysByCondition, updateToy, findToyByIdAndRemove, getOthersToys } = require("../../db/queries/toys");
@@ -5,10 +258,9 @@ const config = require('../../config/development');
 const { Configuration, OpenAIApi } = require("openai");
 const apiKey = config.OPEN_AI_KEY;
 
-const configuration = new Configuration({
-  apiKey
-});
+const configuration = new Configuration({apiKey});
 const openai = new OpenAIApi(configuration);
+
 
 //Get AI generated toy description
 router.post('/generate-toy-description', async (req, res) => {
@@ -43,61 +295,6 @@ router.post('/generate-toy-description', async (req, res) => {
   }
 });
 
-
-/**
- * @swagger
- * /api/toys:
- *   get:
- *     summary: Get a list of toys
- *     description: Retrieve a list of toys from the database.
- *     responses:
- *       200:
- *         description: A list of toys
- *         schema:
- *           type: array
- *           items:
- *             $ref: '#/definitions/Toy'
- *       500:
- *         description: An internal server error occurred.
- */
-
-/**
- * @swagger
- * /api/toys/new:
- *   post:
- *     summary: Create a new toy
- *     description: Create a new toy and add it to the database.
- *     parameters:
- *       - in: body
- *         name: toy
- *         description: The toy object to create.
- *         required: true
- *         schema:
- *           $ref: '#/definitions/Toy'
- *     responses:
- *       201:
- *         description: The newly created toy
- *         schema:
- *           $ref: '#/definitions/Toy'
- *       400:
- *         description: Bad request. Invalid input data.
- *       500:
- *         description: An internal server error occurred.
- */
-
-/**
- * @swagger
- * definitions:
- *   Toy:
- *     type: object
- *     properties:
- *       id:
- *         type: integer
- *       name:
- *         type: string
- *       description:
- *         type: string
- */
 
 router.get('/', async (req, res) => {
   try {
