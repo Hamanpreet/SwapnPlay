@@ -9,7 +9,12 @@ const options = {
     },
   },
   // Path to the API docs
-  apis: ['./src/routes/toys.js'],
+  apis: ['./src/routes/toys.js',
+  './src/routes/users.js',
+  './src/routes/matches.js', 
+  './src/routes/messages.js', 
+  './src/routes/reviews.js', 
+]
 };
 
 const swaggerSpec = swaggerJSDoc(options);
