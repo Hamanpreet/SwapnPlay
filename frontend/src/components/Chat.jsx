@@ -58,8 +58,8 @@ const Chat = (props) => {
 
             }
           );
-          console.log("reciver", response.data);
-            setReceiverId(response.data.id);
+          console.log("reciver", senderId, response.data);
+            setReceiverId(response.data.receiver_id);
             const username = response.data.receiver_first_name;
             setReceiverName(username);
             // setReceiverName(username.split('@')[0]);

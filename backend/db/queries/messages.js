@@ -57,18 +57,23 @@ const getReceiverByMatch = (matchId, senderId) => {
     .query(
       `
       SELECT
-      CASE
-          WHEN m.requester_id = $2 THEN u_owner.first_name
-          ELSE u_requester.first_name
-      END AS receiver_first_name
-  FROM
-      match m
-  JOIN
-      users u_requester ON m.requester_id = u_requester.id
-  JOIN
-      users u_owner ON m.owner_id = u_owner.id
-  WHERE
-      m.id = $1;
+  CASE
+      WHEN m.requester_id = $2 THEN u_owner.id
+      ELSE u_requester.id
+  END AS receiver_id,
+  CASE
+      WHEN m.requester_id = $2 THEN u_owner.first_name
+      ELSE u_requester.first_name
+  END AS receiver_first_name
+FROM
+  match m
+JOIN
+  users u_requester ON m.requester_id = u_requester.id
+JOIN
+  users u_owner ON m.owner_id = u_owner.id
+WHERE
+  m.id = $1;
+
   `, [matchId, senderId]) 
      .then((res) => {
       return res.rows[0] || null;
@@ -84,4 +89,3 @@ module.exports = {
   getReceiverByMatch
 
 };
-

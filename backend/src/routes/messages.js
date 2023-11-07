@@ -20,11 +20,12 @@ router.get('/:matchId/receiver', (req, res) => {
   const matchId = req.params.matchId;
   const senderId = req.query.senderId;
 
+
   // Add a query to retrieve receiver names based on matchId
   getReceiverByMatch(matchId, senderId)
     .then((receiver) => {
-      console.log("Receiver id data fetched from the database.");
-      // console.log("receiverId", receiver);
+      console.log("Receiver data fetched from the database.", receiver);
+       
       res.send(receiver);
     })
     .catch((err) => {
