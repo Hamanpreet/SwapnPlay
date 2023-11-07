@@ -14,6 +14,7 @@ import UserProfile from "./components/UserProfile";
 import Home from "./components/Home";
 import TopNavigationBar from "./components/TopNavigationBar";
 import Chat from "./components/Chat";
+import { useEffect } from "react";
 
 const theme = createTheme({
   palette: {
@@ -54,6 +55,10 @@ function App() {
   const handleSubIdChange = (newSubId) => {
     setSubId(newSubId);
   };
+
+  useEffect(() => {
+    document.title = "SwapnPlay";
+  }, []);
 
   return (
     <div className="App">
