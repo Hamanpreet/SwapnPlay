@@ -182,6 +182,14 @@ const ToyListPage = (props) => {
                   </Grid>
                 ))}
           </Grid>
+          <img
+            src="https://res.cloudinary.com/dhbnibaze/image/upload/v1699498477/lc5ikviyt1j9sojfuzkl.png"
+            alt="toy"
+            style={{
+              width: "450px",
+              height: "auto",
+            }}
+          />
         </div>
       )}
 

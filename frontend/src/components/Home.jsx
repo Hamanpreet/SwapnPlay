@@ -105,7 +105,7 @@ const ImageBackdrop = styled('span')(({ theme }) => ({
   top: 0,
   bottom: 0,
   backgroundColor: theme.palette.common.black,
-  opacity: 0.4,
+  opacity: 0.1,
   transition: theme.transitions.create('opacity'),
 }));
 
@@ -118,6 +118,15 @@ const ImageMarked = styled('span')(({ theme }) => ({
   left: 'calc(50% - 9px)',
   transition: theme.transitions.create('opacity'),
 }));
+
+const Footer = styled("div")({
+  color: "#111",
+  fontWeight: "bold",
+  textAlign: "center",
+  alignContent: "center",
+  paddingTop: "40px",
+  paddingLeft: "45%",
+});
 
 
 
@@ -161,9 +170,18 @@ const Home = ({searchResults}) => {
           </Image>
         </ImageButton>
       ))}
+    <Footer>&copy; 2023 SwapnPlay - All rights reserved</Footer>
+    <img
+      src="/mindfulness.gif"
+      alt="toy"
+      style={{
+        width: "100px",
+        height: "100px",
+      }}
+      />
     </Box>
   );
-            }
+  }
 }
 
 

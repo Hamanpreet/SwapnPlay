@@ -507,7 +507,7 @@ const RequestPage = (subId) => {
                 Cancel Request
               </Button>
               <Tooltip title="Click to chat">
-                <Fab color="secondary" aria-label="Chat">
+                <Fab color="secondary" aria-label="Chat" onClick={() => handleChatClick(toy)}>
                   <QuestionAnswerIcon />
                 </Fab>
               </Tooltip>
