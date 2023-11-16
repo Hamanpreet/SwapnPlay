@@ -90,9 +90,9 @@ const ToyListPage = (props) => {
         <p>Loading...</p> // Display a loading message
       ) : (
         <div>
-          <div class="fontstyle">
-            <h1 class="mint head1">Welcome to Swap n Play !</h1>
-            <h2 class="head2">Choose a toy to swap! </h2>
+          <div className="fontstyle">
+            <h1 className="mint head1">Welcome to Swap n Play !</h1>
+            <h2 className="head2">Choose a toy to swap! </h2>
           </div>
           <Grid container spacing={3}>
             {searchResults.length > 0

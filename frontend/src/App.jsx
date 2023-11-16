@@ -14,6 +14,7 @@ import UserProfile from "./components/UserProfile";
 import Home from "./components/Home";
 import TopNavigationBar from "./components/TopNavigationBar";
 import Chat from "./components/Chat";
+import { useEffect } from "react";
 
 const theme = createTheme({
   palette: {
@@ -55,6 +56,10 @@ function App() {
     setSubId(newSubId);
   };
 
+  useEffect(() => {
+    document.title = "SwapnPlay";
+  }, []);
+
   return (
     <div className="App">
       <Router>
@@ -64,6 +69,7 @@ function App() {
           nickname={subId?.nickname}
           setSearchResults={setSearchResults}
         />
+
         <ThemeProvider theme={theme}>
           <Routes>
             <Route path="/" element={<Home searchResults={searchResults} />} />
