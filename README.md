@@ -3,12 +3,12 @@
   <img src="./frontend/public/logo.jpeg" alt="SwapnPlay Logo" />
 </div>
 
-## Deployment
+## :rocket: Deployment
 
 Our app is live! Please click the link to check it out [SwapnPlay](https://swapnplay.netlify.app/).
 SwapnPlay is successfully deployed on `Netlify` leveraging its robust hosting capabilities. This involved configuring deployment settings, managing environment variables, and implementing continuous integration/continuous deployment (CI/CD) pipelines to streamline the development workflow. On the backend, we utilized `Render` as the hosting platform, harnessing its container-based architecture to deploy and manage microservices seamlessly and for data management, I integrated `ElephantSQL` as the relational database provider.
 
-## Contributors
+## :seedling: Contributors
 
 [Hamanpreet Kaur](https://github.com/hamanpreet?tab=repositories) |
 [Madiha Waqar](https://github.com/madiha-waqar?tab=repositories) |
@@ -16,7 +16,7 @@ SwapnPlay is successfully deployed on `Netlify` leveraging its robust hosting ca
 
 Please don't hesitate to reach out or connect with us! We welcome your feedback on our app and would be delighted to engage with developers who share similar interests.
 
-## Idea & Energy Behind SwapnPlay
+## :gem: Idea & Energy Behind SwapnPlay
 We are excited to introduce you to `SwapnPlay`.
 
 _We live in a world of consumerism and over buying stuff! Our homes and our minds are stressed over decluttering and finding more space. As responsible parents, we want to teach our kids about simple joys of life, to be more mindful of their spending, learn to share and let go and to experience the feeling that the same toy that is eating dust somewhere in a closet is capable of bringing so much excitement to another child!
@@ -42,7 +42,7 @@ In addition to PERN stack we have also utilized following technoligies to enhanc
 <img src="./frontend/public/socketio.png" alt="Socket IO" height="42px" />
 </div>
 
-## :dart: Use Cases
+## :triangular_flag_on_post: Requirements & Use Cases 
 - Requester should be able to sign in/sign out
 - User should be able to update their profile
 - User should be able to upload profile image
@@ -61,7 +61,7 @@ In addition to PERN stack we have also utilized following technoligies to enhanc
 - Both users should be able to chat on the app
 - Requester can click on a toy go on the detail page
 
-## App Feature Screenshots
+## :link: App Feature Screenshots
 - Landing Page
 ![Landing Page](./frontend/public/screenshots/Landing_page_SwapnPlay.png)
 
