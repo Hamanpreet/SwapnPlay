@@ -1,4 +1,4 @@
-<div style="align: center;">
+<div style="text-align: center;">
   <h1>SwapnPlay</h1>
   <img src="./frontend/public/logo.jpeg" alt="SwapnPlay Logo" />
 </div>
