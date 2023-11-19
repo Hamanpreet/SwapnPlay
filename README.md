@@ -1,4 +1,4 @@
-<div style="text-align: center;">
+<div style="align: center;">
   <h1>SwapnPlay</h1>
   <img src="./frontend/public/logo.jpeg" alt="SwapnPlay Logo" />
 </div>
@@ -34,7 +34,7 @@ Because its free, it brings happiness, and its environmentally friendly!_
 
 In addition to PERN stack we have also utilized following technoligies to enhance the functinlaity of SwapnPlay. We have used `Cloudinary API` for images uploading, `OpenAI` to generate enhanced toy descriptions, `Auth0` for seamless login/logout, `Swagger` for API documentation and `Socket.IO` for Chat feature.
 
-<div style="text-align: center;">
+<div style="align: center;">
 <img src="./frontend/public/autho.png" alt="Autho" />
 <img src="./frontend/public/cloud.png" alt="Cloudinary" height="42px" />
 <img src="./frontend/public/openai.png" alt="Open AI" />
